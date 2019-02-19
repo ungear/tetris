@@ -1,6 +1,10 @@
 import { Block, BlockIO } from "../typing/block";
 import { Shape, ShapeForm } from "../typing/shape";
 import { Board } from "../typing/board";
+import { Game } from "../typing/game"
+import { interval } from 'rxjs';
+
+const FALLING_INTERVAL_MS = 1000;
 
 var board: Board = { width: 10, height: 20, blocks: [] };
 
@@ -10,8 +14,8 @@ for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
   for (let colIndex = 0; colIndex < board.width; colIndex++) {
     var cellEl = document.createElement("div");
     cellEl.classList.add("cell");
-    cellEl.dataset.x = rowIndex.toString();
-    cellEl.dataset.y = colIndex.toString();
+    cellEl.dataset.y = rowIndex.toString();
+    cellEl.dataset.x = colIndex.toString();
     target.appendChild(cellEl);
   }
 }
@@ -19,11 +23,26 @@ for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
 // add test shape
 var shape: Shape = {
   form: ShapeForm.Square,
-  blocks: [{ x: 6, y: 6 }, { x: 7, y: 6 }, { x: 6, y: 7 }, { x: 7, y: 7 }]
+  blocks: [{ x: 1, y: 6 }, { x: 2, y: 6 }, { x: 1, y: 7 }, { x: 2, y: 7 }]
 };
 shape.blocks.forEach(b => board.blocks.push(b));
 
-var animate = function() {
+var game: Game = {
+  shape,
+  board
+}
+
+const falling$ = interval(FALLING_INTERVAL_MS);
+falling$.subscribe(_ => {
+  moveShapeDown(game.shape)
+
+})
+
+function moveShapeDown(shape: Shape) {
+  shape.blocks.forEach(b => b.y++)
+}
+
+var animate = function () {
   requestAnimationFrame(animate);
   Array.from(document.querySelectorAll(".cell"))
     .map(el => ({
