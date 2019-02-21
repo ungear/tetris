@@ -5,6 +5,13 @@ import { Game } from "../typing/game";
 import { UserAction, getUserActionByKey } from "./userAction";
 import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
+import {
+  getBoardFragmentByCoords,
+  getNewShape,
+  isShapeLandedOnFragment,
+  isShapeLandedOnBottom,
+  moveShapeDown
+} from "./logic";
 
 const FALLING_INTERVAL_MS = 500;
 
@@ -56,48 +63,6 @@ keyboard$
     console.log(ua);
   });
 
-function moveShapeDown(shape: Shape) {
-  shape.blocks.forEach(b => b.y++);
-}
-
-function isShapeLandedOnFragment(game: Game): boolean {
-  //number of blocks which is right above any board's fragment
-  return (
-    game.shape.blocks.filter(
-      b => !!getBoardFragmentByCoords({ board: game.board, x: b.x, y: b.y + 1 })
-    ).length > 0
-  );
-}
-
-function isShapeLandedOnBottom(game: Game): boolean {
-  return game.shape.blocks.some(b => b.y === game.board.height - 1);
-}
-
-function getNewShape(boardWidth: number): Shape {
-  let form = ShapeForm.Square;
-  let shapeLeftXcoord = Math.floor(boardWidth / 2) - 1;
-  return {
-    form,
-    blocks: [
-      { x: shapeLeftXcoord, y: 0 },
-      { x: shapeLeftXcoord + 1, y: 0 },
-      { x: shapeLeftXcoord, y: 1 },
-      { x: shapeLeftXcoord + 1, y: 1 }
-    ]
-  };
-}
-
-function getBoardFragmentByCoords({
-  board,
-  x,
-  y
-}: {
-  board: Board;
-  x: number;
-  y: number;
-}): Block {
-  return board.fragments.find(b => b.x === x && b.y === y);
-}
 var animate = function() {
   requestAnimationFrame(animate);
   Array.from(document.querySelectorAll(".cell"))
