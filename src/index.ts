@@ -4,7 +4,7 @@ import { Board } from "../typing/board";
 import { Game } from "../typing/game";
 import { interval } from "rxjs";
 
-const FALLING_INTERVAL_MS = 1000;
+const FALLING_INTERVAL_MS = 500;
 
 var board: Board = { width: 10, height: 20, fragments: [] };
 
@@ -20,32 +20,25 @@ for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
   }
 }
 
-// add test shape
-var shape: Shape = {
-  form: ShapeForm.Square,
-  blocks: [{ x: 1, y: 6 }, { x: 2, y: 6 }, { x: 1, y: 7 }, { x: 2, y: 7 }]
-};
-
 var game: Game = {
-  shape,
+  shape: getNewShape(board.width),
   board
 };
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 falling$.subscribe(_ => {
-  console.log(isShapeLandedOnFragment(game), isShapeLandedOnBottom(game));
   if (isShapeLandedOnFragment(game) || isShapeLandedOnBottom(game)) {
     //add shape to fragments
     game.shape.blocks.forEach(b => game.board.fragments.push(b));
+
+    //check defeat (y coord of any fragment === 0)
+    //TODO
 
     //calculate row to destroy
     //TODO
 
     //new shape
-    game.shape = {
-      form: ShapeForm.Square,
-      blocks: [{ x: 1, y: 6 }, { x: 2, y: 6 }, { x: 1, y: 7 }, { x: 2, y: 7 }]
-    };
+    game.shape = getNewShape(game.board.width);
   } else {
     moveShapeDown(game.shape);
   }
@@ -66,6 +59,20 @@ function isShapeLandedOnFragment(game: Game): boolean {
 
 function isShapeLandedOnBottom(game: Game): boolean {
   return game.shape.blocks.some(b => b.y === game.board.height - 1);
+}
+
+function getNewShape(boardWidth: number): Shape {
+  let form = ShapeForm.Square;
+  let shapeLeftXcoord = Math.floor(boardWidth / 2) - 1;
+  return {
+    form,
+    blocks: [
+      { x: shapeLeftXcoord, y: 0 },
+      { x: shapeLeftXcoord + 1, y: 0 },
+      { x: shapeLeftXcoord, y: 1 },
+      { x: shapeLeftXcoord + 1, y: 1 }
+    ]
+  };
 }
 
 function getBoardFragmentByCoords({
