@@ -2,7 +2,9 @@ import { Block, BlockIO } from "../typing/block";
 import { Shape, ShapeForm } from "../typing/shape";
 import { Board } from "../typing/board";
 import { Game } from "../typing/game";
-import { interval } from "rxjs";
+import { UserAction, getUserActionByKey } from "./userAction";
+import { interval, fromEvent } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 const FALLING_INTERVAL_MS = 500;
 
@@ -43,6 +45,16 @@ falling$.subscribe(_ => {
     moveShapeDown(game.shape);
   }
 });
+
+const keyboard$ = fromEvent(document, "keydown");
+keyboard$
+  .pipe(
+    map((e: KeyboardEvent) => getUserActionByKey(e.key)),
+    filter((ua: UserAction) => !!ua)
+  )
+  .subscribe((ua: UserAction) => {
+    console.log(ua);
+  });
 
 function moveShapeDown(shape: Shape) {
   shape.blocks.forEach(b => b.y++);
