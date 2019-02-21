@@ -33,10 +33,19 @@ var game: Game = {
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 falling$.subscribe(_ => {
+  console.log(isShapeLandedOnFragment(game), isShapeLandedOnBottom(game));
   if (isShapeLandedOnFragment(game) || isShapeLandedOnBottom(game)) {
     //add shape to fragments
+    game.shape.blocks.forEach(b => game.board.fragments.push(b));
+
     //calculate row to destroy
+    //TODO
+
     //new shape
+    game.shape = {
+      form: ShapeForm.Square,
+      blocks: [{ x: 1, y: 6 }, { x: 2, y: 6 }, { x: 1, y: 7 }, { x: 2, y: 7 }]
+    };
   } else {
     moveShapeDown(game.shape);
   }
@@ -49,14 +58,14 @@ function moveShapeDown(shape: Shape) {
 function isShapeLandedOnFragment(game: Game): boolean {
   //number of blocks which is right above any board's fragment
   return (
-    shape.blocks.filter(
-      b => !!getBoardFragmentByCoords({ board: game.board, x: b.x + 1, y: b.y })
+    game.shape.blocks.filter(
+      b => !!getBoardFragmentByCoords({ board: game.board, x: b.x, y: b.y + 1 })
     ).length > 0
   );
 }
 
 function isShapeLandedOnBottom(game: Game): boolean {
-  return shape.blocks.some(b => b.y === game.board.height - 1);
+  return game.shape.blocks.some(b => b.y === game.board.height - 1);
 }
 
 function getBoardFragmentByCoords({
