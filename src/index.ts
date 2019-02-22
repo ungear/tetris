@@ -10,7 +10,9 @@ import {
   getNewShape,
   isShapeLandedOnFragment,
   isShapeLandedOnBottom,
-  moveShapeDown
+  moveShapeDown,
+  moveShapeLeft,
+  moveShapeRight
 } from "./logic";
 
 const FALLING_INTERVAL_MS = 500;
@@ -60,7 +62,14 @@ keyboard$
     filter((ua: UserAction) => !!ua)
   )
   .subscribe((ua: UserAction) => {
-    console.log(ua);
+    switch (ua) {
+      case UserAction.Left:
+        moveShapeLeft(game);
+        break;
+      case UserAction.Right:
+        moveShapeRight(game);
+        break;
+    }
   });
 
 var animate = function() {

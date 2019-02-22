@@ -45,3 +45,29 @@ export function isShapeLandedOnBottom(game: Game): boolean {
 export function moveShapeDown(shape: Shape) {
   shape.blocks.forEach(b => b.y++);
 }
+
+export function moveShapeLeft(game: Game) {
+  let isShapeNearLeftBorder =
+    game.shape.blocks.filter(b => b.x === 0).length > 0;
+  let willShapeIntersectFragments =
+    game.shape.blocks.filter(
+      b => !!getBoardFragmentByCoords({ board: game.board, x: b.x - 1, y: b.y })
+    ).length > 0;
+  let canBeMoved = !isShapeNearLeftBorder && !willShapeIntersectFragments;
+  if (canBeMoved) {
+    game.shape.blocks.forEach(b => b.x--);
+  }
+}
+
+export function moveShapeRight(game: Game) {
+  let isShapeNearRightBorder =
+    game.shape.blocks.filter(b => b.x === game.board.width - 1).length > 0;
+  let willShapeIntersectFragments =
+    game.shape.blocks.filter(
+      b => !!getBoardFragmentByCoords({ board: game.board, x: b.x + 1, y: b.y })
+    ).length > 0;
+  let canBeMoved = !isShapeNearRightBorder && !willShapeIntersectFragments;
+  if (canBeMoved) {
+    game.shape.blocks.forEach(b => b.x++);
+  }
+}
