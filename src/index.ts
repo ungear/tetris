@@ -12,12 +12,14 @@ import {
   isShapeLandedOnBottom,
   moveShapeDown,
   moveShapeLeft,
-  moveShapeRight
+  moveShapeRight,
+  getYcoordsOfFullRows,
+  handleCompletedRows
 } from "./logic";
 
 const FALLING_INTERVAL_MS = 500;
 
-var board: Board = { width: 10, height: 20, fragments: [] };
+var board: Board = { width: 10, height: 10, fragments: [] };
 
 // create board
 var target = document.getElementById("target");
@@ -34,7 +36,8 @@ for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
 var game: Game = {
   shape: getNewShape(board.width),
   board,
-  isOver: false
+  isOver: false,
+  score: 0
 };
 
 const falling$ = interval(FALLING_INTERVAL_MS);
@@ -52,8 +55,12 @@ const fallingSubscription = falling$.subscribe(_ => {
     }
 
     //calculate row to destroy
-    //TODO
-
+    let fullRowsCoords = getYcoordsOfFullRows(game.board);
+    console.log(fullRowsCoords);
+    if (fullRowsCoords.length) {
+      handleCompletedRows(board, fullRowsCoords);
+      game.score = game.score + fullRowsCoords.length;
+    }
     //new shape
     game.shape = getNewShape(game.board.width);
   } else {
@@ -96,6 +103,7 @@ var animate = function() {
         x.el.classList.remove("block");
       }
     });
+  document.getElementById("score").innerText = game.score.toString();
 };
 
 animate();

@@ -71,3 +71,34 @@ export function moveShapeRight(game: Game) {
     game.shape.blocks.forEach(b => b.x++);
   }
 }
+
+export function getYcoordsOfFullRows(board: Board): number[] {
+  return board.fragments
+    .reduce(
+      (acc, b) => {
+        if (!acc[b.y]) acc[b.y] = 0;
+        acc[b.y]++;
+        return acc;
+      },
+      [] as number[]
+    )
+    .map((value, index) => ({ rowYCoord: index, fragmentsNumber: value }))
+    .filter(x => x.fragmentsNumber === board.width)
+    .map(x => x.rowYCoord);
+}
+
+export function handleCompletedRows(board: Board, rowYcoords: number[]) {
+  // delete blocks in specified rows
+  rowYcoords.forEach(y => destroyRow(board, y));
+
+  // move down rows abowe deleted
+  rowYcoords.forEach(deletedRowY =>
+    board.fragments
+      .filter(b => b.y < deletedRowY)
+      .forEach(b => (b.y = b.y + rowYcoords.length))
+  );
+}
+
+export function destroyRow(board: Board, rowYcoord: number) {
+  board.fragments = board.fragments.filter(b => b.y !== rowYcoord);
+}
