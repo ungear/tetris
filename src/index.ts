@@ -33,17 +33,23 @@ for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
 
 var game: Game = {
   shape: getNewShape(board.width),
-  board
+  board,
+  isOver: false
 };
 
 const falling$ = interval(FALLING_INTERVAL_MS);
-falling$.subscribe(_ => {
+const fallingSubscription = falling$.subscribe(_ => {
   if (isShapeLandedOnFragment(game) || isShapeLandedOnBottom(game)) {
     //add shape to fragments
     game.shape.blocks.forEach(b => game.board.fragments.push(b));
 
-    //check defeat (y coord of any fragment === 0)
-    //TODO
+    //check defeat
+    let gameIsOver = game.board.fragments.some(b => b.y === 0);
+    if (gameIsOver) {
+      game.isOver = true;
+      fallingSubscription.unsubscribe();
+      return;
+    }
 
     //calculate row to destroy
     //TODO
@@ -73,6 +79,10 @@ keyboard$
   });
 
 var animate = function() {
+  if (game.isOver) {
+    document.getElementById("game-over").classList.remove("hidden");
+    return;
+  }
   requestAnimationFrame(animate);
   Array.from(document.querySelectorAll(".cell"))
     .map(el => ({

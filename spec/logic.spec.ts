@@ -18,7 +18,8 @@ describe("isShapeLandedOnBottom", () => {
         form: ShapeForm.Square,
         blocks: [{ x: 1, y: 1 }]
       },
-      board: { width: 10, height: 10, fragments: [] }
+      board: { width: 10, height: 10, fragments: [] },
+      isOver: false
     };
     expect(isShapeLandedOnBottom(game)).toBeFalsy();
   });
@@ -28,7 +29,8 @@ describe("isShapeLandedOnBottom", () => {
         form: ShapeForm.Square,
         blocks: [{ x: 1, y: 9 }]
       },
-      board: { width: 10, height: 10, fragments: [] }
+      board: { width: 10, height: 10, fragments: [] },
+      isOver: false
     };
     expect(isShapeLandedOnBottom(game)).toBeTruthy();
   });
