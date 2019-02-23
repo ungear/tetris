@@ -94,9 +94,7 @@ export function handleCompletedRows(board: Board, rowYcoords: number[]) {
 
   // move down rows abowe deleted
   rowYcoords.forEach(deletedRowY =>
-    board.fragments
-      .filter(b => b.y < deletedRowY)
-      .forEach(b => (b.y = b.y + rowYcoords.length))
+    board.fragments.filter(b => b.y < deletedRowY).forEach(b => b.y++)
   );
 }
 
