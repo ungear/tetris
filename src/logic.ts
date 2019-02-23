@@ -84,7 +84,8 @@ export function getYcoordsOfFullRows(board: Board): number[] {
     )
     .map((value, index) => ({ rowYCoord: index, fragmentsNumber: value }))
     .filter(x => x.fragmentsNumber === board.width)
-    .map(x => x.rowYCoord);
+    .map(x => x.rowYCoord)
+    .sort();
 }
 
 export function handleCompletedRows(board: Board, rowYcoords: number[]) {
