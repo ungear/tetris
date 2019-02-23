@@ -57,7 +57,6 @@ const fallingSubscription = falling$.subscribe(_ => {
 
     //calculate row to destroy
     let fullRowsCoords = getYcoordsOfFullRows(game.board);
-    console.log(fullRowsCoords);
     if (fullRowsCoords.length) {
       handleCompletedRows(board, fullRowsCoords);
       game.score = game.score + fullRowsCoords.length;
@@ -65,7 +64,7 @@ const fallingSubscription = falling$.subscribe(_ => {
     //new shape
     game.shape = getNewShape(game.board.width);
   } else {
-    moveShapeDown(game.shape);
+    moveShapeDown(game);
   }
 });
 
@@ -82,6 +81,9 @@ keyboard$
         break;
       case UserAction.Right:
         moveShapeRight(game);
+        break;
+      case UserAction.Down:
+        moveShapeDown(game);
         break;
     }
   });

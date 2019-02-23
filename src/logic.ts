@@ -37,8 +37,13 @@ export function isShapeLandedOnBottom(game: Game): boolean {
   return game.shape.blocks.some(b => b.y === game.board.height - 1);
 }
 
-export function moveShapeDown(shape: Shape) {
-  shape.blocks.forEach(b => b.y++);
+export function moveShapeDown(game: Game) {
+  let isAboveFragment = isShapeLandedOnFragment(game);
+  let isAboveBottom = isShapeLandedOnBottom(game);
+  let canBeMoved = !isAboveFragment && !isAboveBottom;
+  if (canBeMoved) {
+    game.shape.blocks.forEach(b => b.y++);
+  }
 }
 
 export function moveShapeLeft(game: Game) {
