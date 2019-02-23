@@ -2,6 +2,7 @@ import { Block, BlockIO } from "../typing/block";
 import { Shape, ShapeForm } from "../typing/shape";
 import { Board } from "../typing/board";
 import { Game } from "../typing/game";
+import { getRandomShapeDraft } from "./shape";
 
 export function getBoardFragmentByCoords({
   board,
@@ -16,17 +17,11 @@ export function getBoardFragmentByCoords({
 }
 
 export function getNewShape(boardWidth: number): Shape {
-  let form = ShapeForm.Square;
-  let shapeLeftXcoord = Math.floor(boardWidth / 2) - 1;
-  return {
-    form,
-    blocks: [
-      { x: shapeLeftXcoord, y: 0 },
-      { x: shapeLeftXcoord + 1, y: 0 },
-      { x: shapeLeftXcoord, y: 1 },
-      { x: shapeLeftXcoord + 1, y: 1 }
-    ]
-  };
+  let shapeDraft = getRandomShapeDraft();
+  shapeDraft.blocks.forEach(b => {
+    b.x = b.x + Math.floor(boardWidth / 2) - 1;
+  });
+  return shapeDraft;
 }
 
 export function isShapeLandedOnFragment(game: Game): boolean {

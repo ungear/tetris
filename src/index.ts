@@ -16,10 +16,11 @@ import {
   getYcoordsOfFullRows,
   handleCompletedRows
 } from "./logic";
+import { getRandomShapeDraft } from "./shape";
 
 const FALLING_INTERVAL_MS = 500;
 
-var board: Board = { width: 10, height: 10, fragments: [] };
+var board: Board = { width: 8, height: 10, fragments: [] };
 
 // create board
 var target = document.getElementById("target");
