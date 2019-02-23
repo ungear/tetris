@@ -13,5 +13,8 @@ const Shapes: { [key: string]: Shape } = {
 };
 
 export function getRandomShapeDraft(): Shape {
-  return cloneDeep(Shapes[ShapeForm.Square]);
+  let shapesNunber = Object.keys(Shapes).length;
+  let rakdomShapeIndex = Math.floor(Math.random() * shapesNunber);
+  let randomShapeKey = Object.keys(Shapes)[rakdomShapeIndex];
+  return cloneDeep(Shapes[randomShapeKey]);
 }
