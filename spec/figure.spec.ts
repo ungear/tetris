@@ -36,9 +36,41 @@ const GetCentraLBlockCases: Figure[] = [
   {
     form: FigureForm.Cross,
     blocks: [{ x: 2, y: 1 }, { x: 1, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 2 }]
+  },
+  {
+    form: FigureForm.Cripple,
+    blocks: [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }]
+  },
+  {
+    form: FigureForm.Cripple,
+    blocks: [{ x: 1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }]
+  },
+  {
+    form: FigureForm.CrippleRev,
+    blocks: [{ x: 0, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }]
+  },
+  {
+    form: FigureForm.CrippleRev,
+    blocks: [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 0 }]
+  },
+  {
+    form: FigureForm.Pipe,
+    blocks: [{ x: 0, y: 1 }, { x: 0, y: 0 }, { x: 0, y: 2 }, { x: 1, y: 2 }]
+  },
+  {
+    form: FigureForm.Pipe,
+    blocks: [{ x: 1, y: 0 }, { x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 1 }]
+  },
+  {
+    form: FigureForm.PipeRev,
+    blocks: [{ x: 1, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 0, y: 2 }]
+  },
+  {
+    form: FigureForm.PipeRev,
+    blocks: [{ x: 1, y: 1 }, { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 2, y: 1 }]
   }
 ];
-fdescribe("getFigureCentralBlock", () => {
+describe("getFigureCentralBlock", () => {
   GetCentraLBlockCases.forEach((figure, index) => {
     it(`return right block for case #${index}`, () => {
       expect(getFigureCentralBlock(figure)).toBe(figure.blocks[0]);
