@@ -1,5 +1,5 @@
 import { Block, BlockIO } from "../typing/block";
-import { Shape, ShapeForm } from "../typing/shape";
+import { Figure, FigureForm } from "../typing/figure";
 import { Board } from "../typing/board";
 import { Game } from "../typing/game";
 import { getYcoordsOfFullRows } from "../src/logic";

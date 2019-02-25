@@ -1,8 +1,8 @@
-import { Shape } from "./shape";
+import { Figure } from "./figure";
 import { Board } from "./board";
 
 export type Game = {
-  shape: Shape;
+  figure: Figure;
   board: Board;
   isOver: boolean;
   score: number;

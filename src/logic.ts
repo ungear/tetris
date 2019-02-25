@@ -1,8 +1,8 @@
 import { Block, BlockIO } from "../typing/block";
-import { Shape, ShapeForm } from "../typing/shape";
+import { Figure, FigureForm } from "../typing/figure";
 import { Board } from "../typing/board";
 import { Game } from "../typing/game";
-import { getRandomShapeDraft } from "./shape";
+import { getRandomShapeDraft } from "./figure";
 
 export function getBoardFragmentByCoords({
   board,
@@ -16,7 +16,7 @@ export function getBoardFragmentByCoords({
   return board.fragments.find(b => b.x === x && b.y === y);
 }
 
-export function getNewShape(boardWidth: number): Shape {
+export function getNewShape(boardWidth: number): Figure {
   let shapeDraft = getRandomShapeDraft();
   shapeDraft.blocks.forEach(b => {
     b.x = b.x + Math.floor(boardWidth / 2) - 1;
@@ -27,14 +27,14 @@ export function getNewShape(boardWidth: number): Shape {
 export function isShapeLandedOnFragment(game: Game): boolean {
   //number of blocks which is right above any board's fragment
   return (
-    game.shape.blocks.filter(
+    game.figure.blocks.filter(
       b => !!getBoardFragmentByCoords({ board: game.board, x: b.x, y: b.y + 1 })
     ).length > 0
   );
 }
 
 export function isShapeLandedOnBottom(game: Game): boolean {
-  return game.shape.blocks.some(b => b.y === game.board.height - 1);
+  return game.figure.blocks.some(b => b.y === game.board.height - 1);
 }
 
 export function moveShapeDown(game: Game) {
@@ -42,33 +42,33 @@ export function moveShapeDown(game: Game) {
   let isAboveBottom = isShapeLandedOnBottom(game);
   let canBeMoved = !isAboveFragment && !isAboveBottom;
   if (canBeMoved) {
-    game.shape.blocks.forEach(b => b.y++);
+    game.figure.blocks.forEach(b => b.y++);
   }
 }
 
 export function moveShapeLeft(game: Game) {
   let isShapeNearLeftBorder =
-    game.shape.blocks.filter(b => b.x === 0).length > 0;
+    game.figure.blocks.filter(b => b.x === 0).length > 0;
   let willShapeIntersectFragments =
-    game.shape.blocks.filter(
+    game.figure.blocks.filter(
       b => !!getBoardFragmentByCoords({ board: game.board, x: b.x - 1, y: b.y })
     ).length > 0;
   let canBeMoved = !isShapeNearLeftBorder && !willShapeIntersectFragments;
   if (canBeMoved) {
-    game.shape.blocks.forEach(b => b.x--);
+    game.figure.blocks.forEach(b => b.x--);
   }
 }
 
 export function moveShapeRight(game: Game) {
   let isShapeNearRightBorder =
-    game.shape.blocks.filter(b => b.x === game.board.width - 1).length > 0;
+    game.figure.blocks.filter(b => b.x === game.board.width - 1).length > 0;
   let willShapeIntersectFragments =
-    game.shape.blocks.filter(
+    game.figure.blocks.filter(
       b => !!getBoardFragmentByCoords({ board: game.board, x: b.x + 1, y: b.y })
     ).length > 0;
   let canBeMoved = !isShapeNearRightBorder && !willShapeIntersectFragments;
   if (canBeMoved) {
-    game.shape.blocks.forEach(b => b.x++);
+    game.figure.blocks.forEach(b => b.x++);
   }
 }
 

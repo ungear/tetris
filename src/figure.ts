@@ -1,18 +1,18 @@
-import { Shape, ShapeForm } from "../typing/shape";
+import { Figure, FigureForm } from "../typing/figure";
 import { cloneDeep } from "lodash";
 
-const Shapes: { [key: string]: Shape } = {
-  [ShapeForm.Square]: {
-    form: ShapeForm.Square,
+const Shapes: { [key: string]: Figure } = {
+  [FigureForm.Square]: {
+    form: FigureForm.Square,
     blocks: [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 1 }]
   },
-  [ShapeForm.Sausage]: {
-    form: ShapeForm.Square,
+  [FigureForm.Sausage]: {
+    form: FigureForm.Square,
     blocks: [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }]
   }
 };
 
-export function getRandomShapeDraft(): Shape {
+export function getRandomShapeDraft(): Figure {
   let shapesNunber = Object.keys(Shapes).length;
   let rakdomShapeIndex = Math.floor(Math.random() * shapesNunber);
   let randomShapeKey = Object.keys(Shapes)[rakdomShapeIndex];

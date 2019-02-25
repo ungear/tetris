@@ -1,5 +1,5 @@
 import { Block, BlockIO } from "../typing/block";
-import { Shape, ShapeForm } from "../typing/shape";
+import { Figure, FigureForm } from "../typing/figure";
 import { Board } from "../typing/board";
 import { Game } from "../typing/game";
 import { UserAction, getUserActionByKey } from "./userAction";
@@ -16,7 +16,7 @@ import {
   getYcoordsOfFullRows,
   handleCompletedRows
 } from "./logic";
-import { getRandomShapeDraft } from "./shape";
+import { getRandomShapeDraft } from "./figure";
 
 const FALLING_INTERVAL_MS = 500;
 
@@ -35,7 +35,7 @@ for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
 }
 
 var game: Game = {
-  shape: getNewShape(board.width),
+  figure: getNewShape(board.width),
   board,
   isOver: false,
   score: 0
@@ -45,7 +45,7 @@ const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(_ => {
   if (isShapeLandedOnFragment(game) || isShapeLandedOnBottom(game)) {
     //add shape to fragments
-    game.shape.blocks.forEach(b => game.board.fragments.push(b));
+    game.figure.blocks.forEach(b => game.board.fragments.push(b));
 
     //check defeat
     let gameIsOver = game.board.fragments.some(b => b.y === 0);
@@ -62,7 +62,7 @@ const fallingSubscription = falling$.subscribe(_ => {
       game.score = game.score + fullRowsCoords.length;
     }
     //new shape
-    game.shape = getNewShape(game.board.width);
+    game.figure = getNewShape(game.board.width);
   } else {
     moveShapeDown(game);
   }
@@ -75,6 +75,9 @@ keyboard$
     filter((ua: UserAction) => !!ua)
   )
   .subscribe((ua: UserAction) => {
+    // To rotate clockwise (θ = -90 deg ):
+    // x' = x cos θ − y sin θ
+    // y' = x sin θ + y cos θ
     switch (ua) {
       case UserAction.Left:
         moveShapeLeft(game);
@@ -115,7 +118,7 @@ function getCanvasBlockByEl(game: Game, el: HTMLElement): Block {
   let boardBlock = game.board.fragments.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
-  let shapeBlock = game.shape.blocks.find(
+  let shapeBlock = game.figure.blocks.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
   return boardBlock || shapeBlock;
