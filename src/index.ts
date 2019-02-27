@@ -16,23 +16,11 @@ import {
   getYcoordsOfFullRows,
   handleCompletedRows
 } from "./logic";
-import { getRandomShapeDraft } from "./figure";
+import { RendererDom } from "./rendererDom";
 
 const FALLING_INTERVAL_MS = 500;
 
 var board: Board = { width: 8, height: 10, fragments: [] };
-
-// create board
-var target = document.getElementById("target");
-for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
-  for (let colIndex = 0; colIndex < board.width; colIndex++) {
-    var cellEl = document.createElement("div");
-    cellEl.classList.add("cell");
-    cellEl.dataset.y = rowIndex.toString();
-    cellEl.dataset.x = colIndex.toString();
-    target.appendChild(cellEl);
-  }
-}
 
 var game: Game = {
   figure: getNewShape(board.width),
@@ -91,35 +79,6 @@ keyboard$
     }
   });
 
-var animate = function() {
-  if (game.isOver) {
-    document.getElementById("game-over").classList.remove("hidden");
-    return;
-  }
-  requestAnimationFrame(animate);
-  Array.from(document.querySelectorAll(".cell"))
-    .map(el => ({
-      el,
-      canvasBlock: getCanvasBlockByEl(game, el as HTMLElement)
-    }))
-    .forEach(x => {
-      if (x.canvasBlock) {
-        x.el.classList.add("block");
-      } else {
-        x.el.classList.remove("block");
-      }
-    });
-  document.getElementById("score").innerText = game.score.toString();
-};
-
-animate();
-
-function getCanvasBlockByEl(game: Game, el: HTMLElement): Block {
-  let boardBlock = game.board.fragments.find(
-    b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
-  );
-  let shapeBlock = game.figure.blocks.find(
-    b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
-  );
-  return boardBlock || shapeBlock;
-}
+var renderer = new RendererDom();
+renderer.initialize(game);
+renderer.start(game);
