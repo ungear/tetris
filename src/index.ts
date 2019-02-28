@@ -17,6 +17,14 @@ import {
   handleCompletedRows
 } from "./logic";
 import { RendererDom } from "./rendererDom";
+import { createStore } from "redux";
+import { app } from "./store/app";
+import * as actions from "./store/actions";
+
+const store = createStore(app);
+setInterval(() => {
+  console.log("Score forom redux store: " + store.getState().score);
+}, 1000);
 
 const FALLING_INTERVAL_MS = 500;
 
@@ -40,6 +48,8 @@ const fallingSubscription = falling$.subscribe(_ => {
     if (fullRowsCoords.length) {
       handleCompletedRows(board, fullRowsCoords);
       game.score = game.score + fullRowsCoords.length;
+
+      store.dispatch(actions.scoreAdd(fullRowsCoords.length));
     }
 
     //check defeat
