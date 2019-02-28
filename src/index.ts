@@ -35,22 +35,21 @@ const fallingSubscription = falling$.subscribe(_ => {
     //add shape to fragments
     game.figure.blocks.forEach(b => game.board.fragments.push(b));
 
-    //check defeat
-    let gameIsOver = game.board.fragments.some(b => b.y === 0);
-    if (gameIsOver) {
-      game.isOver = true;
-      fallingSubscription.unsubscribe();
-      return;
-    }
-
     //calculate row to destroy
     let fullRowsCoords = getYcoordsOfFullRows(game.board);
     if (fullRowsCoords.length) {
       handleCompletedRows(board, fullRowsCoords);
       game.score = game.score + fullRowsCoords.length;
     }
-    //new shape
-    game.figure = getNewShape(game.board.width);
+
+    //check defeat
+    let gameIsOver = game.board.fragments.some(b => b.y === 0);
+    if (gameIsOver) {
+      game.isOver = true;
+      fallingSubscription.unsubscribe();
+    } else {
+      game.figure = getNewShape(game.board.width);
+    }
   } else {
     moveShapeDown(game);
   }
