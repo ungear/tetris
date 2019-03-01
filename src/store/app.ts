@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import * as actions from "./actions";
+import { SCORE_ADD, ScoreAddAction } from "./types";
 
-function scoreReducer(state = 0, action: any) {
+function scoreReducer(state = 0, action: ScoreAddAction): number {
   switch (action.type) {
-    case actions.score_add:
-      return state + action.extra;
+    case SCORE_ADD:
+      return state + action.scoreGained;
     default:
       return state;
   }

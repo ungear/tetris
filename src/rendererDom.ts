@@ -1,12 +1,16 @@
 import { Game } from "../typing/game";
 import { Block } from "../typing/block";
+import { Store } from "redux";
+import { GameState } from "./store/types";
 
 export class RendererDom {
   target: any;
   score: any;
   gameOver: any;
+  store: Store<GameState>;
 
-  initialize(game: Game) {
+  initialize(game: Game, store: Store<GameState>) {
+    this.store = store;
     this.target = document.createElement("div");
     this.target.id = "target";
     document.body.appendChild(this.target);
@@ -49,7 +53,7 @@ export class RendererDom {
             x.el.classList.remove("block");
           }
         });
-      this.score.innerText = game.score.toString();
+      this.score.innerText = this.store.getState().score.toString();
     };
 
     animate();

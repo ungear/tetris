@@ -20,11 +20,12 @@ import { RendererDom } from "./rendererDom";
 import { createStore } from "redux";
 import { app } from "./store/app";
 import * as actions from "./store/actions";
+import { GameState } from "./store/types";
 
-const store = createStore(app);
-setInterval(() => {
-  console.log("Score forom redux store: " + store.getState().score);
-}, 1000);
+const initialState: GameState = {
+  score: 0
+};
+const store = createStore(app, initialState);
 
 const FALLING_INTERVAL_MS = 500;
 
@@ -89,5 +90,5 @@ keyboard$
   });
 
 var renderer = new RendererDom();
-renderer.initialize(game);
+renderer.initialize(game, store);
 renderer.start(game);
