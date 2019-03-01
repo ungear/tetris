@@ -22,20 +22,24 @@ import { app } from "./store/app";
 import * as actions from "./store/actions";
 import { GameState } from "./store/types";
 
+const FALLING_INTERVAL_MS = 500;
+const BOARD_WIDTH = 8;
+const BOARD_HEIGHT = 10;
+
+let f = getNewShape(BOARD_WIDTH);
+
 const initialState: GameState = {
-  score: 0
+  score: 0,
+  figure: getNewShape(BOARD_WIDTH)
 };
 const store = createStore(app, initialState);
 
-const FALLING_INTERVAL_MS = 500;
-
-var board: Board = { width: 8, height: 10, fragments: [] };
+var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 var game: Game = {
-  figure: getNewShape(board.width),
+  figure: f,
   board,
-  isOver: false,
-  score: 0
+  isOver: false
 };
 
 const falling$ = interval(FALLING_INTERVAL_MS);
@@ -48,7 +52,6 @@ const fallingSubscription = falling$.subscribe(_ => {
     let fullRowsCoords = getYcoordsOfFullRows(game.board);
     if (fullRowsCoords.length) {
       handleCompletedRows(board, fullRowsCoords);
-      game.score = game.score + fullRowsCoords.length;
 
       store.dispatch(actions.scoreAdd(fullRowsCoords.length));
     }
@@ -62,7 +65,8 @@ const fallingSubscription = falling$.subscribe(_ => {
       game.figure = getNewShape(game.board.width);
     }
   } else {
-    moveShapeDown(game);
+    //moveShapeDown(game);
+    store.dispatch(actions.figureMoveDown());
   }
 });
 
@@ -84,7 +88,8 @@ keyboard$
         moveShapeRight(game);
         break;
       case UserAction.Down:
-        moveShapeDown(game);
+        //moveShapeDown(game);
+        store.dispatch(actions.figureMoveDown());
         break;
     }
   });

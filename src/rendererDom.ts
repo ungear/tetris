@@ -44,7 +44,11 @@ export class RendererDom {
       Array.from(document.querySelectorAll(".cell"))
         .map(el => ({
           el,
-          canvasBlock: getCanvasBlockByEl(game, el as HTMLElement)
+          canvasBlock: getCanvasBlockByEl(
+            game,
+            el as HTMLElement,
+            this.store.getState()
+          )
         }))
         .forEach(x => {
           if (x.canvasBlock) {
@@ -60,11 +64,15 @@ export class RendererDom {
   }
 }
 
-function getCanvasBlockByEl(game: Game, el: HTMLElement): Block {
+function getCanvasBlockByEl(
+  game: Game,
+  el: HTMLElement,
+  state: GameState
+): Block {
   let boardBlock = game.board.fragments.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
-  let shapeBlock = game.figure.blocks.find(
+  let shapeBlock = state.figure.blocks.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
   return boardBlock || shapeBlock;
