@@ -20,6 +20,7 @@ import { RendererDom } from "./rendererDom";
 import { createStore } from "redux";
 import { app } from "./store/app";
 import * as actions from "./store/actions";
+import * as figureActions from "./store/figure/figureActions";
 import { GameState } from "./store/types";
 
 const FALLING_INTERVAL_MS = 500;
@@ -66,7 +67,7 @@ const fallingSubscription = falling$.subscribe(_ => {
     }
   } else {
     //moveShapeDown(game);
-    store.dispatch(actions.figureMoveDown());
+    store.dispatch(figureActions.figureMoveDown());
   }
 });
 
@@ -89,7 +90,7 @@ keyboard$
         break;
       case UserAction.Down:
         //moveShapeDown(game);
-        store.dispatch(actions.figureMoveDown());
+        store.dispatch(figureActions.figureMoveDown());
         break;
     }
   });
