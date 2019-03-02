@@ -83,7 +83,8 @@ keyboard$
     // y' = x sin θ + y cos θ
     switch (ua) {
       case UserAction.Left:
-        moveShapeLeft(game);
+        //moveShapeLeft(game);
+        store.dispatch(figureActions.figureMoveLeft());
         break;
       case UserAction.Right:
         moveShapeRight(game);

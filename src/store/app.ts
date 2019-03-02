@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { SCORE_ADD, ScoreAddAction } from "./types";
+import { SCORE_ADD, ScoreAddAction, GameState } from "./types";
 import { figureReducer } from "./figure/figureReducers";
 
 function scoreReducer(state = 0, action: ScoreAddAction): number {
@@ -11,7 +11,9 @@ function scoreReducer(state = 0, action: ScoreAddAction): number {
   }
 }
 
-export const app = combineReducers({
-  score: scoreReducer,
-  figure: figureReducer
-});
+export function app(state: GameState = {} as GameState, action: any) {
+  return {
+    score: scoreReducer(state.score, action),
+    figure: figureReducer(state, action)
+  };
+}
