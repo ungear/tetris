@@ -46,19 +46,6 @@ export function moveShapeDown(game: Game) {
   }
 }
 
-export function moveShapeLeft(game: Game) {
-  let isShapeNearLeftBorder =
-    game.figure.blocks.filter(b => b.x === 0).length > 0;
-  let willShapeIntersectFragments =
-    game.figure.blocks.filter(
-      b => !!getBoardFragmentByCoords({ board: game.board, x: b.x - 1, y: b.y })
-    ).length > 0;
-  let canBeMoved = !isShapeNearLeftBorder && !willShapeIntersectFragments;
-  if (canBeMoved) {
-    game.figure.blocks.forEach(b => b.x--);
-  }
-}
-
 export function moveShapeRight(game: Game) {
   let isShapeNearRightBorder =
     game.figure.blocks.filter(b => b.x === game.board.width - 1).length > 0;

@@ -1,4 +1,5 @@
 import { Figure } from "../../typing/figure";
+import { Board } from "../../typing/board";
 
 export const SCORE_ADD = "SCORE_ADD";
 export const FIGURE_MOVE_DOWN = "FIGURE_MOVE_DOWN";
@@ -20,4 +21,5 @@ export interface FigureMoveLeftAction {
 export interface GameState {
   score: number;
   figure: Figure;
+  board: Board;
 }

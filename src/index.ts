@@ -11,7 +11,6 @@ import {
   isShapeLandedOnFragment,
   isShapeLandedOnBottom,
   moveShapeDown,
-  moveShapeLeft,
   moveShapeRight,
   getYcoordsOfFullRows,
   handleCompletedRows
@@ -29,13 +28,14 @@ const BOARD_HEIGHT = 10;
 
 let f = getNewShape(BOARD_WIDTH);
 
+var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
+
 const initialState: GameState = {
   score: 0,
-  figure: getNewShape(BOARD_WIDTH)
+  figure: getNewShape(BOARD_WIDTH),
+  board
 };
 const store = createStore(app, initialState);
-
-var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 var game: Game = {
   figure: f,

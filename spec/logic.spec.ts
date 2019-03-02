@@ -9,7 +9,6 @@ import {
   isShapeLandedOnFragment,
   isShapeLandedOnBottom,
   moveShapeDown,
-  moveShapeLeft,
   moveShapeRight,
   getYcoordsOfFullRows
 } from "../src/logic";
