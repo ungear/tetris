@@ -11,7 +11,6 @@ import {
   isShapeLandedOnFragment,
   isShapeLandedOnBottom,
   moveShapeDown,
-  moveShapeRight,
   getYcoordsOfFullRows,
   handleCompletedRows
 } from "./logic";
@@ -83,11 +82,10 @@ keyboard$
     // y' = x sin θ + y cos θ
     switch (ua) {
       case UserAction.Left:
-        //moveShapeLeft(game);
         store.dispatch(figureActions.figureMoveLeft());
         break;
       case UserAction.Right:
-        moveShapeRight(game);
+        store.dispatch(figureActions.figureMoveRight());
         break;
       case UserAction.Down:
         //moveShapeDown(game);
