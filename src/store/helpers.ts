@@ -14,7 +14,10 @@ export function getBoardFragmentByCoords({
   return board.fragments.find(b => b.x === x && b.y === y);
 }
 
-export function isShapeLandedOnFragment(figure: Figure, board: Board): boolean {
+export function isFigureLandedOnFragment(
+  figure: Figure,
+  board: Board
+): boolean {
   //number of blocks which is right above any board's fragment
   return (
     figure.blocks.filter(
@@ -23,6 +26,6 @@ export function isShapeLandedOnFragment(figure: Figure, board: Board): boolean {
   );
 }
 
-export function isShapeLandedOnBottom(figure: Figure, board: Board): boolean {
+export function isFigureLandedOnBottom(figure: Figure, board: Board): boolean {
   return figure.blocks.some(b => b.y === board.height - 1);
 }

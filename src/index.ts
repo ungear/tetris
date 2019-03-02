@@ -6,11 +6,7 @@ import { UserAction, getUserActionByKey } from "./userAction";
 import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import {
-  getBoardFragmentByCoords,
   getNewShape,
-  isShapeLandedOnFragment,
-  isShapeLandedOnBottom,
-  moveShapeDown,
   getYcoordsOfFullRows,
   handleCompletedRows
 } from "./logic";
@@ -19,7 +15,12 @@ import { createStore } from "redux";
 import { app } from "./store/app";
 import * as actions from "./store/actions";
 import * as figureActions from "./store/figure/figureActions";
+import * as boardActions from "./store/board/boardActions";
 import { GameState } from "./store/types";
+import {
+  isFigureLandedOnBottom,
+  isFigureLandedOnFragment
+} from "./store/helpers";
 
 const FALLING_INTERVAL_MS = 500;
 const BOARD_WIDTH = 8;
@@ -44,9 +45,13 @@ var game: Game = {
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(_ => {
-  if (isShapeLandedOnFragment(game) || isShapeLandedOnBottom(game)) {
+  let { figure, board } = store.getState();
+  if (
+    isFigureLandedOnFragment(figure, board) ||
+    isFigureLandedOnBottom(figure, board)
+  ) {
     //add shape to fragments
-    game.figure.blocks.forEach(b => game.board.fragments.push(b));
+    store.dispatch(boardActions.boardAddFragments(figure.blocks));
 
     //calculate row to destroy
     let fullRowsCoords = getYcoordsOfFullRows(game.board);
@@ -65,7 +70,6 @@ const fallingSubscription = falling$.subscribe(_ => {
       game.figure = getNewShape(game.board.width);
     }
   } else {
-    //moveShapeDown(game);
     store.dispatch(figureActions.figureMoveDown());
   }
 });

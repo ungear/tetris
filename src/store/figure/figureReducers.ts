@@ -8,8 +8,8 @@ import { Figure } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
 import {
   getBoardFragmentByCoords,
-  isShapeLandedOnBottom,
-  isShapeLandedOnFragment
+  isFigureLandedOnBottom,
+  isFigureLandedOnFragment
 } from "../helpers";
 
 export function figureReducer(
@@ -61,8 +61,8 @@ export function moveRight(figure: Figure, board: Board): Figure {
 }
 
 export function moveDown(figure: Figure, board: Board): Figure {
-  let isAboveFragment = isShapeLandedOnFragment(figure, board);
-  let isAboveBottom = isShapeLandedOnBottom(figure, board);
+  let isAboveFragment = isFigureLandedOnFragment(figure, board);
+  let isAboveBottom = isFigureLandedOnBottom(figure, board);
   let canBeMoved = !isAboveFragment && !isAboveBottom;
   if (canBeMoved) {
     return {

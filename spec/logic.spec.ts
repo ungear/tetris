@@ -6,9 +6,7 @@ import { Game } from "../typing/game";
 import {
   getBoardFragmentByCoords,
   getNewShape,
-  isShapeLandedOnFragment,
   isShapeLandedOnBottom,
-  moveShapeDown,
   getYcoordsOfFullRows
 } from "../src/logic";
 
