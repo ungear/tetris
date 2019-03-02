@@ -88,7 +88,6 @@ keyboard$
         store.dispatch(figureActions.figureMoveRight());
         break;
       case UserAction.Down:
-        //moveShapeDown(game);
         store.dispatch(figureActions.figureMoveDown());
         break;
     }

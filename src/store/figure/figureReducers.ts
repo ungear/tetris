@@ -6,7 +6,11 @@ import {
 } from "../types";
 import { Figure } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
-import { getBoardFragmentByCoords } from "../helpers";
+import {
+  getBoardFragmentByCoords,
+  isShapeLandedOnBottom,
+  isShapeLandedOnFragment
+} from "../helpers";
 
 export function figureReducer(
   state: GameState = {} as GameState,
@@ -15,13 +19,7 @@ export function figureReducer(
   let figure = state.figure;
   switch (action.type) {
     case FIGURE_MOVE_DOWN:
-      return {
-        ...figure,
-        blocks: figure.blocks.slice().map(b => {
-          b.y++;
-          return b;
-        })
-      };
+      return moveDown(figure, state.board);
     case FIGURE_MOVE_LEFT:
       return moveLeft(figure, state.board);
     case FIGURE_MOVE_RIGHT:
@@ -58,6 +56,18 @@ export function moveRight(figure: Figure, board: Board): Figure {
     return {
       ...figure,
       blocks: figure.blocks.slice().map(b => ({ ...b, x: ++b.x }))
+    };
+  } else return figure;
+}
+
+export function moveDown(figure: Figure, board: Board): Figure {
+  let isAboveFragment = isShapeLandedOnFragment(figure, board);
+  let isAboveBottom = isShapeLandedOnBottom(figure, board);
+  let canBeMoved = !isAboveFragment && !isAboveBottom;
+  if (canBeMoved) {
+    return {
+      ...figure,
+      blocks: figure.blocks.slice().map(b => ({ ...b, y: ++b.y }))
     };
   } else return figure;
 }

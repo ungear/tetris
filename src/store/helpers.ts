@@ -1,5 +1,6 @@
 import { Board } from "../../typing/board";
 import { Block } from "../../typing/block";
+import { Figure } from "../../typing/figure";
 
 export function getBoardFragmentByCoords({
   board,
@@ -11,4 +12,17 @@ export function getBoardFragmentByCoords({
   y: number;
 }): Block {
   return board.fragments.find(b => b.x === x && b.y === y);
+}
+
+export function isShapeLandedOnFragment(figure: Figure, board: Board): boolean {
+  //number of blocks which is right above any board's fragment
+  return (
+    figure.blocks.filter(
+      b => !!getBoardFragmentByCoords({ board, x: b.x, y: b.y + 1 })
+    ).length > 0
+  );
+}
+
+export function isShapeLandedOnBottom(figure: Figure, board: Board): boolean {
+  return figure.blocks.some(b => b.y === board.height - 1);
 }
