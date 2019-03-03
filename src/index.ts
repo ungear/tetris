@@ -54,7 +54,7 @@ const fallingSubscription = falling$.subscribe(_ => {
     store.dispatch(boardActions.boardAddFragments(figure.blocks));
 
     //calculate row to destroy
-    let fullRowsCoords = getYcoordsOfFullRows(game.board);
+    let fullRowsCoords = getYcoordsOfFullRows(store.getState().board);
     if (fullRowsCoords.length) {
       handleCompletedRows(board, fullRowsCoords);
 

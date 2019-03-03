@@ -4,37 +4,12 @@ import { Board } from "../typing/board";
 import { Game } from "../typing/game";
 import { getRandomShapeDraft } from "./figure";
 
-export function getBoardFragmentByCoords({
-  board,
-  x,
-  y
-}: {
-  board: Board;
-  x: number;
-  y: number;
-}): Block {
-  return board.fragments.find(b => b.x === x && b.y === y);
-}
-
 export function getNewShape(boardWidth: number): Figure {
   let shapeDraft = getRandomShapeDraft();
   shapeDraft.blocks.forEach(b => {
     b.x = b.x + Math.floor(boardWidth / 2) - 1;
   });
   return shapeDraft;
-}
-
-export function isShapeLandedOnFragment(game: Game): boolean {
-  //number of blocks which is right above any board's fragment
-  return (
-    game.figure.blocks.filter(
-      b => !!getBoardFragmentByCoords({ board: game.board, x: b.x, y: b.y + 1 })
-    ).length > 0
-  );
-}
-
-export function isShapeLandedOnBottom(game: Game): boolean {
-  return game.figure.blocks.some(b => b.y === game.board.height - 1);
 }
 
 export function getYcoordsOfFullRows(board: Board): number[] {
