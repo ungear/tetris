@@ -24,6 +24,11 @@ export function boardReducer(
 }
 
 function addFragments(state: Board, action: BoardAddFragmentsAction): Board {
+  let f = {
+    ...state,
+    fragments: state.fragments.slice().concat(action.fragments)
+  };
+
   return {
     ...state,
     fragments: state.fragments.slice().concat(action.fragments)

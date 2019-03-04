@@ -45,7 +45,6 @@ export class RendererDom {
         .map(el => ({
           el,
           canvasBlock: getCanvasBlockByEl(
-            game,
             el as HTMLElement,
             this.store.getState()
           )
@@ -64,12 +63,8 @@ export class RendererDom {
   }
 }
 
-function getCanvasBlockByEl(
-  game: Game,
-  el: HTMLElement,
-  state: GameState
-): Block {
-  let boardBlock = game.board.fragments.find(
+function getCanvasBlockByEl(el: HTMLElement, state: GameState): Block {
+  let boardBlock = state.board.fragments.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
   let shapeBlock = state.figure.blocks.find(

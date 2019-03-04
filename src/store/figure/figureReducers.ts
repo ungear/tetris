@@ -2,7 +2,9 @@ import {
   FIGURE_MOVE_DOWN,
   FIGURE_MOVE_LEFT,
   GameState,
-  FIGURE_MOVE_RIGHT
+  FIGURE_MOVE_RIGHT,
+  FIGURE_LAUNCH_NEW,
+  FigureLaunchNewAction
 } from "../types";
 import { Figure } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
@@ -11,6 +13,7 @@ import {
   isFigureLandedOnBottom,
   isFigureLandedOnFragment
 } from "../helpers";
+import { getNewShape } from "../../logic";
 
 export function figureReducer(
   state: GameState = {} as GameState,
@@ -24,6 +27,8 @@ export function figureReducer(
       return moveLeft(figure, state.board);
     case FIGURE_MOVE_RIGHT:
       return moveRight(figure, state.board);
+    case FIGURE_LAUNCH_NEW:
+      return launchNewFigure(state.board.width);
     default:
       return figure;
   }
@@ -70,4 +75,8 @@ export function moveDown(figure: Figure, board: Board): Figure {
       blocks: figure.blocks.slice().map(b => ({ ...b, y: ++b.y }))
     };
   } else return figure;
+}
+
+export function launchNewFigure(boardWidth: number): Figure {
+  return getNewShape(boardWidth);
 }

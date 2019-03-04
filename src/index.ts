@@ -46,7 +46,7 @@ const fallingSubscription = falling$.subscribe(_ => {
     isFigureLandedOnFragment(figure, board) ||
     isFigureLandedOnBottom(figure, board)
   ) {
-    //add shape to fragments
+    //add figure to fragments
     store.dispatch(boardActions.boardAddFragments(figure.blocks));
 
     //calculate row to destroy
@@ -63,7 +63,7 @@ const fallingSubscription = falling$.subscribe(_ => {
       game.isOver = true;
       fallingSubscription.unsubscribe();
     } else {
-      game.figure = getNewShape(game.board.width);
+      store.dispatch(figureActions.figureLaunchNew());
     }
   } else {
     store.dispatch(figureActions.figureMoveDown());

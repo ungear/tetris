@@ -4,7 +4,9 @@ import {
   FIGURE_MOVE_LEFT,
   FigureMoveLeftAction,
   FIGURE_MOVE_RIGHT,
-  FigureMoveRightAction
+  FigureMoveRightAction,
+  FIGURE_LAUNCH_NEW,
+  FigureLaunchNewAction
 } from "../types";
 
 export function figureMoveDown(): FigureMoveDownAction {
@@ -17,4 +19,7 @@ export function figureMoveLeft(): FigureMoveLeftAction {
 
 export function figureMoveRight(): FigureMoveRightAction {
   return { type: FIGURE_MOVE_RIGHT };
+}
+export function figureLaunchNew(): FigureLaunchNewAction {
+  return { type: FIGURE_LAUNCH_NEW };
 }
