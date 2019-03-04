@@ -5,7 +5,7 @@ import { Game } from "../typing/game";
 import { UserAction, getUserActionByKey } from "./userAction";
 import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { getNewShape, getYcoordsOfFullRows } from "./logic";
+import { getYcoordsOfFullRows } from "./logic";
 import { RendererDom } from "./rendererDom";
 import { createStore } from "redux";
 import { app } from "./store/app";
@@ -22,19 +22,18 @@ const FALLING_INTERVAL_MS = 500;
 const BOARD_WIDTH = 8;
 const BOARD_HEIGHT = 10;
 
-let f = getNewShape(BOARD_WIDTH);
-
 var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 const initialState: GameState = {
   score: 0,
-  figure: getNewShape(BOARD_WIDTH),
+  figure: null,
   board
 };
 const store = createStore(app, initialState);
+store.dispatch(figureActions.figureLaunchNew());
 
 var game: Game = {
-  figure: f,
+  figure: null,
   board,
   isOver: false
 };
