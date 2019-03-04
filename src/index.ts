@@ -5,11 +5,7 @@ import { Game } from "../typing/game";
 import { UserAction, getUserActionByKey } from "./userAction";
 import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import {
-  getNewShape,
-  getYcoordsOfFullRows,
-  handleCompletedRows
-} from "./logic";
+import { getNewShape, getYcoordsOfFullRows } from "./logic";
 import { RendererDom } from "./rendererDom";
 import { createStore } from "redux";
 import { app } from "./store/app";
@@ -56,7 +52,7 @@ const fallingSubscription = falling$.subscribe(_ => {
     //calculate row to destroy
     let fullRowsCoords = getYcoordsOfFullRows(store.getState().board);
     if (fullRowsCoords.length) {
-      handleCompletedRows(board, fullRowsCoords);
+      store.dispatch(boardActions.boardHandleFullRows(fullRowsCoords));
 
       store.dispatch(actions.scoreAdd(fullRowsCoords.length));
     }

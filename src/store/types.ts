@@ -7,6 +7,7 @@ export const FIGURE_MOVE_DOWN = "FIGURE_MOVE_DOWN";
 export const FIGURE_MOVE_LEFT = "FIGURE_MOVE_LEF";
 export const FIGURE_MOVE_RIGHT = "FIGURE_MOVE_RIGHT";
 export const BOARD_ADD_FRAGMENTS = "BOARD_ADD_FRAGMENTS";
+export const BOARD_HANDLE_FULL_ROWS = "BOARD_HANDLE_FULL_ROWS";
 
 export interface ScoreAddAction {
   type: typeof SCORE_ADD;
@@ -28,6 +29,11 @@ export interface FigureMoveRightAction {
 export interface BoardAddFragmentsAction {
   type: typeof BOARD_ADD_FRAGMENTS;
   fragments: Block[];
+}
+
+export interface BoardHandleFullRowsAction {
+  type: typeof BOARD_HANDLE_FULL_ROWS;
+  rowsYcoords: number[];
 }
 
 export interface GameState {

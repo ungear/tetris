@@ -27,17 +27,3 @@ export function getYcoordsOfFullRows(board: Board): number[] {
     .map(x => x.rowYCoord)
     .sort();
 }
-
-export function handleCompletedRows(board: Board, rowYcoords: number[]) {
-  // delete blocks in specified rows
-  rowYcoords.forEach(y => destroyRow(board, y));
-
-  // move down rows abowe deleted
-  rowYcoords.forEach(deletedRowY =>
-    board.fragments.filter(b => b.y < deletedRowY).forEach(b => b.y++)
-  );
-}
-
-export function destroyRow(board: Board, rowYcoord: number) {
-  board.fragments = board.fragments.filter(b => b.y !== rowYcoord);
-}

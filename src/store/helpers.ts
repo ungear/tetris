@@ -29,3 +29,7 @@ export function isFigureLandedOnFragment(
 export function isFigureLandedOnBottom(figure: Figure, board: Board): boolean {
   return figure.blocks.some(b => b.y === board.height - 1);
 }
+
+export function destroyRow(board: Board, rowYcoord: number) {
+  board.fragments = board.fragments.filter(b => b.y !== rowYcoord);
+}
