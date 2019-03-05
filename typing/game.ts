@@ -5,4 +5,5 @@ export type Game = {
   figure: Figure;
   board: Board;
   isOver: boolean;
+  score: number;
 };

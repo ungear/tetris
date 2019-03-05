@@ -1,15 +1,14 @@
 import { Game } from "../typing/game";
 import { Block } from "../typing/block";
 import { Store } from "redux";
-import { GameState } from "./store/types";
 
 export class RendererDom {
   target: any;
   score: any;
   gameOver: any;
-  store: Store<GameState>;
+  store: Store<Game>;
 
-  initialize(store: Store<GameState>) {
+  initialize(store: Store<Game>) {
     this.store = store;
     this.target = document.createElement("div");
     this.target.id = "target";
@@ -64,7 +63,7 @@ export class RendererDom {
   }
 }
 
-function getCanvasBlockByEl(el: HTMLElement, state: GameState): Block {
+function getCanvasBlockByEl(el: HTMLElement, state: Game): Block {
   let boardBlock = state.board.fragments.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );

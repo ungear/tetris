@@ -12,7 +12,6 @@ import { app } from "./store/app";
 import * as actions from "./store/actions";
 import * as figureActions from "./store/figure/figureActions";
 import * as boardActions from "./store/board/boardActions";
-import { GameState } from "./store/types";
 import {
   isFigureLandedOnBottom,
   isFigureLandedOnFragment
@@ -24,7 +23,7 @@ const BOARD_HEIGHT = 10;
 
 var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
-const initialState: GameState = {
+const initialState: Game = {
   score: 0,
   figure: null,
   board,

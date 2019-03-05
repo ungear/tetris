@@ -1,13 +1,13 @@
 import {
   FIGURE_MOVE_DOWN,
   FIGURE_MOVE_LEFT,
-  GameState,
   FIGURE_MOVE_RIGHT,
   FIGURE_LAUNCH_NEW,
   FigureLaunchNewAction
 } from "../types";
 import { Figure } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
+import { Game } from "../../../typing/game";
 import {
   getBoardFragmentByCoords,
   isFigureLandedOnBottom,
@@ -15,10 +15,7 @@ import {
 } from "../helpers";
 import { getNewShape } from "../../logic";
 
-export function figureReducer(
-  state: GameState = {} as GameState,
-  action: any
-): Figure {
+export function figureReducer(state: Game = {} as Game, action: any): Figure {
   let figure = state.figure;
   switch (action.type) {
     case FIGURE_MOVE_DOWN:

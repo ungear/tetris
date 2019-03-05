@@ -2,17 +2,14 @@ import {
   BOARD_ADD_FRAGMENTS,
   BoardAddFragmentsAction,
   BOARD_HANDLE_FULL_ROWS,
-  BoardHandleFullRowsAction,
-  GameState
+  BoardHandleFullRowsAction
 } from "../types";
 import { Board } from "../../../typing/board";
+import { Game } from "../../../typing/game";
 import { destroyRow } from "../helpers";
 import { cloneDeep } from "lodash";
 
-export function boardReducer(
-  state: GameState = {} as GameState,
-  action: any
-): Board {
+export function boardReducer(state: Game = {} as Game, action: any): Board {
   switch (action.type) {
     case BOARD_ADD_FRAGMENTS:
       return addFragments(state.board, action);

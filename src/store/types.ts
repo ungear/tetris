@@ -45,10 +45,3 @@ export interface BoardHandleFullRowsAction {
 export interface GameOverAction {
   type: typeof GAME_OVER;
 }
-
-export interface GameState {
-  score: number;
-  figure: Figure;
-  board: Board;
-  isOver: boolean;
-}
