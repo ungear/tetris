@@ -9,6 +9,7 @@ export const FIGURE_MOVE_RIGHT = "FIGURE_MOVE_RIGHT";
 export const FIGURE_LAUNCH_NEW = "FIGURE_LAUNCH_NEW";
 export const BOARD_ADD_FRAGMENTS = "BOARD_ADD_FRAGMENTS";
 export const BOARD_HANDLE_FULL_ROWS = "BOARD_HANDLE_FULL_ROWS";
+export const GAME_OVER = "GAME_OVER";
 
 export interface ScoreAddAction {
   type: typeof SCORE_ADD;
@@ -41,8 +42,13 @@ export interface BoardHandleFullRowsAction {
   rowsYcoords: number[];
 }
 
+export interface GameOverAction {
+  type: typeof GAME_OVER;
+}
+
 export interface GameState {
   score: number;
   figure: Figure;
   board: Board;
+  isOver: boolean;
 }

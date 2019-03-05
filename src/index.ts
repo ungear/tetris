@@ -27,16 +27,11 @@ var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 const initialState: GameState = {
   score: 0,
   figure: null,
-  board
-};
-const store = createStore(app, initialState);
-store.dispatch(figureActions.figureLaunchNew());
-
-var game: Game = {
-  figure: null,
   board,
   isOver: false
 };
+const store = createStore(app, initialState);
+store.dispatch(figureActions.figureLaunchNew());
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(_ => {
@@ -57,9 +52,9 @@ const fallingSubscription = falling$.subscribe(_ => {
     }
 
     //check defeat
-    let gameIsOver = game.board.fragments.some(b => b.y === 0);
+    let gameIsOver = store.getState().board.fragments.some(b => b.y <= 0);
     if (gameIsOver) {
-      game.isOver = true;
+      store.dispatch(actions.gameOver());
       fallingSubscription.unsubscribe();
     } else {
       store.dispatch(figureActions.figureLaunchNew());
@@ -93,5 +88,5 @@ keyboard$
   });
 
 var renderer = new RendererDom();
-renderer.initialize(game, store);
-renderer.start(game);
+renderer.initialize(store);
+renderer.start();

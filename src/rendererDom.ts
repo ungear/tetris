@@ -9,7 +9,7 @@ export class RendererDom {
   gameOver: any;
   store: Store<GameState>;
 
-  initialize(game: Game, store: Store<GameState>) {
+  initialize(store: Store<GameState>) {
     this.store = store;
     this.target = document.createElement("div");
     this.target.id = "target";
@@ -23,8 +23,9 @@ export class RendererDom {
     this.gameOver.innerText = "Game Over";
     this.target.appendChild(this.gameOver);
 
-    for (let rowIndex = 0; rowIndex < game.board.height; rowIndex++) {
-      for (let colIndex = 0; colIndex < game.board.width; colIndex++) {
+    let { board } = this.store.getState();
+    for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
+      for (let colIndex = 0; colIndex < board.width; colIndex++) {
         var cellEl = document.createElement("div");
         cellEl.classList.add("cell");
         cellEl.dataset.y = rowIndex.toString();
@@ -34,9 +35,9 @@ export class RendererDom {
     }
   }
 
-  start(game: Game) {
+  start() {
     var animate = () => {
-      if (game.isOver) {
+      if (this.store.getState().isOver) {
         this.gameOver.classList.remove("hidden");
         return;
       }
