@@ -70,9 +70,6 @@ keyboard$
     filter((ua: UserAction) => !!ua)
   )
   .subscribe((ua: UserAction) => {
-    // To rotate clockwise (θ = -90 deg ):
-    // x' = x cos θ − y sin θ
-    // y' = x sin θ + y cos θ
     switch (ua) {
       case UserAction.Left:
         store.dispatch(figureActions.figureMoveLeft());

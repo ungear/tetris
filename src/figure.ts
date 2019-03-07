@@ -41,13 +41,28 @@ export function getRandomShapeDraft(): Figure {
   return cloneDeep(Shapes[randomShapeKey]);
 }
 
-export function rotateFigure({
-  board,
-  figure
-}: {
-  board: Board;
-  figure: Figure;
-}) {}
+export function rotateFigure(figure: Figure): Figure {
+  // To rotate clockwise (θ = 90 deg ):
+  // x' = x cos θ − y sin θ
+  // y' = x sin θ + y cos θ
+
+  if (figure.form === FigureForm.Square) return figure;
+  let centerBlock = getFigureCentralBlock(figure);
+  let angleRad = (90 * Math.PI) / 180;
+  figure.blocks
+    .filter(b => b != centerBlock)
+    .forEach(b => {
+      let vectorX = b.x - centerBlock.x;
+      let vectorY = b.y - centerBlock.y;
+      let vectorNewX =
+        vectorX * Math.cos(angleRad) - vectorY * Math.sin(angleRad);
+      let vectorNewY =
+        vectorX * Math.sin(angleRad) + vectorY * Math.cos(angleRad);
+      b.x = Math.round(vectorNewX) + centerBlock.x;
+      b.y = Math.round(vectorNewY) + centerBlock.y;
+    });
+  return figure;
+}
 
 /*
   Central blocks for figures:
