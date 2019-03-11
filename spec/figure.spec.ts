@@ -4,7 +4,6 @@ import { Block } from "../typing/block";
 import { getFigureCentralBlock, rotateFigure } from "../src/figure";
 import { cloneDeep } from "lodash";
 
-// central block is the first one in the .blocks array
 const Square1: Figure = {
   form: FigureForm.Square,
   blocks: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }]
@@ -42,6 +41,45 @@ const Cripple1_rotated: Figure = {
   blocks: [{ x: 1, y: 0 }, { x: 1, y: -1 }, { x: 0, y: 0 }, { x: 0, y: 1 }]
 };
 
+const CrippleRev1: Figure = {
+  form: FigureForm.CrippleRev,
+  blocks: [{ x: 0, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }]
+};
+
+const CrippleRev1_rotated: Figure = {
+  form: FigureForm.CrippleRev,
+  blocks: [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 2 }, { x: -1, y: 2 }]
+};
+
+const Pipe1: Figure = {
+  form: FigureForm.Pipe,
+  blocks: [{ x: 0, y: 1 }, { x: 0, y: 0 }, { x: 0, y: 2 }, { x: 1, y: 2 }]
+};
+
+const Pipe1_rotated: Figure = {
+  form: FigureForm.Pipe,
+  blocks: [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: -1, y: 1 }, { x: -1, y: 2 }]
+};
+
+const Pipe2: Figure = {
+  form: FigureForm.Pipe,
+  blocks: [{ x: 1, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 1 }]
+};
+
+const Pipe2_rotated: Figure = {
+  form: FigureForm.Pipe,
+  blocks: [{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: -1 }, { x: 0, y: -1 }]
+};
+
+const PipeRev1: Figure = {
+  form: FigureForm.Pipe,
+  blocks: [{ x: 1, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 0, y: 2 }]
+};
+
+const PipeRev1_rotated: Figure = {
+  form: FigureForm.Pipe,
+  blocks: [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0 }]
+};
 const GetCentraLBlockCases: Figure[] = [
   cloneDeep(Square1),
   cloneDeep(Square2),
@@ -64,26 +102,11 @@ const GetCentraLBlockCases: Figure[] = [
     blocks: [{ x: 2, y: 1 }, { x: 1, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 2 }]
   },
   cloneDeep(Cripple1),
-  {
-    form: FigureForm.CrippleRev,
-    blocks: [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 0 }]
-  },
-  {
-    form: FigureForm.Pipe,
-    blocks: [{ x: 0, y: 1 }, { x: 0, y: 0 }, { x: 0, y: 2 }, { x: 1, y: 2 }]
-  },
-  {
-    form: FigureForm.Pipe,
-    blocks: [{ x: 1, y: 0 }, { x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 1 }]
-  },
-  {
-    form: FigureForm.PipeRev,
-    blocks: [{ x: 1, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 0, y: 2 }]
-  },
-  {
-    form: FigureForm.PipeRev,
-    blocks: [{ x: 1, y: 1 }, { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 2, y: 1 }]
-  }
+  cloneDeep(CrippleRev1),
+  cloneDeep(Pipe1),
+  cloneDeep(Pipe2),
+  cloneDeep(PipeRev1),
+  cloneDeep(PipeRev1_rotated)
 ];
 describe("getFigureCentralBlock", () => {
   GetCentraLBlockCases.forEach((figure, index) => {
@@ -113,6 +136,26 @@ const RotationCases: { start: Figure; end: Figure; testNumber: number }[] = [
     testNumber: 4,
     start: cloneDeep(Cripple1),
     end: cloneDeep(Cripple1_rotated)
+  },
+  {
+    testNumber: 5,
+    start: cloneDeep(CrippleRev1),
+    end: cloneDeep(CrippleRev1_rotated)
+  },
+  {
+    testNumber: 6,
+    start: cloneDeep(Pipe1),
+    end: cloneDeep(Pipe1_rotated)
+  },
+  {
+    testNumber: 7,
+    start: cloneDeep(Pipe2),
+    end: cloneDeep(Pipe2_rotated)
+  },
+  {
+    testNumber: 8,
+    start: cloneDeep(PipeRev1),
+    end: cloneDeep(PipeRev1_rotated)
   }
 ];
 
