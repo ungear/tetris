@@ -3,7 +3,7 @@ import {
   FIGURE_MOVE_LEFT,
   FIGURE_MOVE_RIGHT,
   FIGURE_LAUNCH_NEW,
-  FigureLaunchNewAction
+  FIGURE_ROTATE
 } from "../types";
 import { Figure } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
@@ -14,9 +14,11 @@ import {
   isFigureLandedOnFragment
 } from "../helpers";
 import { getNewShape } from "../../logic";
+import { rotateFigure } from "../../figure";
+import { cloneDeep } from "lodash";
 
 export function figureReducer(state: Game = {} as Game, action: any): Figure {
-  let figure = state.figure;
+  let figure = cloneDeep(state.figure);
   switch (action.type) {
     case FIGURE_MOVE_DOWN:
       return moveDown(figure, state.board);
@@ -24,6 +26,8 @@ export function figureReducer(state: Game = {} as Game, action: any): Figure {
       return moveLeft(figure, state.board);
     case FIGURE_MOVE_RIGHT:
       return moveRight(figure, state.board);
+    case FIGURE_ROTATE:
+      return rotate(figure, state.board);
     case FIGURE_LAUNCH_NEW:
       return launchNewFigure(state.board.width);
     default:
@@ -76,4 +80,9 @@ export function moveDown(figure: Figure, board: Board): Figure {
 
 export function launchNewFigure(boardWidth: number): Figure {
   return getNewShape(boardWidth);
+}
+
+function rotate(figure: Figure, board: Board): Figure {
+  rotateFigure(figure);
+  return figure;
 }
