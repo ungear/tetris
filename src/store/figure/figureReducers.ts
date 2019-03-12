@@ -82,7 +82,19 @@ function launchNewFigure(boardWidth: number): Figure {
   return getNewShape(boardWidth);
 }
 
-function rotate(figure: Figure, board: Board): Figure {
-  rotateFigure(figure);
-  return figure;
+function rotate(originalFigure: Figure, board: Board): Figure {
+  let rotatedFigure = cloneDeep(originalFigure);
+  rotateFigure(rotatedFigure);
+  let isIntersectFragments = rotatedFigure.blocks.some(
+    b => !!getBoardFragmentByCoords({ board, x: b.x, y: b.y })
+  );
+
+  let isBeyondLeftBorder = rotatedFigure.blocks.some(b => b.x < 0);
+  let isBeyondRightBorder = rotatedFigure.blocks.some(
+    b => b.x > board.width - 1
+  );
+  let canBeRotated =
+    !isIntersectFragments && !isBeyondLeftBorder && !isBeyondRightBorder;
+
+  return canBeRotated ? rotatedFigure : originalFigure;
 }
