@@ -35,7 +35,7 @@ export function figureReducer(state: Game = {} as Game, action: any): Figure {
   }
 }
 
-export function moveLeft(figure: Figure, board: Board): Figure {
+function moveLeft(figure: Figure, board: Board): Figure {
   let isShapeNearLeftBorder = figure.blocks.filter(b => b.x === 0).length > 0;
   let willShapeIntersectFragments =
     figure.blocks.filter(
@@ -50,7 +50,7 @@ export function moveLeft(figure: Figure, board: Board): Figure {
   } else return figure;
 }
 
-export function moveRight(figure: Figure, board: Board): Figure {
+function moveRight(figure: Figure, board: Board): Figure {
   let isShapeNearRightBorder =
     figure.blocks.filter(b => b.x === board.width - 1).length > 0;
   let willShapeIntersectFragments =
@@ -66,7 +66,7 @@ export function moveRight(figure: Figure, board: Board): Figure {
   } else return figure;
 }
 
-export function moveDown(figure: Figure, board: Board): Figure {
+function moveDown(figure: Figure, board: Board): Figure {
   let isAboveFragment = isFigureLandedOnFragment(figure, board);
   let isAboveBottom = isFigureLandedOnBottom(figure, board);
   let canBeMoved = !isAboveFragment && !isAboveBottom;
@@ -78,7 +78,7 @@ export function moveDown(figure: Figure, board: Board): Figure {
   } else return figure;
 }
 
-export function launchNewFigure(boardWidth: number): Figure {
+function launchNewFigure(boardWidth: number): Figure {
   return getNewShape(boardWidth);
 }
 
