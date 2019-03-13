@@ -3,6 +3,7 @@ import * as THREE from "three";
 const AXIS_X_COLOR = 0xff0000;
 const AXIS_Y_COLOR = 0x00ff00;
 const AXIS_Z_COLOR = 0x0000ff;
+const BOX_COLOR = 0xffffff;
 
 export function addAxes(scene: THREE.Scene, length = 30) {
   var materialX = new THREE.LineBasicMaterial({ color: AXIS_X_COLOR });
@@ -28,6 +29,18 @@ export function addAxes(scene: THREE.Scene, length = 30) {
   scene.add(zAxis);
 }
 
+export function addBox(scene: THREE.Scene) {
+  var bodyGeometry = new THREE.BoxGeometry(100, 100, 10);
+  var edge = new THREE.EdgesGeometry(bodyGeometry);
+  var line = new THREE.LineSegments(
+    edge,
+    new THREE.LineBasicMaterial({ color: BOX_COLOR })
+  );
+  line.position.x = 50;
+  line.position.y = 50;
+  line.position.z = 5;
+  scene.add(line);
+}
 // export function addBox({ box, scene }) {
 //   var bodyGeometry = new THREE.BoxGeometry(box.w, box.h, box.d);
 //   var bodyMaterial = new THREE.MeshStandardMaterial({ color: box.boxColor });
