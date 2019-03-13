@@ -2,7 +2,7 @@ import { Game } from "../../typing/game";
 import { Block } from "../../typing/block";
 import { Store } from "redux";
 import * as THREE from "three";
-import { addAxes, addBox } from "./helpers";
+import * as Helpers from "./helpers";
 
 const GAME_WIDTH_PX = 600;
 const GAME_HEIGHT_PX = 700;
@@ -35,8 +35,9 @@ export class Renderer3d {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x888888);
 
-    addAxes(this.scene);
-    addBox(this.scene);
+    Helpers.addAxes(this.scene);
+    Helpers.addBox(this.scene);
+    Helpers.addBlock({ scene: this.scene, block: { x: 0, y: 0 } });
 
     let { board } = this.store.getState();
     // for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
@@ -51,8 +52,15 @@ export class Renderer3d {
   }
 
   start() {
+    var angle = 0;
+    var radius = 100;
     var animate = () => {
       requestAnimationFrame(animate);
+
+      // this.camera.position.x = radius * Math.cos(angle);
+      // this.camera.position.z = radius * Math.sin(angle);
+      // this.camera.lookAt(50, 50, 0);
+      // angle += 0.01;
 
       this.renderer.render(this.scene, this.camera);
     };
