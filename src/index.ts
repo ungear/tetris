@@ -81,6 +81,9 @@ keyboard$
       case UserAction.Down:
         store.dispatch(figureActions.figureMoveDown());
         break;
+      case UserAction.Rotate:
+        store.dispatch(figureActions.figureRotate());
+        break;
     }
   });
 

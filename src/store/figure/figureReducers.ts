@@ -3,7 +3,7 @@ import {
   FIGURE_MOVE_LEFT,
   FIGURE_MOVE_RIGHT,
   FIGURE_LAUNCH_NEW,
-  FigureLaunchNewAction
+  FIGURE_ROTATE
 } from "../types";
 import { Figure } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
@@ -14,9 +14,11 @@ import {
   isFigureLandedOnFragment
 } from "../helpers";
 import { getNewShape } from "../../logic";
+import { rotateFigure } from "../../figure";
+import { cloneDeep } from "lodash";
 
 export function figureReducer(state: Game = {} as Game, action: any): Figure {
-  let figure = state.figure;
+  let figure = cloneDeep(state.figure);
   switch (action.type) {
     case FIGURE_MOVE_DOWN:
       return moveDown(figure, state.board);
@@ -24,6 +26,8 @@ export function figureReducer(state: Game = {} as Game, action: any): Figure {
       return moveLeft(figure, state.board);
     case FIGURE_MOVE_RIGHT:
       return moveRight(figure, state.board);
+    case FIGURE_ROTATE:
+      return rotate(figure, state.board);
     case FIGURE_LAUNCH_NEW:
       return launchNewFigure(state.board.width);
     default:
@@ -31,7 +35,7 @@ export function figureReducer(state: Game = {} as Game, action: any): Figure {
   }
 }
 
-export function moveLeft(figure: Figure, board: Board): Figure {
+function moveLeft(figure: Figure, board: Board): Figure {
   let isShapeNearLeftBorder = figure.blocks.filter(b => b.x === 0).length > 0;
   let willShapeIntersectFragments =
     figure.blocks.filter(
@@ -46,7 +50,7 @@ export function moveLeft(figure: Figure, board: Board): Figure {
   } else return figure;
 }
 
-export function moveRight(figure: Figure, board: Board): Figure {
+function moveRight(figure: Figure, board: Board): Figure {
   let isShapeNearRightBorder =
     figure.blocks.filter(b => b.x === board.width - 1).length > 0;
   let willShapeIntersectFragments =
@@ -62,7 +66,7 @@ export function moveRight(figure: Figure, board: Board): Figure {
   } else return figure;
 }
 
-export function moveDown(figure: Figure, board: Board): Figure {
+function moveDown(figure: Figure, board: Board): Figure {
   let isAboveFragment = isFigureLandedOnFragment(figure, board);
   let isAboveBottom = isFigureLandedOnBottom(figure, board);
   let canBeMoved = !isAboveFragment && !isAboveBottom;
@@ -74,6 +78,23 @@ export function moveDown(figure: Figure, board: Board): Figure {
   } else return figure;
 }
 
-export function launchNewFigure(boardWidth: number): Figure {
+function launchNewFigure(boardWidth: number): Figure {
   return getNewShape(boardWidth);
+}
+
+function rotate(originalFigure: Figure, board: Board): Figure {
+  let rotatedFigure = cloneDeep(originalFigure);
+  rotateFigure(rotatedFigure);
+  let isIntersectFragments = rotatedFigure.blocks.some(
+    b => !!getBoardFragmentByCoords({ board, x: b.x, y: b.y })
+  );
+
+  let isBeyondLeftBorder = rotatedFigure.blocks.some(b => b.x < 0);
+  let isBeyondRightBorder = rotatedFigure.blocks.some(
+    b => b.x > board.width - 1
+  );
+  let canBeRotated =
+    !isIntersectFragments && !isBeyondLeftBorder && !isBeyondRightBorder;
+
+  return canBeRotated ? rotatedFigure : originalFigure;
 }

@@ -9,11 +9,11 @@ const Shapes: { [key: string]: Figure } = {
     blocks: [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 1 }]
   },
   [FigureForm.Sausage]: {
-    form: FigureForm.Square,
+    form: FigureForm.Sausage,
     blocks: [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }]
   },
   [FigureForm.Cross]: {
-    form: FigureForm.Square,
+    form: FigureForm.Cross,
     blocks: [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }]
   },
   [FigureForm.Cripple]: {
