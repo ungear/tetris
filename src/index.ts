@@ -7,6 +7,7 @@ import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { getYcoordsOfFullRows } from "./logic";
 import { RendererDom } from "./rendererDom";
+import { Renderer3d } from "./renderer3d/renderer3d";
 import { createStore } from "redux";
 import { app } from "./store/app";
 import * as actions from "./store/actions";
@@ -83,6 +84,9 @@ keyboard$
     }
   });
 
-var renderer = new RendererDom();
+var renderer = new Renderer3d();
 renderer.initialize(store);
 renderer.start();
+// var renderer = new RendererDom();
+// renderer.initialize(store);
+// renderer.start();
