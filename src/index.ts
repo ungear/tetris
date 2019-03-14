@@ -19,8 +19,8 @@ import {
 } from "./store/helpers";
 
 const FALLING_INTERVAL_MS = 500;
-const BOARD_WIDTH = 8;
-const BOARD_HEIGHT = 10;
+const BOARD_WIDTH = 10;
+const BOARD_HEIGHT = 15;
 
 var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
@@ -87,8 +87,7 @@ keyboard$
     }
   });
 
-var renderer = new Renderer3d();
-renderer.initialize(store);
+var renderer = new Renderer3d(store);
 renderer.start();
 // var renderer = new RendererDom();
 // renderer.initialize(store);

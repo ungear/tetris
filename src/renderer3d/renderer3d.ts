@@ -3,9 +3,7 @@ import { Block } from "../../typing/block";
 import { Store } from "redux";
 import * as THREE from "three";
 import * as Helpers from "./helpers";
-
-const GAME_WIDTH_PX = 600;
-const GAME_HEIGHT_PX = 700;
+import * as Config from "./config";
 
 export class Renderer3d {
   store: Store<Game>;
@@ -13,33 +11,51 @@ export class Renderer3d {
   camera: THREE.PerspectiveCamera;
   scene: THREE.Scene;
 
-  initialize(store: Store<Game>) {
+  constructor(store: Store<Game>) {
     this.store = store;
+    const { board } = this.store.getState();
+    const boardWidthPx = Config.Block.Size * board.width;
+    const boardHeightPx = Config.Block.Size * board.height;
+    const gameWidth = boardWidthPx + 100;
+    const gameHeight = boardHeightPx + 100;
+
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(GAME_WIDTH_PX, GAME_HEIGHT_PX);
+    this.renderer.setSize(500, 500);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     document.body.appendChild(this.renderer.domElement);
-
     this.camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
-      0.1,
+      1,
       1000
     );
-    this.camera.position.x = 50;
-    this.camera.position.y = 50;
-    this.camera.position.z = 100;
-    this.camera.lookAt(50, 50, 0);
-
+    this.camera.position.x = 150;
+    this.camera.position.y = 200;
+    this.camera.position.z = 400;
+    this.camera.lookAt(150, 200, 0);
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x888888);
 
     Helpers.addAxes(this.scene);
-    Helpers.addBox(this.scene);
-    Helpers.addBlock({ scene: this.scene, block: { x: 0, y: 0 } });
+    // Helpers.addBox(this.scene);
+    // Helpers.addBlock({ scene: this.scene, block: { x: 0, y: 0 } });
 
-    let { board } = this.store.getState();
+    var bodyGeometry = new THREE.BoxGeometry(
+      boardWidthPx,
+      boardHeightPx,
+      Config.Block.Size
+    );
+    var edge = new THREE.EdgesGeometry(bodyGeometry);
+    var line = new THREE.LineSegments(
+      edge,
+      new THREE.LineBasicMaterial({ color: Config.Box.Color })
+    );
+    line.position.x = boardWidthPx / 2;
+    line.position.y = boardHeightPx / 2;
+    line.position.z = Config.Block.Size / 2;
+    this.scene.add(line);
+
     // for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
     //   for (let colIndex = 0; colIndex < board.width; colIndex++) {
     //     var cellEl = document.createElement("div");
@@ -52,19 +68,28 @@ export class Renderer3d {
   }
 
   start() {
-    var angle = 0;
-    var radius = 100;
-    var animate = () => {
-      requestAnimationFrame(animate);
-
-      // this.camera.position.x = radius * Math.cos(angle);
-      // this.camera.position.z = radius * Math.sin(angle);
-      // this.camera.lookAt(50, 50, 0);
-      // angle += 0.01;
-
+    this.renderer.render(this.scene, this.camera);
+    this.store.subscribe(() => {
+      let { figure, board } = this.store.getState();
+      figure.blocks.forEach(b => {
+        Helpers.addBlock({ scene: this.scene, block: b });
+      });
       this.renderer.render(this.scene, this.camera);
-    };
+    });
 
-    animate();
+    // var angle = 0;
+    // var radius = 100;
+    // var animate = () => {
+    //   requestAnimationFrame(animate);
+
+    //   // this.camera.position.x = radius * Math.cos(angle);
+    //   // this.camera.position.z = radius * Math.sin(angle);
+    //   // this.camera.lookAt(50, 50, 0);
+    //   // angle += 0.01;
+
+    //   this.renderer.render(this.scene, this.camera);
+    // };
+
+    // animate();
   }
 }
