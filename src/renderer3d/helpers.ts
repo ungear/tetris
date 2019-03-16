@@ -13,18 +13,21 @@ export function addAxes(scene: THREE.Scene, length = 30) {
   geometryX.vertices.push(new THREE.Vector3(0, 0, 0));
   geometryX.vertices.push(new THREE.Vector3(length, 0, 0));
   var xAxis = new THREE.Line(geometryX, materialX);
+  xAxis.name = "xAxis";
 
   var materialY = new THREE.LineBasicMaterial({ color: AXIS_Y_COLOR });
   var geometryY = new THREE.Geometry();
   geometryY.vertices.push(new THREE.Vector3(0, 0, 0));
   geometryY.vertices.push(new THREE.Vector3(0, length, 0));
   var yAxis = new THREE.Line(geometryY, materialY);
+  yAxis.name = "yAxis";
 
   var materialZ = new THREE.LineBasicMaterial({ color: AXIS_Z_COLOR });
   var geometryZ = new THREE.Geometry();
   geometryZ.vertices.push(new THREE.Vector3(0, 0, 0));
   geometryZ.vertices.push(new THREE.Vector3(0, 0, length));
   var zAxis = new THREE.Line(geometryZ, materialZ);
+  zAxis.name = "zAxis";
 
   scene.add(xAxis);
   scene.add(yAxis);
@@ -63,6 +66,7 @@ export function addBlock({
   body.position.x = block.x * Config.Block.Size + Config.Block.Size / 2;
   body.position.y = Config.Block.Size / 2;
   body.position.z = block.y * Config.Block.Size + Config.Block.Size / 2;
+  body.name = "blockBody";
   //body.castShadow = true;
   scene.add(body);
 
@@ -74,6 +78,7 @@ export function addBlock({
   line.position.x = body.position.x;
   line.position.y = body.position.y;
   line.position.z = body.position.z;
+  line.name = "blockBorder";
   scene.add(line);
 }
 
