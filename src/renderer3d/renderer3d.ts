@@ -24,16 +24,11 @@ export class Renderer3d {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     document.body.appendChild(this.renderer.domElement);
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      1,
-      1000
-    );
+    this.camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
     this.camera.position.x = 150;
-    this.camera.position.y = 200;
-    this.camera.position.z = 400;
-    this.camera.lookAt(150, 200, 0);
+    this.camera.position.y = 400;
+    this.camera.position.z = 200;
+    this.camera.lookAt(150, 0, 200);
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x888888);
 
@@ -43,8 +38,8 @@ export class Renderer3d {
 
     var bodyGeometry = new THREE.BoxGeometry(
       boardWidthPx,
-      boardHeightPx,
-      Config.Block.Size
+      Config.Block.Size,
+      boardHeightPx
     );
     var edge = new THREE.EdgesGeometry(bodyGeometry);
     var line = new THREE.LineSegments(
@@ -52,8 +47,8 @@ export class Renderer3d {
       new THREE.LineBasicMaterial({ color: Config.Box.Color })
     );
     line.position.x = boardWidthPx / 2;
-    line.position.y = boardHeightPx / 2;
-    line.position.z = Config.Block.Size / 2;
+    line.position.y = Config.Block.Size / 2;
+    line.position.z = boardHeightPx / 2;
     this.scene.add(line);
 
     // for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {

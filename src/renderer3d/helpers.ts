@@ -61,8 +61,8 @@ export function addBlock({
   });
   var body = new THREE.Mesh(blockGeometry, blockMaterial);
   body.position.x = block.x * Config.Block.Size + Config.Block.Size / 2;
-  body.position.y = block.y * Config.Block.Size + Config.Block.Size / 2;
-  body.position.z = Config.Block.Size / 2;
+  body.position.y = Config.Block.Size / 2;
+  body.position.z = block.y * Config.Block.Size + Config.Block.Size / 2;
   //body.castShadow = true;
   scene.add(body);
 
