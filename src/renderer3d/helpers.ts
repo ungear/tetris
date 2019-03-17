@@ -54,8 +54,11 @@ export function addBlock({
   scene: THREE.Scene;
   block: Block;
 }) {
-  var bodySize = Config.Block.Size;
-  var blockGeometry = new THREE.BoxGeometry(bodySize, bodySize, bodySize);
+  var blockGeometry = new THREE.BoxGeometry(
+    Config.Block.Size,
+    Config.Block.Size,
+    Config.Block.Size
+  );
   var blockMaterial = new THREE.MeshBasicMaterial({
     color: Config.Block.BodyColor
   });
@@ -64,6 +67,7 @@ export function addBlock({
   body.position.y = Config.Block.Size / 2;
   body.position.z = block.y * Config.Block.Size + Config.Block.Size / 2;
   body.name = "blockBody";
+  body.renderOrder = 100;
   //body.castShadow = true;
   scene.add(body);
 
@@ -76,6 +80,11 @@ export function addBlock({
   line.position.y = body.position.y;
   line.position.z = body.position.z;
   line.name = "blockBorder";
+  line.renderOrder = body.renderOrder + 1;
+  // to ensure that borders will not be hidden by bodies
+  line.onBeforeRender = function(renderer) {
+    renderer.clearDepth();
+  };
   scene.add(line);
 
   return;
