@@ -54,11 +54,8 @@ export function addBlock({
   scene: THREE.Scene;
   block: Block;
 }) {
-  var blockGeometry = new THREE.BoxGeometry(
-    Config.Block.Size,
-    Config.Block.Size,
-    Config.Block.Size
-  );
+  var bodySize = Config.Block.Size;
+  var blockGeometry = new THREE.BoxGeometry(bodySize, bodySize, bodySize);
   var blockMaterial = new THREE.MeshBasicMaterial({
     color: Config.Block.BodyColor
   });
@@ -80,6 +77,49 @@ export function addBlock({
   line.position.z = body.position.z;
   line.name = "blockBorder";
   scene.add(line);
+
+  return;
+  // alternative way of drawing edges
+  var h = Config.Block.Size / 2;
+  var bpx = body.position.x;
+  var bpy = body.position.y;
+  var bpz = body.position.z;
+  var blockBorderMaterial = new THREE.LineBasicMaterial({
+    color: Config.Block.BorderColor
+  });
+  var blockBorderGeometry = new THREE.Geometry();
+  var a1 = new THREE.Vector3(bpx - h, bpy + h, bpz - h);
+  var a2 = new THREE.Vector3(bpx + h, bpy + h, bpz - h);
+  var a3 = new THREE.Vector3(bpx + h, bpy + h, bpz + h);
+  var a4 = new THREE.Vector3(bpx - h, bpy + h, bpz + h);
+  var b1 = new THREE.Vector3(bpx - h, bpy - h, bpz - h);
+  var b2 = new THREE.Vector3(bpx + h, bpy - h, bpz - h);
+  var b3 = new THREE.Vector3(bpx + h, bpy - h, bpz + h);
+  var b4 = new THREE.Vector3(bpx - h, bpy - h, bpz + h);
+  blockBorderGeometry.vertices.push(
+    a1,
+    a2,
+    a3,
+    a4,
+    a1,
+    b1,
+    b2,
+    b3,
+    b4,
+    b1,
+    b4,
+    a4,
+    a3,
+    b3,
+    b2,
+    a2
+  );
+  var blockBorderLine = new THREE.Line(
+    blockBorderGeometry,
+    blockBorderMaterial
+  );
+  blockBorderLine.name = "blockBorder";
+  scene.add(blockBorderLine);
 }
 
 // export function addBox({ box, scene }) {
