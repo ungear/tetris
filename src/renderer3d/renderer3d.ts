@@ -24,10 +24,9 @@ export class Renderer3d {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     document.body.appendChild(this.renderer.domElement);
+
     this.camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
-    this.camera.position.x = 150;
-    this.camera.position.y = 400;
-    this.camera.position.z = 200;
+    this.camera.position.set(150, 400, 200);
     this.camera.lookAt(150, 0, 200);
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x888888);
@@ -51,15 +50,32 @@ export class Renderer3d {
     line.position.z = boardHeightPx / 2;
     this.scene.add(line);
 
-    // for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
-    //   for (let colIndex = 0; colIndex < board.width; colIndex++) {
-    //     var cellEl = document.createElement("div");
-    //     cellEl.classList.add("cell");
-    //     cellEl.dataset.y = rowIndex.toString();
-    //     cellEl.dataset.x = colIndex.toString();
-    //     this.target.appendChild(cellEl);
-    //   }
-    // }
+    //point light
+    var light = new THREE.PointLight(0xffffff, 1, 1000);
+    var sphere = new THREE.SphereBufferGeometry(5, 16, 8);
+    light.add(
+      new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xffffff }))
+    );
+    light.position.set(0, 15, 100);
+    light.castShadow = true;
+    this.scene.add(light);
+
+    //ambient light
+    var amlight = new THREE.AmbientLight(0x404040); // soft white light
+    this.scene.add(amlight);
+
+    //plane
+    var planeGeometry = new THREE.PlaneBufferGeometry(500, 500, 32, 32);
+    var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+    var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    plane.rotation.x = -Math.PI / 2;
+    plane.receiveShadow = true;
+    plane.position.set(150, 0, 200);
+    this.scene.add(plane);
+
+    //Create a helper for the shadow camera (optional)
+    // var helper = new THREE.CameraHelper(light.shadow.camera);
+    // this.scene.add(helper);
   }
 
   start() {
@@ -84,10 +100,10 @@ export class Renderer3d {
     // var animate = () => {
     //   requestAnimationFrame(animate);
 
-    //   // this.camera.position.x = radius * Math.cos(angle);
-    //   // this.camera.position.z = radius * Math.sin(angle);
-    //   // this.camera.lookAt(50, 50, 0);
-    //   // angle += 0.01;
+    //   this.camera.position.x = radius * Math.cos(angle);
+    //   this.camera.position.z = radius * Math.sin(angle);
+    //   this.camera.lookAt(50, 50, 0);
+    //   angle += 0.01;
 
     //   this.renderer.render(this.scene, this.camera);
     // };

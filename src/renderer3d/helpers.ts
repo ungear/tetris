@@ -59,7 +59,7 @@ export function addBlock({
     Config.Block.Size,
     Config.Block.Size
   );
-  var blockMaterial = new THREE.MeshBasicMaterial({
+  var blockMaterial = new THREE.MeshStandardMaterial({
     color: Config.Block.BodyColor
   });
   var body = new THREE.Mesh(blockGeometry, blockMaterial);
@@ -68,7 +68,7 @@ export function addBlock({
   body.position.z = block.y * Config.Block.Size + Config.Block.Size / 2;
   body.name = "blockBody";
   body.renderOrder = 100;
-  //body.castShadow = true;
+  body.castShadow = true;
   scene.add(body);
 
   var edge = new THREE.EdgesGeometry(blockGeometry);
