@@ -69,6 +69,7 @@ export function addBlock({
   body.name = "blockBody";
   body.renderOrder = 100;
   body.castShadow = true;
+  body.receiveShadow = true;
   scene.add(body);
 
   var edge = new THREE.EdgesGeometry(blockGeometry);
