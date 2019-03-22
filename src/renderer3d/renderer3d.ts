@@ -52,11 +52,11 @@ export class Renderer3d {
 
     //point light
     var light = new THREE.PointLight(0xffffff, 1, 1000);
-    var sphere = new THREE.SphereBufferGeometry(5, 16, 8);
-    light.add(
-      new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xffffff }))
-    );
-    light.position.set(0, 15, 100);
+    // var sphere = new THREE.SphereBufferGeometry(5, 16, 8);
+    // light.add(
+    //   new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xffffff }))
+    // );
+    light.position.set(200, 200, 100);
     light.castShadow = true;
     this.scene.add(light);
 

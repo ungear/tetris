@@ -84,7 +84,7 @@ export function addBlock({
   line.renderOrder = body.renderOrder + 1;
   // to ensure that borders will not be hidden by bodies
   line.onBeforeRender = function(renderer) {
-    renderer.clearDepth();
+    //renderer.clearDepth();
   };
   scene.add(line);
 
