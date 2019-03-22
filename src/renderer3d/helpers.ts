@@ -55,9 +55,9 @@ export function addBlock({
   block: Block;
 }) {
   var blockGeometry = new THREE.BoxGeometry(
-    Config.Block.Size,
-    Config.Block.Size,
-    Config.Block.Size
+    Config.Block.Size - 2,
+    Config.Block.Size - 2,
+    Config.Block.Size - 2
   );
   var blockMaterial = new THREE.MeshStandardMaterial({
     color: Config.Block.BodyColor
@@ -67,89 +67,7 @@ export function addBlock({
   body.position.y = Config.Block.Size / 2;
   body.position.z = block.y * Config.Block.Size + Config.Block.Size / 2;
   body.name = "blockBody";
-  body.renderOrder = 100;
   body.castShadow = true;
   body.receiveShadow = true;
   scene.add(body);
-
-  var edge = new THREE.EdgesGeometry(blockGeometry);
-  var line = new THREE.LineSegments(
-    edge,
-    new THREE.LineBasicMaterial({ color: Config.Block.BorderColor })
-  );
-  line.position.x = body.position.x;
-  line.position.y = body.position.y;
-  line.position.z = body.position.z;
-  line.name = "blockBorder";
-  line.renderOrder = body.renderOrder + 1;
-  // to ensure that borders will not be hidden by bodies
-  line.onBeforeRender = function(renderer) {
-    //renderer.clearDepth();
-  };
-  scene.add(line);
-
-  return;
-  // alternative way of drawing edges
-  var h = Config.Block.Size / 2;
-  var bpx = body.position.x;
-  var bpy = body.position.y;
-  var bpz = body.position.z;
-  var blockBorderMaterial = new THREE.LineBasicMaterial({
-    color: Config.Block.BorderColor
-  });
-  var blockBorderGeometry = new THREE.Geometry();
-  var a1 = new THREE.Vector3(bpx - h, bpy + h, bpz - h);
-  var a2 = new THREE.Vector3(bpx + h, bpy + h, bpz - h);
-  var a3 = new THREE.Vector3(bpx + h, bpy + h, bpz + h);
-  var a4 = new THREE.Vector3(bpx - h, bpy + h, bpz + h);
-  var b1 = new THREE.Vector3(bpx - h, bpy - h, bpz - h);
-  var b2 = new THREE.Vector3(bpx + h, bpy - h, bpz - h);
-  var b3 = new THREE.Vector3(bpx + h, bpy - h, bpz + h);
-  var b4 = new THREE.Vector3(bpx - h, bpy - h, bpz + h);
-  blockBorderGeometry.vertices.push(
-    a1,
-    a2,
-    a3,
-    a4,
-    a1,
-    b1,
-    b2,
-    b3,
-    b4,
-    b1,
-    b4,
-    a4,
-    a3,
-    b3,
-    b2,
-    a2
-  );
-  var blockBorderLine = new THREE.Line(
-    blockBorderGeometry,
-    blockBorderMaterial
-  );
-  blockBorderLine.name = "blockBorder";
-  scene.add(blockBorderLine);
 }
-
-// export function addBox({ box, scene }) {
-//   var bodyGeometry = new THREE.BoxGeometry(box.w, box.h, box.d);
-//   var bodyMaterial = new THREE.MeshStandardMaterial({ color: box.boxColor });
-//   var body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-//   body.position.x = box.x;
-//   body.position.y = box.y;
-//   body.position.z = box.z;
-//   body.castShadow = true;
-//   scene.add(body);
-
-//   //var cageGeometry = new THREE.BoxBufferGeometry(box.w, box.h, box.d);
-//   var edge = new THREE.EdgesGeometry(bodyGeometry);
-//   var line = new THREE.LineSegments(
-//     edge,
-//     new THREE.LineBasicMaterial({ color: box.cageColor })
-//   );
-//   line.position.x = box.x;
-//   line.position.y = box.y;
-//   line.position.z = box.z;
-//   scene.add(line);
-// }

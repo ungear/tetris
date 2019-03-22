@@ -61,7 +61,7 @@ export class Renderer3d {
     this.scene.add(light);
 
     //ambient light
-    var amlight = new THREE.AmbientLight(0x404040); // soft white light
+    var amlight = new THREE.AmbientLight(0x888888); // soft white light
     this.scene.add(amlight);
 
     //plane
@@ -85,7 +85,7 @@ export class Renderer3d {
 
       // remove all existing blocks
       this.scene.children
-        .filter(x => x.name === "blockBody" || x.name === "blockBorder")
+        .filter(x => x.name === "blockBody")
         .forEach(x => this.scene.remove(x));
 
       // redraw figure and fragments
