@@ -60,8 +60,11 @@ export function addBlock({
     Config.Block.Size - 2
   );
   var blockMaterial = new THREE.MeshStandardMaterial({
-    color: Config.Block.BodyColor
+    color: Config.Block.BodyColor,
+    opacity: 0.5,
+    transparent: true
   });
+
   var body = new THREE.Mesh(blockGeometry, blockMaterial);
   body.position.x = block.x * Config.Block.Size + Config.Block.Size / 2;
   body.position.y = Config.Block.Size / 2;
@@ -70,4 +73,16 @@ export function addBlock({
   body.castShadow = true;
   body.receiveShadow = true;
   scene.add(body);
+
+  var sphereG = new THREE.SphereBufferGeometry(5, 16, 8);
+  var sphereM = new THREE.MeshStandardMaterial({
+    color: 0xffffff
+    // opacity: 0.5,
+    // transparent: true
+  });
+  var sphere = new THREE.Mesh(sphereG, sphereM);
+  sphere.position.set(body.position.x, body.position.y, body.position.z);
+  sphere.name = "blockBody";
+  sphere.castShadow = true;
+  scene.add(sphere);
 }
