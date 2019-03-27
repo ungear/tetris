@@ -31,24 +31,8 @@ export class Renderer3d {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x888888);
 
-    Helpers.addAxes(this.scene);
-    // Helpers.addBox(this.scene);
-    // Helpers.addBlock({ scene: this.scene, block: { x: 0, y: 0 } });
-
-    var bodyGeometry = new THREE.BoxGeometry(
-      boardWidthPx,
-      Config.Block.Size,
-      boardHeightPx
-    );
-    var edge = new THREE.EdgesGeometry(bodyGeometry);
-    var line = new THREE.LineSegments(
-      edge,
-      new THREE.LineBasicMaterial({ color: Config.Box.Color })
-    );
-    line.position.x = boardWidthPx / 2;
-    line.position.y = Config.Block.Size / 2;
-    line.position.z = boardHeightPx / 2;
-    this.scene.add(line);
+    //Helpers.addAxes(this.scene);
+    this.scene.add(...Helpers.getBox({ boardWidthPx, boardHeightPx }));
 
     //point light
     var light = new THREE.PointLight(0xffffff, 1, 1000);
@@ -63,19 +47,6 @@ export class Renderer3d {
     //ambient light
     var amlight = new THREE.AmbientLight(0x888888); // soft white light
     this.scene.add(amlight);
-
-    //plane
-    var planeGeometry = new THREE.PlaneBufferGeometry(500, 500, 32, 32);
-    var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-    var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    plane.rotation.x = -Math.PI / 2;
-    plane.receiveShadow = true;
-    plane.position.set(150, 0, 200);
-    this.scene.add(plane);
-
-    //Create a helper for the shadow camera (optional)
-    // var helper = new THREE.CameraHelper(light.shadow.camera);
-    // this.scene.add(helper);
   }
 
   start() {

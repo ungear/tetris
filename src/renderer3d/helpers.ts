@@ -5,7 +5,7 @@ import * as Config from "./config";
 const AXIS_X_COLOR = 0xff0000;
 const AXIS_Y_COLOR = 0x00ff00;
 const AXIS_Z_COLOR = 0x0000ff;
-const BOX_COLOR = 0xffffff;
+const BOX_COLOR = 0x00ff00;
 
 export function addAxes(scene: THREE.Scene, length = 30) {
   var materialX = new THREE.LineBasicMaterial({ color: AXIS_X_COLOR });
@@ -34,17 +34,36 @@ export function addAxes(scene: THREE.Scene, length = 30) {
   scene.add(zAxis);
 }
 
-export function addBox(scene: THREE.Scene) {
-  var bodyGeometry = new THREE.BoxGeometry(100, 100, 10);
-  var edge = new THREE.EdgesGeometry(bodyGeometry);
-  var line = new THREE.LineSegments(
-    edge,
-    new THREE.LineBasicMaterial({ color: BOX_COLOR })
-  );
-  line.position.x = 50;
-  line.position.y = 50;
-  line.position.z = 5;
-  scene.add(line);
+export function getBox({
+  boardWidthPx,
+  boardHeightPx
+}: {
+  boardWidthPx: number;
+  boardHeightPx: number;
+}): THREE.Mesh[] {
+  var boxMaterial = new THREE.MeshStandardMaterial({
+    color: BOX_COLOR
+  });
+
+  var backG = new THREE.BoxGeometry(boardWidthPx, 1, boardHeightPx);
+  var back = new THREE.Mesh(backG, boxMaterial);
+  back.position.set(boardWidthPx / 2, 0, boardHeightPx / 2);
+
+  var leftG = new THREE.BoxGeometry(1, Config.Block.Size, boardHeightPx);
+  var left = new THREE.Mesh(leftG, boxMaterial);
+  left.position.set(0, Config.Block.Size / 2, boardHeightPx / 2);
+
+  var rightG = new THREE.BoxGeometry(1, Config.Block.Size, boardHeightPx);
+  var right = new THREE.Mesh(rightG, boxMaterial);
+  right.position.set(boardWidthPx, Config.Block.Size / 2, boardHeightPx / 2);
+
+  var bottomG = new THREE.BoxGeometry(boardWidthPx, Config.Block.Size, 1);
+  var bottom = new THREE.Mesh(bottomG, boxMaterial);
+  bottom.position.set(boardWidthPx / 2, Config.Block.Size / 2, boardHeightPx);
+
+  var sides = [back, left, right, bottom];
+  sides.forEach(x => (x.receiveShadow = true));
+  return sides;
 }
 
 export function addBlock({
