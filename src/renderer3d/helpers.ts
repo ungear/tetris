@@ -79,7 +79,7 @@ export function addBlock({
     Config.Block.Size - 2
   );
   var blockMaterial = new THREE.MeshStandardMaterial({
-    color: Config.Block.BodyColor
+    color: block.color
   });
 
   var body = new THREE.Mesh(blockGeometry, blockMaterial);

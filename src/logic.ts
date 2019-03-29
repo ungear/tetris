@@ -4,10 +4,20 @@ import { Board } from "../typing/board";
 import { Game } from "../typing/game";
 import { getRandomShapeDraft } from "./figure";
 
+function getRandomBlockColor() {
+  let redPart = Math.random() > 0.5 ? 1 : 0;
+  let greenPart = Math.random() > 0.5 ? 1 : 0;
+  let bluePart = Math.random() > 0.5 ? 1 : 0;
+  let base = 0x88;
+  return base * redPart * 0x10000 + base * greenPart * 0x100 + base * bluePart;
+}
+
 export function getNewShape(boardWidth: number): Figure {
   let shapeDraft = getRandomShapeDraft();
   shapeDraft.blocks.forEach(b => {
+    // move to center
     b.x = b.x + Math.floor(boardWidth / 2) - 1;
+    b.color = getRandomBlockColor();
   });
   return shapeDraft;
 }
