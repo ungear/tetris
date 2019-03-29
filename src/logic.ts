@@ -1,15 +1,17 @@
-import { Block, BlockIO } from "../typing/block";
 import { Figure, FigureForm } from "../typing/figure";
 import { Board } from "../typing/board";
-import { Game } from "../typing/game";
 import { getRandomShapeDraft } from "./figure";
 
-function getRandomBlockColor() {
+function getRandomBlockColor(): number {
   let redPart = Math.random() > 0.5 ? 1 : 0;
   let greenPart = Math.random() > 0.5 ? 1 : 0;
   let bluePart = Math.random() > 0.5 ? 1 : 0;
   let base = 0x88;
-  return base * redPart * 0x10000 + base * greenPart * 0x100 + base * bluePart;
+  let generatedColor =
+    base * redPart * 0x10000 + base * greenPart * 0x100 + base * bluePart;
+  return generatedColor === 0 || generatedColor === 0x888888
+    ? getRandomBlockColor()
+    : generatedColor;
 }
 
 export function getNewShape(boardWidth: number): Figure {
