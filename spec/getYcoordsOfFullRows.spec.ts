@@ -66,46 +66,46 @@ describe("getYcoordsOfFullRows", () => {
     expect(getYcoordsOfFullRows(board)).toEqual([2, 3]);
   });
   it("should return an empty array in case of p....", () => {
-    board.fragments.push({ x: 1, y: 4 });
+    board.fragments.push({ x: 1, y: 4, color: 0 });
     expect(getYcoordsOfFullRows(board)).toEqual([]);
   });
   it("should return an empty array in case of pp...", () => {
-    board.fragments.push({ x: 1, y: 4 });
-    board.fragments.push({ x: 1, y: 3 });
+    board.fragments.push({ x: 1, y: 4, color: 0 });
+    board.fragments.push({ x: 1, y: 3, color: 0 });
     expect(getYcoordsOfFullRows(board)).toEqual([]);
   });
   it("should return an empty array in case of ppp..", () => {
-    board.fragments.push({ x: 1, y: 4 });
-    board.fragments.push({ x: 1, y: 3 });
-    board.fragments.push({ x: 1, y: 2 });
+    board.fragments.push({ x: 1, y: 4, color: 0 });
+    board.fragments.push({ x: 1, y: 3, color: 0 });
+    board.fragments.push({ x: 1, y: 2, color: 0 });
     expect(getYcoordsOfFullRows(board)).toEqual([]);
   });
   it("should return an empty array in case of pppp.", () => {
-    board.fragments.push({ x: 1, y: 4 });
-    board.fragments.push({ x: 1, y: 3 });
-    board.fragments.push({ x: 1, y: 2 });
-    board.fragments.push({ x: 1, y: 1 });
+    board.fragments.push({ x: 1, y: 4, color: 0 });
+    board.fragments.push({ x: 1, y: 3, color: 0 });
+    board.fragments.push({ x: 1, y: 2, color: 0 });
+    board.fragments.push({ x: 1, y: 1, color: 0 });
     expect(getYcoordsOfFullRows(board)).toEqual([]);
   });
   it("should return an index in case of fp...", () => {
-    board.fragments.push({ x: 1, y: 3 });
+    board.fragments.push({ x: 1, y: 3, color: 0 });
     fillRowWithIndex(board, 4);
     expect(getYcoordsOfFullRows(board)).toEqual([4]);
   });
   it("should return an index in case of pf...", () => {
-    board.fragments.push({ x: 1, y: 4 });
+    board.fragments.push({ x: 1, y: 4, color: 0 });
     fillRowWithIndex(board, 3);
     expect(getYcoordsOfFullRows(board)).toEqual([3]);
   });
   it("should return an index in case of fpf..", () => {
-    board.fragments.push({ x: 1, y: 3 });
+    board.fragments.push({ x: 1, y: 3, color: 0 });
     fillRowWithIndex(board, 4);
     fillRowWithIndex(board, 2);
     expect(getYcoordsOfFullRows(board)).toEqual([2, 4]);
   });
   it("should return an index in case of pfp..", () => {
-    board.fragments.push({ x: 1, y: 4 });
-    board.fragments.push({ x: 1, y: 2 });
+    board.fragments.push({ x: 1, y: 4, color: 0 });
+    board.fragments.push({ x: 1, y: 2, color: 0 });
     fillRowWithIndex(board, 3);
     expect(getYcoordsOfFullRows(board)).toEqual([3]);
   });
@@ -113,6 +113,6 @@ describe("getYcoordsOfFullRows", () => {
 
 function fillRowWithIndex(board: Board, rowIndex: number) {
   for (let i = 0; i < board.width; i++) {
-    board.fragments.push({ x: i, y: rowIndex });
+    board.fragments.push({ x: i, y: rowIndex, color: 0 });
   }
 }

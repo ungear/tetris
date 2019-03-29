@@ -13,7 +13,7 @@ describe("isFigureLandedOnBottom", () => {
     let game: Partial<Game> = {
       figure: {
         form: FigureForm.Square,
-        blocks: [{ x: 1, y: 1 }]
+        blocks: [{ x: 1, y: 1, color: 0 }]
       },
       board: { width: 10, height: 10, fragments: [] },
       isOver: false
@@ -24,7 +24,7 @@ describe("isFigureLandedOnBottom", () => {
     let game: Partial<Game> = {
       figure: {
         form: FigureForm.Square,
-        blocks: [{ x: 1, y: 9 }]
+        blocks: [{ x: 1, y: 9, color: 0 }]
       },
       board: { width: 10, height: 10, fragments: [] }
     };

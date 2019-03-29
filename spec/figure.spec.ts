@@ -6,79 +6,159 @@ import { cloneDeep } from "lodash";
 
 const Square1: Figure = {
   form: FigureForm.Square,
-  blocks: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }]
+  blocks: [
+    { x: 0, y: 0, color: 0 },
+    { x: 1, y: 0, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: 0, y: 1, color: 0 }
+  ]
 };
 const Square2: Figure = {
   form: FigureForm.Square,
-  blocks: [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }]
+  blocks: [
+    { x: 1, y: 1, color: 0 },
+    { x: 2, y: 1, color: 0 },
+    { x: 2, y: 2, color: 0 },
+    { x: 1, y: 2, color: 0 }
+  ]
 };
 
 const Sausage1: Figure = {
   form: FigureForm.Sausage,
-  blocks: [{ x: 2, y: 1 }, { x: 1, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }]
+  blocks: [
+    { x: 2, y: 1, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: 3, y: 1, color: 0 },
+    { x: 4, y: 1, color: 0 }
+  ]
 };
 const Sausage1_rotated: Figure = {
   form: FigureForm.Sausage,
-  blocks: [{ x: 2, y: 1 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 2, y: 3 }]
+  blocks: [
+    { x: 2, y: 1, color: 0 },
+    { x: 2, y: 0, color: 0 },
+    { x: 2, y: 2, color: 0 },
+    { x: 2, y: 3, color: 0 }
+  ]
 };
 
 const Sausage2: Figure = {
   form: FigureForm.Sausage,
-  blocks: [{ x: 2, y: 1 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 2, y: 3 }]
+  blocks: [
+    { x: 2, y: 1, color: 0 },
+    { x: 2, y: 0, color: 0 },
+    { x: 2, y: 2, color: 0 },
+    { x: 2, y: 3, color: 0 }
+  ]
 };
 const Sausage2_rotated: Figure = {
   form: FigureForm.Sausage,
-  blocks: [{ x: 2, y: 1 }, { x: 3, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 }]
+  blocks: [
+    { x: 2, y: 1, color: 0 },
+    { x: 3, y: 1, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: 0, y: 1, color: 0 }
+  ]
 };
 
 const Cripple1: Figure = {
   form: FigureForm.Cripple,
-  blocks: [{ x: 1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }]
+  blocks: [
+    { x: 1, y: 0, color: 0 },
+    { x: 0, y: 0, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: 2, y: 1, color: 0 }
+  ]
 };
 
 const Cripple1_rotated: Figure = {
   form: FigureForm.Cripple,
-  blocks: [{ x: 1, y: 0 }, { x: 1, y: -1 }, { x: 0, y: 0 }, { x: 0, y: 1 }]
+  blocks: [
+    { x: 1, y: 0, color: 0 },
+    { x: 1, y: -1, color: 0 },
+    { x: 0, y: 0, color: 0 },
+    { x: 0, y: 1, color: 0 }
+  ]
 };
 
 const CrippleRev1: Figure = {
   form: FigureForm.CrippleRev,
-  blocks: [{ x: 0, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }]
+  blocks: [
+    { x: 0, y: 1, color: 0 },
+    { x: 0, y: 0, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: 1, y: 2, color: 0 }
+  ]
 };
 
 const CrippleRev1_rotated: Figure = {
   form: FigureForm.CrippleRev,
-  blocks: [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 2 }, { x: -1, y: 2 }]
+  blocks: [
+    { x: 0, y: 1, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: 0, y: 2, color: 0 },
+    { x: -1, y: 2, color: 0 }
+  ]
 };
 
 const Pipe1: Figure = {
   form: FigureForm.Pipe,
-  blocks: [{ x: 0, y: 1 }, { x: 0, y: 0 }, { x: 0, y: 2 }, { x: 1, y: 2 }]
+  blocks: [
+    { x: 0, y: 1, color: 0 },
+    { x: 0, y: 0, color: 0 },
+    { x: 0, y: 2, color: 0 },
+    { x: 1, y: 2, color: 0 }
+  ]
 };
 
 const Pipe1_rotated: Figure = {
   form: FigureForm.Pipe,
-  blocks: [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: -1, y: 1 }, { x: -1, y: 2 }]
+  blocks: [
+    { x: 0, y: 1, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: -1, y: 1, color: 0 },
+    { x: -1, y: 2, color: 0 }
+  ]
 };
 
 const Pipe2: Figure = {
   form: FigureForm.Pipe,
-  blocks: [{ x: 1, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 1 }]
+  blocks: [
+    { x: 1, y: 0, color: 0 },
+    { x: 2, y: 0, color: 0 },
+    { x: 0, y: 0, color: 0 },
+    { x: 0, y: 1, color: 0 }
+  ]
 };
 
 const Pipe2_rotated: Figure = {
   form: FigureForm.Pipe,
-  blocks: [{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: -1 }, { x: 0, y: -1 }]
+  blocks: [
+    { x: 1, y: 0, color: 0 },
+    { x: 1, y: 1, color: 0 },
+    { x: 1, y: -1, color: 0 },
+    { x: 0, y: -1, color: 0 }
+  ]
 };
 
 const PipeRev1: Figure = {
   form: FigureForm.Pipe,
-  blocks: [{ x: 1, y: 1 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 0, y: 2 }]
+  blocks: [
+    { x: 1, y: 1, color: 0 },
+    { x: 1, y: 0, color: 0 },
+    { x: 1, y: 2, color: 0 },
+    { x: 0, y: 2, color: 0 }
+  ]
 };
 
 const PipeRev1_rotated: Figure = {
   form: FigureForm.Pipe,
-  blocks: [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0 }]
+  blocks: [
+    { x: 1, y: 1, color: 0 },
+    { x: 2, y: 1, color: 0 },
+    { x: 0, y: 1, color: 0 },
+    { x: 0, y: 0, color: 0 }
+  ]
 };
 const GetCentraLBlockCases: Figure[] = [
   cloneDeep(Square1),
@@ -87,19 +167,39 @@ const GetCentraLBlockCases: Figure[] = [
   cloneDeep(Sausage2),
   {
     form: FigureForm.Cross,
-    blocks: [{ x: 2, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 2 }]
+    blocks: [
+      { x: 2, y: 1, color: 0 },
+      { x: 1, y: 2, color: 0 },
+      { x: 2, y: 2, color: 0 },
+      { x: 3, y: 2, color: 0 }
+    ]
   },
   {
     form: FigureForm.Cross,
-    blocks: [{ x: 1, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 3 }, { x: 2, y: 2 }]
+    blocks: [
+      { x: 1, y: 2, color: 0 },
+      { x: 1, y: 1, color: 0 },
+      { x: 1, y: 3, color: 0 },
+      { x: 2, y: 2, color: 0 }
+    ]
   },
   {
     form: FigureForm.Cross,
-    blocks: [{ x: 1, y: 2 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 3 }]
+    blocks: [
+      { x: 1, y: 2, color: 0 },
+      { x: 2, y: 1, color: 0 },
+      { x: 2, y: 2, color: 0 },
+      { x: 2, y: 3, color: 0 }
+    ]
   },
   {
     form: FigureForm.Cross,
-    blocks: [{ x: 2, y: 1 }, { x: 1, y: 1 }, { x: 3, y: 1 }, { x: 2, y: 2 }]
+    blocks: [
+      { x: 2, y: 1, color: 0 },
+      { x: 1, y: 1, color: 0 },
+      { x: 3, y: 1, color: 0 },
+      { x: 2, y: 2, color: 0 }
+    ]
   },
   cloneDeep(Cripple1),
   cloneDeep(CrippleRev1),
