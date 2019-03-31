@@ -22,10 +22,18 @@
       #game-over.hidden {
         display: none;
       }
+      #score-canvas {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index: 3000;
+        border: 1px solid green;
+      }
     </style>
   </head>
 
   <body>
+    <canvas id="score-canvas" height="100" width="100"></canvas>
     <script src="./dist/main.js"></script>
   </body>
 </html>

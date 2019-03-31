@@ -5,12 +5,18 @@ import * as THREE from "three";
 import * as Helpers from "./helpers";
 import * as Config from "./config";
 
+const ScoreSettings = {
+  x: 10,
+  y: 50
+};
+
 export class Renderer3d {
   store: Store<Game>;
   renderer: THREE.WebGLRenderer;
   camera: THREE.PerspectiveCamera;
   scene: THREE.Scene;
-
+  scoreCanvasContext: CanvasRenderingContext2D;
+  scoreMaterial: THREE.MeshBasicMaterial;
   constructor(store: Store<Game>) {
     this.store = store;
     const { board } = this.store.getState();
@@ -47,12 +53,30 @@ export class Renderer3d {
     //ambient light
     var amlight = new THREE.AmbientLight(0x888888); // soft white light
     this.scene.add(amlight);
+
+    // score
+    var scoreCanvas = document.getElementById(
+      "score-canvas"
+    ) as HTMLCanvasElement;
+    this.scoreCanvasContext = scoreCanvas.getContext("2d");
+    this.scoreCanvasContext.fillStyle = "#ffffff";
+    this.scoreCanvasContext.fillRect(0, 0, 100, 100);
+    this.scoreCanvasContext.fillStyle = "#aa0000";
+    this.scoreCanvasContext.font = "48px serif";
+    this.scoreCanvasContext.fillText("0", ScoreSettings.x, ScoreSettings.y);
+    var scoreM = new THREE.MeshBasicMaterial();
+    var scoreG = new THREE.BoxGeometry(100, 1, 100);
+    var score = new THREE.Mesh(scoreG, scoreM);
+    score.position.set(-70, 0, 200);
+    this.scene.add(score);
+    scoreM.map = new THREE.CanvasTexture(scoreCanvas);
+    this.scoreMaterial = scoreM;
   }
 
   start() {
     this.renderer.render(this.scene, this.camera);
     this.store.subscribe(() => {
-      let { figure, board } = this.store.getState();
+      let { figure, board, score } = this.store.getState();
 
       // remove all existing blocks
       this.scene.children
@@ -63,6 +87,18 @@ export class Renderer3d {
       figure.blocks.concat(board.fragments).forEach(b => {
         Helpers.addBlock({ scene: this.scene, block: b });
       });
+
+      // update score
+      this.scoreCanvasContext.fillStyle = "#ffffff";
+      this.scoreCanvasContext.fillRect(0, 0, 100, 100);
+      this.scoreCanvasContext.fillStyle = "#aa0000";
+      this.scoreCanvasContext.fillText(
+        score.toString(),
+        ScoreSettings.x,
+        ScoreSettings.y
+      );
+      this.scoreMaterial.map.needsUpdate = true;
+
       this.renderer.render(this.scene, this.camera);
     });
 
