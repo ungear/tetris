@@ -5,9 +5,12 @@ import * as THREE from "three";
 import * as Helpers from "./helpers";
 import * as Config from "./config";
 
-const ScoreSettings = {
-  x: 10,
-  y: 50
+const ScoreCanvas = {
+  width: 128,
+  height: 128,
+  font: "48px serif",
+  fontX: 10,
+  fontY: 50
 };
 
 export class Renderer3d {
@@ -54,29 +57,30 @@ export class Renderer3d {
     var amlight = new THREE.AmbientLight(0x888888); // soft white light
     this.scene.add(amlight);
 
-    // score
+    // score exture
     var scoreCanvas = document.getElementById(
       "score-canvas"
     ) as HTMLCanvasElement;
+    scoreCanvas.width = ScoreCanvas.width;
+    scoreCanvas.height = ScoreCanvas.height;
     this.scoreCanvasContext = scoreCanvas.getContext("2d");
-    this.scoreCanvasContext.fillStyle = "#ffffff";
-    this.scoreCanvasContext.fillRect(0, 0, 100, 100);
-    this.scoreCanvasContext.fillStyle = "#aa0000";
-    this.scoreCanvasContext.font = "48px serif";
-    this.scoreCanvasContext.fillText("0", ScoreSettings.x, ScoreSettings.y);
-    var scoreM = new THREE.MeshBasicMaterial();
+    this.scoreCanvasContext.font = ScoreCanvas.font;
+    this.updateScoreTexture();
+
+    // score block
+    var scoreMat = new THREE.MeshBasicMaterial();
     var scoreG = new THREE.BoxGeometry(100, 1, 100);
-    var score = new THREE.Mesh(scoreG, scoreM);
-    score.position.set(-70, 0, 200);
-    this.scene.add(score);
-    scoreM.map = new THREE.CanvasTexture(scoreCanvas);
-    this.scoreMaterial = scoreM;
+    var scoreMesh = new THREE.Mesh(scoreG, scoreMat);
+    scoreMesh.position.set(-70, 0, 200);
+    this.scene.add(scoreMesh);
+    scoreMat.map = new THREE.CanvasTexture(scoreCanvas);
+    this.scoreMaterial = scoreMat;
   }
 
   start() {
     this.renderer.render(this.scene, this.camera);
     this.store.subscribe(() => {
-      let { figure, board, score } = this.store.getState();
+      let { figure, board } = this.store.getState();
 
       // remove all existing blocks
       this.scene.children
@@ -88,15 +92,7 @@ export class Renderer3d {
         Helpers.addBlock({ scene: this.scene, block: b });
       });
 
-      // update score
-      this.scoreCanvasContext.fillStyle = "#ffffff";
-      this.scoreCanvasContext.fillRect(0, 0, 100, 100);
-      this.scoreCanvasContext.fillStyle = "#aa0000";
-      this.scoreCanvasContext.fillText(
-        score.toString(),
-        ScoreSettings.x,
-        ScoreSettings.y
-      );
+      this.updateScoreTexture();
       this.scoreMaterial.map.needsUpdate = true;
 
       this.renderer.render(this.scene, this.camera);
@@ -116,5 +112,22 @@ export class Renderer3d {
     // };
 
     // animate();
+  }
+
+  updateScoreTexture() {
+    let { score } = this.store.getState();
+    this.scoreCanvasContext.fillStyle = "#ffffff";
+    this.scoreCanvasContext.fillRect(
+      0,
+      0,
+      this.scoreCanvasContext.canvas.width,
+      this.scoreCanvasContext.canvas.height
+    );
+    this.scoreCanvasContext.fillStyle = "#aa0000";
+    this.scoreCanvasContext.fillText(
+      score.toString(),
+      ScoreCanvas.fontX,
+      ScoreCanvas.fontY
+    );
   }
 }
