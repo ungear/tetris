@@ -10,7 +10,8 @@ const ScoreCanvas = {
   height: 64,
   font: "48px Courier New",
   fontX: 10,
-  fontY: 50
+  fontY: 50,
+  fontColor: "#aa0000"
 };
 
 export class Renderer3d {
@@ -122,7 +123,7 @@ export class Renderer3d {
       this.scoreCanvasContext.canvas.width,
       this.scoreCanvasContext.canvas.height
     );
-    this.scoreCanvasContext.fillStyle = "#aa0000";
+    this.scoreCanvasContext.fillStyle = ScoreCanvas.fontColor;
     this.scoreCanvasContext.fillText(
       score.toString(),
       ScoreCanvas.fontX,
