@@ -7,8 +7,8 @@ import * as Config from "./config";
 
 const ScoreCanvas = {
   width: 128,
-  height: 128,
-  font: "48px serif",
+  height: 64,
+  font: "48px Courier New",
   fontX: 10,
   fontY: 50
 };
@@ -69,7 +69,7 @@ export class Renderer3d {
 
     // score block
     var scoreMat = new THREE.MeshBasicMaterial();
-    var scoreG = new THREE.BoxGeometry(100, 1, 100);
+    var scoreG = new THREE.BoxGeometry(128, 1, 64);
     var scoreMesh = new THREE.Mesh(scoreG, scoreMat);
     scoreMesh.position.set(-70, 0, 200);
     this.scene.add(scoreMesh);
