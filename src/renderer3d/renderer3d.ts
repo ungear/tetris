@@ -68,7 +68,7 @@ export class Renderer3d {
     this.updateScoreTexture();
 
     // score block
-    var scoreMat = new THREE.MeshBasicMaterial();
+    var scoreMat = new THREE.MeshBasicMaterial({ transparent: true });
     var scoreG = new THREE.BoxGeometry(128, 1, 64);
     var scoreMesh = new THREE.Mesh(scoreG, scoreMat);
     scoreMesh.position.set(-70, 0, 200);
@@ -116,8 +116,7 @@ export class Renderer3d {
 
   updateScoreTexture() {
     let { score } = this.store.getState();
-    this.scoreCanvasContext.fillStyle = "#ffffff";
-    this.scoreCanvasContext.fillRect(
+    this.scoreCanvasContext.clearRect(
       0,
       0,
       this.scoreCanvasContext.canvas.width,
