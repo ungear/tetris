@@ -5,7 +5,7 @@ import {
   FIGURE_LAUNCH_NEW,
   FIGURE_ROTATE
 } from "../types";
-import { Figure } from "../../../typing/figure";
+import { Figure, FiguresSet } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
 import { Game } from "../../../typing/game";
 import {
@@ -17,21 +17,39 @@ import { getNewShape } from "../../logic";
 import { rotateFigure } from "../../figure";
 import { cloneDeep } from "lodash";
 
-export function figureReducer(state: Game = {} as Game, action: any): Figure {
-  let figure = cloneDeep(state.figure);
+export function figuresSetReducer(
+  state: Game = {} as Game,
+  action: any
+): FiguresSet {
+  let figure = cloneDeep(state.figuresSet.current);
   switch (action.type) {
     case FIGURE_MOVE_DOWN:
-      return moveDown(figure, state.board);
+      return {
+        next: state.figuresSet.next,
+        current: moveDown(figure, state.board)
+      };
     case FIGURE_MOVE_LEFT:
-      return moveLeft(figure, state.board);
+      return {
+        next: state.figuresSet.next,
+        current: moveLeft(figure, state.board)
+      };
     case FIGURE_MOVE_RIGHT:
-      return moveRight(figure, state.board);
+      return {
+        next: state.figuresSet.next,
+        current: moveRight(figure, state.board)
+      };
     case FIGURE_ROTATE:
-      return rotate(figure, state.board);
+      return {
+        next: state.figuresSet.next,
+        current: rotate(figure, state.board)
+      };
     case FIGURE_LAUNCH_NEW:
-      return launchNewFigure(state.board.width);
+      return {
+        next: state.figuresSet.next,
+        current: launchNewFigure(state.board.width)
+      };
     default:
-      return figure;
+      return state.figuresSet;
   }
 }
 

@@ -27,3 +27,8 @@ export const FigureIO = t.type({
 });
 
 export type Figure = t.TypeOf<typeof FigureIO>;
+
+export type FiguresSet = {
+  current: Figure;
+  next: Figure;
+};

@@ -1,8 +1,8 @@
-import { Figure } from "./figure";
+import { FiguresSet } from "./figure";
 import { Board } from "./board";
 
 export type Game = {
-  figure: Figure;
+  figuresSet: FiguresSet;
   board: Board;
   isOver: boolean;
   score: number;

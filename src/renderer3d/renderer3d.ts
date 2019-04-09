@@ -81,15 +81,15 @@ export class Renderer3d {
   start() {
     this.renderer.render(this.scene, this.camera);
     this.store.subscribe(() => {
-      let { figure, board } = this.store.getState();
-
+      let { figuresSet, board } = this.store.getState();
+      let currentFigure = figuresSet.current;
       // remove all existing blocks
       this.scene.children
         .filter(x => x.name === "blockBody")
         .forEach(x => this.scene.remove(x));
 
       // redraw figure and fragments
-      figure.blocks.concat(board.fragments).forEach(b => {
+      currentFigure.blocks.concat(board.fragments).forEach(b => {
         Helpers.addBlock({ scene: this.scene, block: b });
       });
 

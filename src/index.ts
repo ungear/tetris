@@ -11,7 +11,7 @@ import { Renderer3d } from "./renderer3d/renderer3d";
 import { createStore } from "redux";
 import { app } from "./store/app";
 import * as actions from "./store/actions";
-import * as figureActions from "./store/figure/figureActions";
+import * as figureActions from "./store/figuresSet/figuresSet.actions";
 import * as boardActions from "./store/board/boardActions";
 import {
   isFigureLandedOnBottom,
@@ -26,7 +26,10 @@ var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 const initialState: Game = {
   score: 0,
-  figure: null,
+  figuresSet: {
+    current: null,
+    next: null
+  },
   board,
   isOver: false
 };
@@ -35,13 +38,14 @@ store.dispatch(figureActions.figureLaunchNew());
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(_ => {
-  let { figure, board } = store.getState();
+  let { figuresSet, board } = store.getState();
+  let currentFigure = figuresSet.current;
   if (
-    isFigureLandedOnFragment(figure, board) ||
-    isFigureLandedOnBottom(figure, board)
+    isFigureLandedOnFragment(currentFigure, board) ||
+    isFigureLandedOnBottom(currentFigure, board)
   ) {
     //add figure to fragments
-    store.dispatch(boardActions.boardAddFragments(figure.blocks));
+    store.dispatch(boardActions.boardAddFragments(currentFigure.blocks));
 
     //calculate row to destroy
     let fullRowsCoords = getYcoordsOfFullRows(store.getState().board);
