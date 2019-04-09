@@ -11,23 +11,33 @@ import { from } from "rxjs";
 describe("isFigureLandedOnBottom", () => {
   it("should return false for shape not in the bottom", () => {
     let game: Partial<Game> = {
-      figure: {
-        form: FigureForm.Square,
-        blocks: [{ x: 1, y: 1, color: 0 }]
+      figuresSet: {
+        current: {
+          form: FigureForm.Square,
+          blocks: [{ x: 1, y: 1, color: 0 }]
+        },
+        next: null
       },
       board: { width: 10, height: 10, fragments: [] },
       isOver: false
     };
-    expect(isFigureLandedOnBottom(game.figure, game.board)).toBeFalsy();
+    expect(
+      isFigureLandedOnBottom(game.figuresSet.current, game.board)
+    ).toBeFalsy();
   });
   it("should return true for shape in the bottom", () => {
     let game: Partial<Game> = {
-      figure: {
-        form: FigureForm.Square,
-        blocks: [{ x: 1, y: 9, color: 0 }]
+      figuresSet: {
+        current: {
+          form: FigureForm.Square,
+          blocks: [{ x: 1, y: 9, color: 0 }]
+        },
+        next: null
       },
       board: { width: 10, height: 10, fragments: [] }
     };
-    expect(isFigureLandedOnBottom(game.figure, game.board)).toBeTruthy();
+    expect(
+      isFigureLandedOnBottom(game.figuresSet.current, game.board)
+    ).toBeTruthy();
   });
 });
