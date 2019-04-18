@@ -26,17 +26,20 @@ export class Renderer3d {
     const { board } = this.store.getState();
     const boardWidthPx = Config.Block.Size * board.width;
     const boardHeightPx = Config.Block.Size * board.height;
-    const gameWidth = boardWidthPx + 100;
-    const gameHeight = boardHeightPx + 100;
 
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(500, 500);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     document.body.appendChild(this.renderer.domElement);
 
-    this.camera = new THREE.PerspectiveCamera(75, 1, 1, 1000);
-    this.camera.position.set(150, 400, 200);
+    this.camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    this.camera.position.set(150, 800, 200);
     this.camera.lookAt(150, 0, 200);
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x888888);
@@ -50,7 +53,7 @@ export class Renderer3d {
     // light.add(
     //   new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xffffff }))
     // );
-    light.position.set(200, 200, 100);
+    light.position.set(300, 200, 100);
     light.castShadow = true;
     this.scene.add(light);
 
