@@ -45,8 +45,8 @@ export function figuresSetReducer(
       };
     case FIGURE_LAUNCH_NEW:
       return {
-        next: state.figuresSet.next,
-        current: launchNewFigure(state.board.width)
+        next: getNewShape(state.board.width),
+        current: state.figuresSet.next
       };
     default:
       return state.figuresSet;
@@ -94,10 +94,6 @@ function moveDown(figure: Figure, board: Board): Figure {
       blocks: figure.blocks.slice().map(b => ({ ...b, y: ++b.y }))
     };
   } else return figure;
-}
-
-function launchNewFigure(boardWidth: number): Figure {
-  return getNewShape(boardWidth);
 }
 
 function rotate(originalFigure: Figure, board: Board): Figure {

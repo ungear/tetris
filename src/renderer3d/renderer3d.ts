@@ -85,15 +85,18 @@ export class Renderer3d {
     this.renderer.render(this.scene, this.camera);
     this.store.subscribe(() => {
       let { figuresSet, board } = this.store.getState();
-      let currentFigure = figuresSet.current;
       // remove all existing blocks
       this.scene.children
         .filter(x => x.name === "blockBody")
         .forEach(x => this.scene.remove(x));
 
       // redraw figure and fragments
-      currentFigure.blocks.concat(board.fragments).forEach(b => {
+      figuresSet.current.blocks.concat(board.fragments).forEach(b => {
         Helpers.addBlock({ scene: this.scene, block: b });
+      });
+      figuresSet.next.blocks.forEach(b => {
+        let blockClone = { ...b, x: b.x - board.width / 2 - 3 };
+        Helpers.addBlock({ scene: this.scene, block: blockClone });
       });
 
       this.updateScoreTexture();

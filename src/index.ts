@@ -5,7 +5,7 @@ import { Game } from "../typing/game";
 import { UserAction, getUserActionByKey } from "./userAction";
 import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { getYcoordsOfFullRows } from "./logic";
+import { getYcoordsOfFullRows, getNewShape } from "./logic";
 import { RendererDom } from "./rendererDom";
 import { Renderer3d } from "./renderer3d/renderer3d";
 import { createStore } from "redux";
@@ -27,8 +27,8 @@ var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 const initialState: Game = {
   score: 0,
   figuresSet: {
-    current: null,
-    next: null
+    current: getNewShape(board.width),
+    next: getNewShape(board.width)
   },
   board,
   isOver: false
