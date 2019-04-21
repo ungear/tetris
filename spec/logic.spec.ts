@@ -14,7 +14,8 @@ describe("isFigureLandedOnBottom", () => {
       figuresSet: {
         current: {
           form: FigureForm.Square,
-          blocks: [{ x: 1, y: 1, color: 0 }]
+          blocks: [{ x: 1, y: 1, color: 0 }],
+          centralBlockIndex: 0
         },
         next: null
       },
@@ -30,7 +31,8 @@ describe("isFigureLandedOnBottom", () => {
       figuresSet: {
         current: {
           form: FigureForm.Square,
-          blocks: [{ x: 1, y: 9, color: 0 }]
+          blocks: [{ x: 1, y: 9, color: 0 }],
+          centralBlockIndex: 0
         },
         next: null
       },

@@ -22,6 +22,7 @@ const FigureFormV = t.keyof({
 });
 
 export const FigureIO = t.type({
+  centralBlockIndex: t.number,
   blocks: t.array(BlockIO),
   form: FigureFormV
 });

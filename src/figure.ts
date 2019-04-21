@@ -11,7 +11,8 @@ const Shapes: { [key: string]: Figure } = {
       { x: 0, y: 1, color: 0 },
       { x: 1, y: 0, color: 0 },
       { x: 1, y: 1, color: 0 }
-    ]
+    ],
+    centralBlockIndex: 0
   },
   [FigureForm.Sausage]: {
     form: FigureForm.Sausage,
@@ -20,7 +21,8 @@ const Shapes: { [key: string]: Figure } = {
       { x: 0, y: 1, color: 0 },
       { x: 0, y: 2, color: 0 },
       { x: 0, y: 3, color: 0 }
-    ]
+    ],
+    centralBlockIndex: 1
   },
   [FigureForm.Cross]: {
     form: FigureForm.Cross,
@@ -29,7 +31,8 @@ const Shapes: { [key: string]: Figure } = {
       { x: 0, y: 1, color: 0 },
       { x: 1, y: 1, color: 0 },
       { x: 2, y: 1, color: 0 }
-    ]
+    ],
+    centralBlockIndex: 2
   },
   [FigureForm.Cripple]: {
     form: FigureForm.Cripple,
@@ -38,7 +41,8 @@ const Shapes: { [key: string]: Figure } = {
       { x: 0, y: 1, color: 0 },
       { x: 1, y: 1, color: 0 },
       { x: 0, y: 2, color: 0 }
-    ]
+    ],
+    centralBlockIndex: 1
   },
   [FigureForm.CrippleRev]: {
     form: FigureForm.CrippleRev,
@@ -47,7 +51,8 @@ const Shapes: { [key: string]: Figure } = {
       { x: 0, y: 1, color: 0 },
       { x: 1, y: 1, color: 0 },
       { x: 1, y: 2, color: 0 }
-    ]
+    ],
+    centralBlockIndex: 1
   },
   [FigureForm.Pipe]: {
     form: FigureForm.Pipe,
@@ -56,7 +61,8 @@ const Shapes: { [key: string]: Figure } = {
       { x: 0, y: 1, color: 0 },
       { x: 0, y: 2, color: 0 },
       { x: 1, y: 2, color: 0 }
-    ]
+    ],
+    centralBlockIndex: 1
   },
   [FigureForm.PipeRev]: {
     form: FigureForm.PipeRev,
@@ -65,7 +71,8 @@ const Shapes: { [key: string]: Figure } = {
       { x: 1, y: 1, color: 0 },
       { x: 1, y: 2, color: 0 },
       { x: 0, y: 2, color: 0 }
-    ]
+    ],
+    centralBlockIndex: 1
   }
 };
 
@@ -82,7 +89,7 @@ export function rotateFigure(figure: Figure): Figure {
   // y' = x sin θ + y cos θ
 
   if (figure.form === FigureForm.Square) return figure;
-  let centerBlock = getFigureCentralBlock(figure);
+  let centerBlock = figure.blocks[figure.centralBlockIndex]; //getFigureCentralBlock(figure);
   let angleRad = (90 * Math.PI) / 180;
   figure.blocks
     .filter(b => b != centerBlock)
@@ -97,35 +104,4 @@ export function rotateFigure(figure: Figure): Figure {
       b.y = Math.round(vectorNewY) + centerBlock.y;
     });
   return figure;
-}
-
-/*
-  Central blocks for figures:
-    x 0   0 x 0 0   0      x     0       0
-    0 0             x    0 0 0   x 0   x 0   0 x 0
-                    0            0       0     0
-                    0 
-
-      0   0 x        0       x 0   0     0 x 0    0   0
-    x 0     0 0      x 0   0 0     x     0        x   0 x 0
-    0                  0           0 0          0 0
-*/
-
-export function getFigureCentralBlock(figure: Figure): Block {
-  let blockCoordsX = figure.blocks.map(b => b.x);
-  let blockCoordsY = figure.blocks.map(b => b.y);
-  let maxX = Math.max(...blockCoordsX);
-  let minX = Math.min(...blockCoordsX);
-  let maxY = Math.max(...blockCoordsY);
-  let minY = Math.min(...blockCoordsY);
-
-  let centerX = Math.floor((maxX + minX) / 2);
-  let centerY = Math.floor((maxY + minY) / 2);
-  let centerBlock = figure.blocks.find(b => b.x === centerX && b.y === centerY);
-  if (centerBlock) return centerBlock;
-
-  // common algorithm does not work for PipeRev, need to apply an alternative way to calculate the center
-  centerX = Math.ceil((maxX + minX) / 2);
-  centerY = Math.ceil((maxY + minY) / 2);
-  return figure.blocks.find(b => b.x === centerX && b.y === centerY);
 }

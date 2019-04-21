@@ -1,7 +1,7 @@
 import { Figure, FigureForm } from "../typing/figure";
 import { Board } from "../typing/board";
 import { Block } from "../typing/block";
-import { getFigureCentralBlock, rotateFigure } from "../src/figure";
+import { rotateFigure } from "../src/figure";
 import { cloneDeep } from "lodash";
 
 const Square1: Figure = {
@@ -11,16 +11,8 @@ const Square1: Figure = {
     { x: 1, y: 0, color: 0 },
     { x: 1, y: 1, color: 0 },
     { x: 0, y: 1, color: 0 }
-  ]
-};
-const Square2: Figure = {
-  form: FigureForm.Square,
-  blocks: [
-    { x: 1, y: 1, color: 0 },
-    { x: 2, y: 1, color: 0 },
-    { x: 2, y: 2, color: 0 },
-    { x: 1, y: 2, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Sausage1: Figure = {
@@ -30,7 +22,8 @@ const Sausage1: Figure = {
     { x: 1, y: 1, color: 0 },
     { x: 3, y: 1, color: 0 },
     { x: 4, y: 1, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 const Sausage1_rotated: Figure = {
   form: FigureForm.Sausage,
@@ -39,7 +32,8 @@ const Sausage1_rotated: Figure = {
     { x: 2, y: 0, color: 0 },
     { x: 2, y: 2, color: 0 },
     { x: 2, y: 3, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Sausage2: Figure = {
@@ -49,7 +43,8 @@ const Sausage2: Figure = {
     { x: 2, y: 0, color: 0 },
     { x: 2, y: 2, color: 0 },
     { x: 2, y: 3, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 const Sausage2_rotated: Figure = {
   form: FigureForm.Sausage,
@@ -58,7 +53,8 @@ const Sausage2_rotated: Figure = {
     { x: 3, y: 1, color: 0 },
     { x: 1, y: 1, color: 0 },
     { x: 0, y: 1, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Cripple1: Figure = {
@@ -68,7 +64,8 @@ const Cripple1: Figure = {
     { x: 0, y: 0, color: 0 },
     { x: 1, y: 1, color: 0 },
     { x: 2, y: 1, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Cripple1_rotated: Figure = {
@@ -78,7 +75,8 @@ const Cripple1_rotated: Figure = {
     { x: 1, y: -1, color: 0 },
     { x: 0, y: 0, color: 0 },
     { x: 0, y: 1, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const CrippleRev1: Figure = {
@@ -88,7 +86,8 @@ const CrippleRev1: Figure = {
     { x: 0, y: 0, color: 0 },
     { x: 1, y: 1, color: 0 },
     { x: 1, y: 2, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const CrippleRev1_rotated: Figure = {
@@ -98,7 +97,8 @@ const CrippleRev1_rotated: Figure = {
     { x: 1, y: 1, color: 0 },
     { x: 0, y: 2, color: 0 },
     { x: -1, y: 2, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Pipe1: Figure = {
@@ -108,7 +108,8 @@ const Pipe1: Figure = {
     { x: 0, y: 0, color: 0 },
     { x: 0, y: 2, color: 0 },
     { x: 1, y: 2, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Pipe1_rotated: Figure = {
@@ -118,7 +119,8 @@ const Pipe1_rotated: Figure = {
     { x: 1, y: 1, color: 0 },
     { x: -1, y: 1, color: 0 },
     { x: -1, y: 2, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Pipe2: Figure = {
@@ -128,7 +130,8 @@ const Pipe2: Figure = {
     { x: 2, y: 0, color: 0 },
     { x: 0, y: 0, color: 0 },
     { x: 0, y: 1, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const Pipe2_rotated: Figure = {
@@ -138,7 +141,8 @@ const Pipe2_rotated: Figure = {
     { x: 1, y: 1, color: 0 },
     { x: 1, y: -1, color: 0 },
     { x: 0, y: -1, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const PipeRev1: Figure = {
@@ -148,7 +152,8 @@ const PipeRev1: Figure = {
     { x: 1, y: 0, color: 0 },
     { x: 1, y: 2, color: 0 },
     { x: 0, y: 2, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
 
 const PipeRev1_rotated: Figure = {
@@ -158,63 +163,9 @@ const PipeRev1_rotated: Figure = {
     { x: 2, y: 1, color: 0 },
     { x: 0, y: 1, color: 0 },
     { x: 0, y: 0, color: 0 }
-  ]
+  ],
+  centralBlockIndex: 0
 };
-const GetCentraLBlockCases: Figure[] = [
-  cloneDeep(Square1),
-  cloneDeep(Square2),
-  cloneDeep(Sausage1),
-  cloneDeep(Sausage2),
-  {
-    form: FigureForm.Cross,
-    blocks: [
-      { x: 2, y: 1, color: 0 },
-      { x: 1, y: 2, color: 0 },
-      { x: 2, y: 2, color: 0 },
-      { x: 3, y: 2, color: 0 }
-    ]
-  },
-  {
-    form: FigureForm.Cross,
-    blocks: [
-      { x: 1, y: 2, color: 0 },
-      { x: 1, y: 1, color: 0 },
-      { x: 1, y: 3, color: 0 },
-      { x: 2, y: 2, color: 0 }
-    ]
-  },
-  {
-    form: FigureForm.Cross,
-    blocks: [
-      { x: 1, y: 2, color: 0 },
-      { x: 2, y: 1, color: 0 },
-      { x: 2, y: 2, color: 0 },
-      { x: 2, y: 3, color: 0 }
-    ]
-  },
-  {
-    form: FigureForm.Cross,
-    blocks: [
-      { x: 2, y: 1, color: 0 },
-      { x: 1, y: 1, color: 0 },
-      { x: 3, y: 1, color: 0 },
-      { x: 2, y: 2, color: 0 }
-    ]
-  },
-  cloneDeep(Cripple1),
-  cloneDeep(CrippleRev1),
-  cloneDeep(Pipe1),
-  cloneDeep(Pipe2),
-  cloneDeep(PipeRev1),
-  cloneDeep(PipeRev1_rotated)
-];
-describe("getFigureCentralBlock", () => {
-  GetCentraLBlockCases.forEach((figure, index) => {
-    it(`return right block for case #${index}`, () => {
-      expect(getFigureCentralBlock(figure)).toEqual(figure.blocks[0]);
-    });
-  });
-});
 
 const RotationCases: { start: Figure; end: Figure; testNumber: number }[] = [
   {
