@@ -69,7 +69,7 @@ export class Renderer3d {
     scoreCanvas.height = ScoreCanvas.height;
     this.scoreCanvasContext = scoreCanvas.getContext("2d");
     this.scoreCanvasContext.font = ScoreCanvas.font;
-    this.updateScoreTexture();
+    this._updateScoreTexture();
 
     // score block
     var scoreMat = new THREE.MeshBasicMaterial({ transparent: true });
@@ -82,46 +82,37 @@ export class Renderer3d {
   }
 
   start() {
-    this.renderer.render(this.scene, this.camera);
-    this.store.subscribe(() => {
-      let { figuresSet, board } = this.store.getState();
-      // remove all existing blocks
-      this.scene.children
-        .filter(x => x.name === "blockBody")
-        .forEach(x => this.scene.remove(x));
+    var animate = () => {
+      requestAnimationFrame(animate);
+      this._renderFrame();
+    };
 
-      // redraw figure and fragments
-      figuresSet.current.blocks.concat(board.fragments).forEach(b => {
-        Helpers.addBlock({ scene: this.scene, block: b });
-      });
-      figuresSet.next.blocks.forEach(b => {
-        let blockClone = { ...b, x: b.x - board.width / 2 - 3 };
-        Helpers.addBlock({ scene: this.scene, block: blockClone });
-      });
-
-      this.updateScoreTexture();
-      this.scoreMaterial.map.needsUpdate = true;
-
-      this.renderer.render(this.scene, this.camera);
-    });
-
-    // var angle = 0;
-    // var radius = 100;
-    // var animate = () => {
-    //   requestAnimationFrame(animate);
-
-    //   this.camera.position.x = radius * Math.cos(angle);
-    //   this.camera.position.z = radius * Math.sin(angle);
-    //   this.camera.lookAt(50, 50, 0);
-    //   angle += 0.01;
-
-    //   this.renderer.render(this.scene, this.camera);
-    // };
-
-    // animate();
+    animate();
   }
 
-  updateScoreTexture() {
+  private _renderFrame() {
+    let { figuresSet, board } = this.store.getState();
+    // remove all existing blocks
+    this.scene.children
+      .filter(x => x.name === "blockBody")
+      .forEach(x => this.scene.remove(x));
+
+    // redraw figure and fragments
+    figuresSet.current.blocks.concat(board.fragments).forEach(b => {
+      Helpers.addBlock({ scene: this.scene, block: b });
+    });
+    figuresSet.next.blocks.forEach(b => {
+      let blockClone = { ...b, x: b.x - board.width / 2 - 3 };
+      Helpers.addBlock({ scene: this.scene, block: blockClone });
+    });
+
+    this._updateScoreTexture();
+    this.scoreMaterial.map.needsUpdate = true;
+
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  private _updateScoreTexture() {
     let { score } = this.store.getState();
     this.scoreCanvasContext.clearRect(
       0,
