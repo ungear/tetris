@@ -91,3 +91,7 @@ export function addBlock({
   body.receiveShadow = true;
   scene.add(body);
 }
+
+export function degToRad(degrees: number): number {
+  return degrees * Math.PI / 180;
+}

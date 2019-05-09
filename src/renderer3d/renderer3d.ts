@@ -21,6 +21,9 @@ export class Renderer3d {
   scene: THREE.Scene;
   scoreCanvasContext: CanvasRenderingContext2D;
   scoreMaterial: THREE.MeshBasicMaterial;
+  previousScore: number;
+  isShaking: boolean = false;
+  shakingStartedAt: number;
   constructor(store: Store<Game>) {
     this.store = store;
     const { board } = this.store.getState();
@@ -79,6 +82,8 @@ export class Renderer3d {
     this.scene.add(scoreMesh);
     scoreMat.map = new THREE.CanvasTexture(scoreCanvas);
     this.scoreMaterial = scoreMat;
+
+    this.previousScore = this.store.getState().score;
   }
 
   start() {
@@ -88,10 +93,18 @@ export class Renderer3d {
     };
 
     animate();
+
+    // press "s" to chake camera for testing purposes
+    document.addEventListener("keydown", e => {
+      if (e.key === "s") {
+        this.isShaking = true;
+        this.shakingStartedAt = new Date().getTime();
+      }
+    })
   }
 
   private _renderFrame() {
-    let { figuresSet, board } = this.store.getState();
+    let { figuresSet, board, score } = this.store.getState();
     // remove all existing blocks
     this.scene.children
       .filter(x => x.name === "blockBody")
@@ -109,7 +122,33 @@ export class Renderer3d {
     this._updateScoreTexture();
     this.scoreMaterial.map.needsUpdate = true;
 
+    // react on a new score
+    if (score !== this.previousScore) {
+      this.previousScore = score;
+      this.isShaking = true;
+      this.shakingStartedAt = new Date().getTime();
+    }
+
+    if (this.isShaking) {
+      this._shakeCamera();
+    }
+
     this.renderer.render(this.scene, this.camera);
+  }
+
+  private _shakeCamera() {
+    const stepMs = 50;
+    const angleMaxDeviationDeg = 10;
+    let shakingDuraionMs = new Date().getTime() - this.shakingStartedAt;
+    let cameraAngleDeg;
+    if (shakingDuraionMs < 2 * stepMs) {
+      cameraAngleDeg = angleMaxDeviationDeg * Math.sin(shakingDuraionMs * Math.PI / stepMs);
+    } else {
+      cameraAngleDeg = 0;
+      this.isShaking = false;
+    }
+    let cameraAngleRad = Helpers.degToRad(cameraAngleDeg)
+    this.camera.rotation.z = cameraAngleRad;
   }
 
   private _updateScoreTexture() {
