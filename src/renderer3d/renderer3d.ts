@@ -108,7 +108,10 @@ export class Renderer3d {
     // remove all existing blocks
     this.scene.children
       .filter(x => x.name === "blockBody")
-      .forEach(x => this.scene.remove(x));
+      .forEach(x => {
+        this.scene.remove(x);
+        (x as THREE.Mesh).geometry.dispose();
+      });
 
     // redraw figure and fragments
     figuresSet.current.blocks.concat(board.fragments).forEach(b => {
