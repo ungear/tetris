@@ -23,7 +23,7 @@ export class Renderer3d {
   scoreMaterial: THREE.MeshBasicMaterial;
   previousScore: number;
   isShaking: boolean = false;
-  shakingStartedAt: number;
+  shakingProgressPrecents: number;
   constructor(store: Store<Game>) {
     this.store = store;
     const { board } = this.store.getState();
@@ -87,23 +87,25 @@ export class Renderer3d {
   }
 
   start() {
-    var animate = () => {
+    var previousFrameTimestamp = 0;
+    var animate = (timeStamp: number) => {
       requestAnimationFrame(animate);
-      this._renderFrame();
+      this._renderFrame(timeStamp - previousFrameTimestamp);
+      previousFrameTimestamp = timeStamp;
     };
 
-    animate();
+    animate(previousFrameTimestamp);
 
     // press "s" to chake camera for testing purposes
     document.addEventListener("keydown", e => {
       if (e.key === "s") {
         this.isShaking = true;
-        this.shakingStartedAt = new Date().getTime();
+        this.shakingProgressPrecents = 0;
       }
     })
   }
 
-  private _renderFrame() {
+  private _renderFrame(frameTimeDeltaMs: number) {
     let { figuresSet, board, score } = this.store.getState();
     // remove all existing blocks
     this.scene.children
@@ -129,26 +131,29 @@ export class Renderer3d {
     if (score !== this.previousScore) {
       this.previousScore = score;
       this.isShaking = true;
-      this.shakingStartedAt = new Date().getTime();
+      this.shakingProgressPrecents = 0;
     }
 
     if (this.isShaking) {
-      this._shakeCamera();
+      this._shakeCamera(frameTimeDeltaMs);
     }
 
     this.renderer.render(this.scene, this.camera);
   }
 
-  private _shakeCamera() {
+  private _shakeCamera(frameTimeDeltaMs: number) {
     const stepMs = 50;
+    const fullDiration = 2 * stepMs;
     const angleMaxDeviationDeg = 10;
-    let shakingDuraionMs = new Date().getTime() - this.shakingStartedAt;
+    let shakingDuraionMs = this.shakingProgressPrecents / 100 * fullDiration + frameTimeDeltaMs;
     let cameraAngleDeg;
-    if (shakingDuraionMs < 2 * stepMs) {
+    if (shakingDuraionMs < fullDiration) {
       cameraAngleDeg = angleMaxDeviationDeg * Math.sin(shakingDuraionMs * Math.PI / stepMs);
+      this.shakingProgressPrecents = shakingDuraionMs / fullDiration * 100;
     } else {
       cameraAngleDeg = 0;
       this.isShaking = false;
+      this.shakingProgressPrecents = null;
     }
     let cameraAngleRad = Helpers.degToRad(cameraAngleDeg)
     this.camera.rotation.z = cameraAngleRad;
