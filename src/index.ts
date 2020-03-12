@@ -1,12 +1,9 @@
-import { Block, BlockIO } from "../typing/block";
-import { Figure, FigureForm } from "../typing/figure";
 import { Board } from "../typing/board";
 import { Game } from "../typing/game";
 import { UserAction, getUserActionByKey } from "./userAction";
 import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { getYcoordsOfFullRows, getNewShape } from "./logic";
-import { RendererDom } from "./rendererDom";
 import { Renderer3d } from "./renderer3d/renderer3d";
 import { createStore } from "redux";
 import { app } from "./store/app";

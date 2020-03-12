@@ -1,4 +1,4 @@
-import { Figure, FigureForm } from "../typing/figure";
+import { Figure } from "../typing/figure";
 import { Board } from "../typing/board";
 import { getRandomShapeDraft } from "./figure";
 

@@ -1,6 +1,4 @@
 import { Figure, FigureForm } from "../typing/figure";
-import { Board } from "../typing/board";
-import { Block } from "../typing/block";
 import { cloneDeep } from "lodash";
 
 const Shapes: { [key: string]: Figure } = {
