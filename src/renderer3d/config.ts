@@ -7,3 +7,9 @@ export const Block = {
 export const Box = {
   Color: 0xffffff
 };
+
+export const PointLightInitialValues = {
+  x: 300, 
+  y: 200, 
+  z: 100
+}

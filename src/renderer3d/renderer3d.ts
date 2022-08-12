@@ -4,6 +4,7 @@ import { Store } from "redux";
 import * as THREE from "three";
 import * as Helpers from "./helpers";
 import * as Config from "./config";
+import { DevPanel } from "./devPanel";
 
 const ScoreCanvas = {
   width: 128,
@@ -24,6 +25,10 @@ export class Renderer3d {
   previousScore: number;
   isShaking: boolean = false;
   shakingProgressPrecents: number;
+  light: THREE.PointLight;
+  isDevelopment = true;
+  devPanel: DevPanel;
+
   constructor(store: Store<Game>) {
     this.store = store;
     const { board } = this.store.getState();
@@ -51,14 +56,18 @@ export class Renderer3d {
     this.scene.add(...Helpers.getBox({ boardWidthPx, boardHeightPx }));
 
     //point light
-    var light = new THREE.PointLight(0xffffff, 1, 1000);
+    this.light = new THREE.PointLight(0xffffff, 1, 1000);
     // var sphere = new THREE.SphereBufferGeometry(5, 16, 8);
     // light.add(
     //   new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xffffff }))
     // );
-    light.position.set(300, 200, 100);
-    light.castShadow = true;
-    this.scene.add(light);
+    this.light.position.set(
+      Config.PointLightInitialValues.x,
+      Config.PointLightInitialValues.y,
+      Config.PointLightInitialValues.z,
+    );
+    this.light.castShadow = true;
+    this.scene.add(this.light);
 
     //ambient light
     var amlight = new THREE.AmbientLight(0x888888); // soft white light
@@ -84,6 +93,11 @@ export class Renderer3d {
     this.scoreMaterial = scoreMat;
 
     this.previousScore = this.store.getState().score;
+
+    // add development GUI
+    if(this.isDevelopment) {
+      this.devPanel = new DevPanel();
+    }
   }
 
   start() {
@@ -136,6 +150,14 @@ export class Renderer3d {
 
     if (this.isShaking) {
       this._shakeCamera(frameTimeDeltaMs);
+    }
+
+    if(this.isDevelopment) {
+      this.light.position.set(
+        this.devPanel.params.pointLightX, 
+        this.devPanel.params.pointLightY, 
+        this.devPanel.params.pointLightZ
+      )
     }
 
     this.renderer.render(this.scene, this.camera);
