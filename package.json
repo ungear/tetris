@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ungear/tetris#readme",
   "devDependencies": {
     "@types/jasmine": "^3.3.9",
+    "clean-webpack-plugin": "^4.0.0",
     "html-webpack-plugin": "^4.5.1",
     "io-ts": "^1.8.2",
     "jasmine": "^3.3.1",
