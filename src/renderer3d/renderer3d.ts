@@ -5,6 +5,7 @@ import * as THREE from "three";
 import * as Helpers from "./helpers";
 import * as Config from "./config";
 import { DevPanel } from "./devPanel";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const ScoreCanvas = {
   width: 128,
@@ -97,6 +98,7 @@ export class Renderer3d {
     // add development GUI
     if(this.isDevelopment) {
       this.devPanel = new DevPanel();
+      //const controls = new OrbitControls( this.camera, this.renderer.domElement );
     }
   }
 

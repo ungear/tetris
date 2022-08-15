@@ -9,23 +9,26 @@ const BOX_COLOR = 0x5e98f5;
 
 export function addAxes(scene: THREE.Scene, length = 30) {
   var materialX = new THREE.LineBasicMaterial({ color: AXIS_X_COLOR });
-  var geometryX = new THREE.Geometry();
-  geometryX.vertices.push(new THREE.Vector3(0, 0, 0));
-  geometryX.vertices.push(new THREE.Vector3(length, 0, 0));
+  var geometryX = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(length, 0, 0)
+  ]);
   var xAxis = new THREE.Line(geometryX, materialX);
   xAxis.name = "xAxis";
 
   var materialY = new THREE.LineBasicMaterial({ color: AXIS_Y_COLOR });
-  var geometryY = new THREE.Geometry();
-  geometryY.vertices.push(new THREE.Vector3(0, 0, 0));
-  geometryY.vertices.push(new THREE.Vector3(0, length, 0));
+  var geometryY = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, length, 0)
+  ]);
   var yAxis = new THREE.Line(geometryY, materialY);
   yAxis.name = "yAxis";
 
   var materialZ = new THREE.LineBasicMaterial({ color: AXIS_Z_COLOR });
-  var geometryZ = new THREE.Geometry();
-  geometryZ.vertices.push(new THREE.Vector3(0, 0, 0));
-  geometryZ.vertices.push(new THREE.Vector3(0, 0, length));
+  var geometryZ =  new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, length)
+  ]);
   var zAxis = new THREE.Line(geometryZ, materialZ);
   zAxis.name = "zAxis";
 

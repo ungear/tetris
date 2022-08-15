@@ -33,10 +33,10 @@
   "dependencies": {
     "@types/dat.gui": "^0.7.7",
     "@types/lodash": "^4.14.121",
-    "@types/three": "^0.93.22",
+    "@types/three": "^0.143.0",
     "dat.gui": "^0.7.9",
     "lodash": "^4.17.11",
     "redux": "^4.0.1",
-    "three": "^0.101.1"
+    "three": "^0.143.0"
   }
 }
