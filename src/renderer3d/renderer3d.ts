@@ -98,7 +98,8 @@ export class Renderer3d {
     // add development GUI
     if(this.isDevelopment) {
       this.devPanel = new DevPanel();
-      //const controls = new OrbitControls( this.camera, this.renderer.domElement );
+      const controls = new OrbitControls( this.camera, this.renderer.domElement );
+      controls.target = new THREE.Vector3(150, 0, 200)
     }
   }
 
