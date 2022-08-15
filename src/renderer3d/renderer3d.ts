@@ -47,8 +47,9 @@ export class Renderer3d {
       0.1,
       1000
     );
-    this.camera.position.set(150, 800, 200);
+    this.camera.position.set(100, 600, 100);
     this.camera.lookAt(150, 0, 200);
+    this.camera.rotation.z = 0;
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(Config.Background.Color);
 
