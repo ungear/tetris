@@ -50,7 +50,7 @@ export class Renderer3d {
     this.camera.position.set(150, 800, 200);
     this.camera.lookAt(150, 0, 200);
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x888888);
+    this.scene.background = new THREE.Color(Config.Background.Color);
 
     //Helpers.addAxes(this.scene);
     this.scene.add(...Helpers.getBox({ boardWidthPx, boardHeightPx }));
@@ -70,7 +70,7 @@ export class Renderer3d {
     this.scene.add(this.light);
 
     //ambient light
-    var amlight = new THREE.AmbientLight(0x888888); // soft white light
+    var amlight = new THREE.AmbientLight(Config.AmbientLight.Color);
     this.scene.add(amlight);
 
     // score exture

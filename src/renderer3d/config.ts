@@ -13,3 +13,11 @@ export const PointLightInitialValues = {
   y: 200, 
   z: 100
 }
+
+export const Background = {
+  Color: 0xdedede,
+}
+
+export const AmbientLight = {
+  Color: 0xcccccc
+}

@@ -5,7 +5,7 @@ import * as Config from "./config";
 const AXIS_X_COLOR = 0xff0000;
 const AXIS_Y_COLOR = 0x00ff00;
 const AXIS_Z_COLOR = 0x0000ff;
-const BOX_COLOR = 0x888888;
+const BOX_COLOR = 0x5e98f5;
 
 export function addAxes(scene: THREE.Scene, length = 30) {
   var materialX = new THREE.LineBasicMaterial({ color: AXIS_X_COLOR });
