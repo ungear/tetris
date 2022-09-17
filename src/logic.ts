@@ -9,7 +9,7 @@ function getRandomBlockColor(): number {
   let base = 0x88;
   let generatedColor =
     base * redPart * 0x10000 + base * greenPart * 0x100 + base * bluePart;
-  return generatedColor === 0 || generatedColor === 0x888888
+  return generatedColor === 0 || generatedColor === 0x888888 || generatedColor === 0x000088
     ? getRandomBlockColor()
     : generatedColor;
 }
