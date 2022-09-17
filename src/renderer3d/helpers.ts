@@ -7,8 +7,6 @@ const AXIS_Y_COLOR = 0x00ff00;
 const AXIS_Z_COLOR = 0x0000ff;
 const BOX_COLOR = 0x5e98f5;
 
-const BLOCK_EDGE_COLOR_MULTIPLIER = 0.95;
-
 export function addAxes(scene: THREE.Scene, length = 30) {
   var materialX = new THREE.LineBasicMaterial({ color: AXIS_X_COLOR });
   var geometryX = new THREE.BufferGeometry().setFromPoints([
@@ -97,7 +95,7 @@ export function addBlock({
 
   const edgesGeometry = new THREE.EdgesGeometry( blockGeometry );
   const edgeColor = new THREE.Color(block.color)
-    .multiplyScalar(BLOCK_EDGE_COLOR_MULTIPLIER);
+    .multiplyScalar(Config.Block.EdgeColorMultiplier);
   const edgesMaterial = new THREE.LineBasicMaterial( { color: edgeColor}); 
   const edges = new THREE.LineSegments( edgesGeometry, edgesMaterial);
   body.add(edges)
