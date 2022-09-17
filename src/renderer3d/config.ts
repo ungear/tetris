@@ -1,6 +1,7 @@
 export const Block = {
   Size: 30,
   EdgeColorMultiplier: 0.95,
+  Padding: 5,
 };
 
 export const Box = {

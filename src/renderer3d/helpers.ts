@@ -77,9 +77,9 @@ export function addBlock({
   block: Block;
 }) {
   var blockGeometry = new THREE.BoxGeometry(
-    Config.Block.Size - 2,
-    Config.Block.Size - 2,
-    Config.Block.Size - 2
+    Config.Block.Size - Config.Block.Padding,
+    Config.Block.Size - Config.Block.Padding,
+    Config.Block.Size - Config.Block.Padding
   );
   var blockMaterial = new THREE.MeshStandardMaterial({
     color: block.color
