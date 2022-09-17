@@ -10,7 +10,7 @@ export const Box = {
 
 export const PointLightInitialValues = {
   x: 300, 
-  y: 200, 
+  y: 500, 
   z: 100
 }
 
