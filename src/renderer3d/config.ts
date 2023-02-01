@@ -19,5 +19,5 @@ export const Background = {
 }
 
 export const AmbientLight = {
-  Color: 0xcccccc
+  Color: 0xffffff
 }
