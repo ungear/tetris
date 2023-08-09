@@ -26,7 +26,7 @@ export class Renderer3d {
   isShaking: boolean = false;
   shakingProgressPrecents: number;
   light: THREE.PointLight;
-  isDevelopment = true;
+  isDevelopment = false;
   devPanel: DevPanel;
 
   constructor(store: Store<Game>) {
