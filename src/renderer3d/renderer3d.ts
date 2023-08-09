@@ -36,7 +36,8 @@ export class Renderer3d {
     const boardHeightPx = Config.Block.Size * board.height;
 
     this.renderer = new THREE.WebGLRenderer({antialias: true});
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    this.renderer.setSize(window.innerWidth -1, window.innerHeight-1);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     document.body.appendChild(this.renderer.domElement);
