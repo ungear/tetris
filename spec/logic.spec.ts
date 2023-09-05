@@ -1,13 +1,7 @@
-import { Block, BlockIO } from "../typing/block";
-import { Figure, FigureForm } from "../typing/figure";
-import { Board } from "../typing/board";
+import { FigureForm } from "../typing/figure";
 import { Game } from "../typing/game";
-
-import { getNewShape, getYcoordsOfFullRows } from "../src/logic";
-
 import { isFigureLandedOnBottom } from "../src/store/helpers";
 
-import { from } from "rxjs";
 describe("isFigureLandedOnBottom", () => {
   it("should return false for shape not in the bottom", () => {
     let game: Partial<Game> = {

@@ -1,5 +1,4 @@
-import * as t from "io-ts";
-import { BlockIO } from "./block";
+import { Block } from "./block";
 
 export enum FigureForm {
   Square = "Square",
@@ -11,23 +10,11 @@ export enum FigureForm {
   Cross = "Cross"
 }
 
-const FigureFormV = t.keyof({
-  [FigureForm.Square]: null,
-  [FigureForm.Cripple]: null,
-  [FigureForm.CrippleRev]: null,
-  [FigureForm.Pipe]: null,
-  [FigureForm.PipeRev]: null,
-  [FigureForm.Sausage]: null,
-  [FigureForm.Cross]: null
-});
-
-export const FigureIO = t.type({
-  centralBlockIndex: t.number,
-  blocks: t.array(BlockIO),
-  form: FigureFormV
-});
-
-export type Figure = t.TypeOf<typeof FigureIO>;
+export interface  Figure {
+  centralBlockIndex: number,
+  blocks: Block[],
+  form: FigureForm
+}
 
 export type FiguresSet = {
   current: Figure;
