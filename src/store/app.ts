@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import { SCORE_ADD, ScoreAddAction, GAME_OVER, GameOverAction } from "./types";
 import { figuresSetReducer } from "./figuresSet/figuresSet.reducers";
-import { Board } from "../../typing/Board";
 import { Game } from "../../typing/game";
 import { boardReducer } from "./board/boardReducers";
 
