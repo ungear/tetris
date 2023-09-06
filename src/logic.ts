@@ -14,8 +14,12 @@ function getRandomBlockColor(): number {
     : generatedColor;
 }
 
-export function getNewShape(boardWidth: number): Figure {
+export function getNewShape(boardWidth: number, blockIdSeed: number): Figure {
   let shapeDraft = getRandomShapeDraft();
+  shapeDraft.blocks.forEach(b => {
+    blockIdSeed++;
+    b.id = blockIdSeed;
+  })
   shapeDraft.blocks.forEach(b => {
     // move to center
     b.x = b.x + Math.floor(boardWidth / 2) - 1;

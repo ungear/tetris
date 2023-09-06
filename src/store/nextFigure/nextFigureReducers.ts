@@ -12,7 +12,8 @@ export function nextFigureReducer(
 ): Figure {
   switch (action.type) {
     case FIGURE_GENERATE_NEXT:
-      return getNewShape(state.board.width);
+      const maxExistingBlockId = Math.max(...state.nextFigure.blocks.map(b => b.id));
+      return getNewShape(state.board.width, maxExistingBlockId);
     default:
       return state.nextFigure;
   }

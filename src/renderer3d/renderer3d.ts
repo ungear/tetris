@@ -1,10 +1,10 @@
 import { Game } from "../../typing/game";
-import { Block } from "../../typing/block";
 import { Store } from "redux";
 import * as THREE from "three";
 import * as Helpers from "./helpers";
 import * as Config from "./config";
 import { DevPanel } from "./devPanel";
+import { calculateBlockCoords } from "./helpers";
 
 const ScoreCanvas = {
   width: 128,
@@ -123,22 +123,67 @@ export class Renderer3d {
 
   private _renderFrame(frameTimeDeltaMs: number) {
     let { currentFigure, nextFigure, board, score } = this.store.getState();
-    // remove all existing blocks
-    this.scene.children
-      .filter(x => x.name === "blockBody")
-      .forEach(x => {
-        this.scene.remove(x);
-        (x as THREE.Mesh).geometry.dispose();
-      });
 
-    // redraw figure and fragments
-    currentFigure.blocks.concat(board.fragments).forEach(b => {
+    const blockMeshes = this.scene.children
+      .filter(x => x instanceof THREE.Mesh &&  x.name === "blockBody");
+
+    const stateBlocks = [
+      ...currentFigure.blocks,
+      ...board.fragments,
+    ];
+
+    // render newly added blobks
+    const blocksToRender = stateBlocks.filter(x => {
+      const isAlreadyRendered = blockMeshes.some(m => m.userData.blockId === x.id);
+      return !isAlreadyRendered;
+    });
+    blocksToRender.forEach(b => {
       Helpers.addBlock({ scene: this.scene, block: b });
     });
-    nextFigure.blocks.forEach(b => {
-      let blockClone = { ...b, x: b.x - board.width / 2 - 3 };
-      Helpers.addBlock({ scene: this.scene, block: blockClone });
-    });
+
+    // move existing blocks that should be moved AND remove deleted blocks 
+    for(const mesh of blockMeshes) {
+      // find related block in game state
+      const stateBlock = stateBlocks.find(x => x.id === mesh.userData.blockId);
+      if(stateBlock){
+        const shouldHaveCoords = calculateBlockCoords(stateBlock);
+        const isCoordsMatch  = shouldHaveCoords.x === mesh.position.x 
+          && shouldHaveCoords.y === mesh.position.y 
+          && shouldHaveCoords.z === mesh.position.z;
+
+        // apply new coords if needed
+        if(!isCoordsMatch) {
+            mesh.position.x = shouldHaveCoords.x;
+            mesh.position.y = shouldHaveCoords.y;
+            mesh.position.z = shouldHaveCoords.z;
+          }
+      } else {
+        // remove
+        this.scene.remove(mesh);
+        (mesh as THREE.Mesh).geometry.dispose();
+        // TODO improhe typing
+        (mesh as any)?.material?.dispose();
+      }
+    }
+
+
+    // // remove all existing blocks
+    // this.scene.children
+    //   .filter(x => x.name === "blockBody")
+    //   .forEach(x => {
+    //     this.scene.remove(x);
+    //     (x as THREE.Mesh).geometry.dispose();
+    //   });
+
+    // // redraw figure and fragments
+    // currentFigure.blocks.concat(board.fragments).forEach(b => {
+    //   Helpers.addBlock({ scene: this.scene, block: b });
+    // });
+
+    // nextFigure.blocks.forEach(b => {
+    //   let blockClone = { ...b, x: b.x - board.width / 2 - 3 };
+    //   Helpers.addBlock({ scene: this.scene, block: blockClone });
+    // });
 
     this._updateScoreTexture();
     this.scoreMaterial.map.needsUpdate = true;

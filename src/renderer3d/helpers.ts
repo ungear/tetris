@@ -69,6 +69,14 @@ export function getBox({
   return sides;
 }
 
+export function calculateBlockCoords(block: Block){
+  return {
+    x : block.x * Config.Block.Size + Config.Block.Size / 2,
+    y : Config.Block.Size / 2,
+    z : block.y * Config.Block.Size + Config.Block.Size / 2,
+  }
+}
+
 export function addBlock({
   scene,
   block
@@ -86,10 +94,14 @@ export function addBlock({
   });
 
   var body = new THREE.Mesh(blockGeometry, blockMaterial);
-  body.position.x = block.x * Config.Block.Size + Config.Block.Size / 2;
-  body.position.y = Config.Block.Size / 2;
-  body.position.z = block.y * Config.Block.Size + Config.Block.Size / 2;
+  const coords = calculateBlockCoords(block);
+  body.position.x = coords.x;
+  body.position.y = coords.y;
+  body.position.z = coords.z;
   body.name = "blockBody";
+  body.userData = { 
+    blockId: block.id
+  };
   body.castShadow = true;
   body.receiveShadow = true;
 

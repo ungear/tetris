@@ -24,8 +24,8 @@ var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 const initialState: Game = {
   score: 0,
-  currentFigure: getNewShape(board.width),
-  nextFigure: getNewShape(board.width),
+  currentFigure: getNewShape(board.width, 0),
+  nextFigure: getNewShape(board.width, 5),
   board,
   isOver: false
 };
