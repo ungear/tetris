@@ -8,6 +8,7 @@ export const FIGURE_MOVE_LEFT = "FIGURE_MOVE_LEF";
 export const FIGURE_MOVE_RIGHT = "FIGURE_MOVE_RIGHT";
 export const FIGURE_ROTATE = "FIGURE_ROTATE";
 export const FIGURE_LAUNCH_NEW = "FIGURE_LAUNCH_NEW";
+export const FIGURE_GENERATE_NEXT = "FIGURE_GENERATE_NEXT";
 export const BOARD_ADD_FRAGMENTS = "BOARD_ADD_FRAGMENTS";
 export const BOARD_HANDLE_FULL_ROWS = "BOARD_HANDLE_FULL_ROWS";
 export const GAME_OVER = "GAME_OVER";
@@ -35,6 +36,10 @@ export interface FigureRotateAction {
 
 export interface FigureLaunchNewAction {
   type: typeof FIGURE_LAUNCH_NEW;
+}
+
+export interface FigureGenerateNextAction {
+  type: typeof FIGURE_GENERATE_NEXT;
 }
 
 export interface BoardAddFragmentsAction {

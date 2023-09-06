@@ -15,8 +15,3 @@ export interface  Figure {
   blocks: Block[],
   form: FigureForm
 }
-
-export type FiguresSet = {
-  current: Figure;
-  next: Figure;
-};

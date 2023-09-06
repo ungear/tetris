@@ -67,7 +67,7 @@ function getCanvasBlockByEl(el: HTMLElement, state: Game): Block {
   let boardBlock = state.board.fragments.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
-  let shapeBlock = state.figuresSet.current.blocks.find(
+  let shapeBlock = state.currentFigure.blocks.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
   return boardBlock || shapeBlock;

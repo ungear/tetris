@@ -8,7 +8,8 @@ import { Renderer3d } from "./renderer3d/renderer3d";
 import { createStore } from "redux";
 import { app } from "./store/app";
 import * as actions from "./store/actions";
-import * as figureActions from "./store/figuresSet/figuresSet.actions";
+import * as currentFigureActions from "./store/currentFigure/currentFigureActions";
+import * as nextFigureActions from "./store/nextFigure/nextFigureActions";
 import * as boardActions from "./store/board/boardActions";
 import {
   isFigureLandedOnBottom,
@@ -23,20 +24,17 @@ var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 const initialState: Game = {
   score: 0,
-  figuresSet: {
-    current: getNewShape(board.width),
-    next: getNewShape(board.width)
-  },
+  currentFigure: getNewShape(board.width),
+  nextFigure: getNewShape(board.width),
   board,
   isOver: false
 };
 const store = createStore(app, initialState);
-store.dispatch(figureActions.figureLaunchNew());
+//store.dispatch(figureActions.figureLaunchNew());
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(_ => {
-  let { figuresSet, board } = store.getState();
-  let currentFigure = figuresSet.current;
+  let { currentFigure, board } = store.getState();
   if (
     isFigureLandedOnFragment(currentFigure, board) ||
     isFigureLandedOnBottom(currentFigure, board)
@@ -58,10 +56,11 @@ const fallingSubscription = falling$.subscribe(_ => {
       store.dispatch(actions.gameOver());
       fallingSubscription.unsubscribe();
     } else {
-      store.dispatch(figureActions.figureLaunchNew());
+      store.dispatch(currentFigureActions.figureLaunchNew());
+      store.dispatch(nextFigureActions.figureGenerateNext());
     }
   } else {
-    store.dispatch(figureActions.figureMoveDown());
+    store.dispatch(currentFigureActions.figureMoveDown());
   }
 });
 
@@ -74,16 +73,16 @@ keyboard$
   .subscribe((ua: UserAction) => {
     switch (ua) {
       case UserAction.Left:
-        store.dispatch(figureActions.figureMoveLeft());
+        store.dispatch(currentFigureActions.figureMoveLeft());
         break;
       case UserAction.Right:
-        store.dispatch(figureActions.figureMoveRight());
+        store.dispatch(currentFigureActions.figureMoveRight());
         break;
       case UserAction.Down:
-        store.dispatch(figureActions.figureMoveDown());
+        store.dispatch(currentFigureActions.figureMoveDown());
         break;
       case UserAction.Rotate:
-        store.dispatch(figureActions.figureRotate());
+        store.dispatch(currentFigureActions.figureRotate());
         break;
     }
   });

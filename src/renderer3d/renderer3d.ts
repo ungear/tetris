@@ -122,7 +122,7 @@ export class Renderer3d {
   }
 
   private _renderFrame(frameTimeDeltaMs: number) {
-    let { figuresSet, board, score } = this.store.getState();
+    let { currentFigure, nextFigure, board, score } = this.store.getState();
     // remove all existing blocks
     this.scene.children
       .filter(x => x.name === "blockBody")
@@ -132,10 +132,10 @@ export class Renderer3d {
       });
 
     // redraw figure and fragments
-    figuresSet.current.blocks.concat(board.fragments).forEach(b => {
+    currentFigure.blocks.concat(board.fragments).forEach(b => {
       Helpers.addBlock({ scene: this.scene, block: b });
     });
-    figuresSet.next.blocks.forEach(b => {
+    nextFigure.blocks.forEach(b => {
       let blockClone = { ...b, x: b.x - board.width / 2 - 3 };
       Helpers.addBlock({ scene: this.scene, block: blockClone });
     });

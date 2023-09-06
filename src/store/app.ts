@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
 import { SCORE_ADD, ScoreAddAction, GAME_OVER, GameOverAction } from "./types";
-import { figuresSetReducer } from "./figuresSet/figuresSet.reducers";
 import { Game } from "../../typing/game";
 import { boardReducer } from "./board/boardReducers";
+import { currentFigureReducer } from "./currentFigure/currentFigureReducers";
+import { nextFigureReducer } from "./nextFigure/nextFigureReducers";
 
 function scoreReducer(state = 0, action: ScoreAddAction): number {
   switch (action.type) {
@@ -25,7 +26,8 @@ function gameOverReducer(state = false, action: any): boolean {
 export function app(state: Game = {} as Game, action: any) {
   return {
     score: scoreReducer(state.score, action),
-    figuresSet: figuresSetReducer(state, action),
+    currentFigure: currentFigureReducer(state, action),
+    nextFigure: nextFigureReducer(state, action),
     board: boardReducer(state, action),
     isOver: gameOverReducer(state.isOver, action)
   };
