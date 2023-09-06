@@ -9,11 +9,11 @@ import { Figure } from "../../../typing/figure";
 import { Board } from "../../../typing/board";
 import { Game } from "../../../typing/game";
 import {
+  NEXT_FIGURE_OFFSET,
   getBoardFragmentByCoords,
   isFigureLandedOnBottom,
   isFigureLandedOnFragment
 } from "../helpers";
-import { getNewShape } from "../../logic";
 import { rotateFigure } from "../../figure";
 import { cloneDeep } from "lodash";
 
@@ -32,6 +32,9 @@ export function currentFigureReducer(
     case FIGURE_ROTATE:
       return rotate(figure, state.board);
     case FIGURE_LAUNCH_NEW:
+      state.nextFigure.blocks.forEach(b => {
+        b.x = b.x + state.board.width / 2 + NEXT_FIGURE_OFFSET;
+      });
       return state.nextFigure;
     default:
       return state.currentFigure;

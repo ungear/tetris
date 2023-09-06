@@ -24,13 +24,15 @@ var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 const initialState: Game = {
   score: 0,
-  currentFigure: getNewShape(board.width, 0),
-  nextFigure: getNewShape(board.width, 5),
+  currentFigure: null,
+  nextFigure: null,
   board,
   isOver: false
 };
 const store = createStore(app, initialState);
-//store.dispatch(figureActions.figureLaunchNew());
+store.dispatch(nextFigureActions.figureGenerateNext());
+store.dispatch(currentFigureActions.figureLaunchNew());
+store.dispatch(nextFigureActions.figureGenerateNext());
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(_ => {

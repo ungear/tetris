@@ -129,6 +129,7 @@ export class Renderer3d {
 
     const stateBlocks = [
       ...currentFigure.blocks,
+      ...nextFigure.blocks,
       ...board.fragments,
     ];
 
@@ -165,25 +166,6 @@ export class Renderer3d {
         (mesh as any)?.material?.dispose();
       }
     }
-
-
-    // // remove all existing blocks
-    // this.scene.children
-    //   .filter(x => x.name === "blockBody")
-    //   .forEach(x => {
-    //     this.scene.remove(x);
-    //     (x as THREE.Mesh).geometry.dispose();
-    //   });
-
-    // // redraw figure and fragments
-    // currentFigure.blocks.concat(board.fragments).forEach(b => {
-    //   Helpers.addBlock({ scene: this.scene, block: b });
-    // });
-
-    // nextFigure.blocks.forEach(b => {
-    //   let blockClone = { ...b, x: b.x - board.width / 2 - 3 };
-    //   Helpers.addBlock({ scene: this.scene, block: blockClone });
-    // });
 
     this._updateScoreTexture();
     this.scoreMaterial.map.needsUpdate = true;

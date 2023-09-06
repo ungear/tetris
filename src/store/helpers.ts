@@ -2,6 +2,8 @@ import { Board } from "../../typing/board";
 import { Block } from "../../typing/block";
 import { Figure } from "../../typing/figure";
 
+export const NEXT_FIGURE_OFFSET = 3;
+
 export function getBoardFragmentByCoords({
   board,
   x,
