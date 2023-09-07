@@ -44,12 +44,33 @@ export function getBox({
   boardWidthPx: number;
   boardHeightPx: number;
 }): THREE.Mesh[] {
+  // create a texture loader.
+  // const textureLoader = new THREE.TextureLoader();
+
+  // // load a texture
+  // const texture = textureLoader.load(
+  //   '/uv-test-bw.png',
+  // );
+  // texture.wrapS = THREE.RepeatWrapping;
+  // texture.wrapT = THREE.RepeatWrapping;
+  // //texture.repeat.set( 4, 4 );
+
   const boxMaterial = new THREE.MeshPhongMaterial({
     color: BOX_COLOR
+    //map: texture
   });
 
   const backG = new THREE.BoxGeometry(boardWidthPx, 1, boardHeightPx);
-  const back = new THREE.Mesh(backG, boxMaterial);
+  //const backTexture = new THREE.TextureLoader().load('/uv-test-bw.png');
+  const backTexture = new THREE.TextureLoader().load('/lava.jpg');
+  backTexture.wrapS = THREE.RepeatWrapping;
+  backTexture.wrapT = THREE.RepeatWrapping;
+  // backTexture.repeat.set( boardWidthPx/10, boardHeightPx/10 );
+  const backMaterial = new THREE.MeshStandardMaterial({
+    map: backTexture
+    //color: BOX_COLOR
+  });
+  const back = new THREE.Mesh(backG, backMaterial);
   back.position.set(boardWidthPx / 2, 0, boardHeightPx / 2);
 
   const leftG = new THREE.BoxGeometry(1, Config.Block.Size, boardHeightPx);
