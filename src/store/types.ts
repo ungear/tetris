@@ -1,5 +1,3 @@
-import { Figure } from "../../typing/figure";
-import { Board } from "../../typing/board";
 import { Block } from "../../typing/block";
 
 export const SCORE_ADD = "SCORE_ADD";

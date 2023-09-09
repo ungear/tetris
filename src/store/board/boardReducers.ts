@@ -8,24 +8,20 @@ import { Board } from "../../../typing/board";
 import { Game } from "../../../typing/game";
 import { destroyRow } from "../helpers";
 import { cloneDeep } from "lodash";
+import { Action } from "redux";
 
-export function boardReducer(state: Game = {} as Game, action: any): Board {
+export function boardReducer(state: Game = {} as Game, action: Action): Board {
   switch (action.type) {
     case BOARD_ADD_FRAGMENTS:
-      return addFragments(state.board, action);
+      return addFragments(state.board, action as BoardAddFragmentsAction);
     case BOARD_HANDLE_FULL_ROWS:
-      return handleFullRows(state.board, action);
+      return handleFullRows(state.board, action as BoardHandleFullRowsAction);
     default:
       return state.board;
   }
 }
 
 function addFragments(state: Board, action: BoardAddFragmentsAction): Board {
-  let f = {
-    ...state,
-    fragments: state.fragments.slice().concat(action.fragments)
-  };
-
   return {
     ...state,
     fragments: state.fragments.slice().concat(action.fragments)

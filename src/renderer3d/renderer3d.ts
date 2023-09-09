@@ -72,11 +72,11 @@ export class Renderer3d {
     this.scene.add(this.light);
 
     //ambient light
-    var amlight = new THREE.AmbientLight(Config.AmbientLight.Color);
+    const amlight = new THREE.AmbientLight(Config.AmbientLight.Color);
     this.scene.add(amlight);
 
     // score exture
-    var scoreCanvas = document.getElementById(
+    const scoreCanvas = document.getElementById(
       "score-canvas"
     ) as HTMLCanvasElement;
     scoreCanvas.width = ScoreCanvas.width;
@@ -86,9 +86,9 @@ export class Renderer3d {
     this._updateScoreTexture();
 
     // score block
-    var scoreMat = new THREE.MeshBasicMaterial({ transparent: true });
-    var scoreG = new THREE.BoxGeometry(128, 1, 64);
-    var scoreMesh = new THREE.Mesh(scoreG, scoreMat);
+    const scoreMat = new THREE.MeshBasicMaterial({ transparent: true });
+    const scoreG = new THREE.BoxGeometry(128, 1, 64);
+    const scoreMesh = new THREE.Mesh(scoreG, scoreMat);
     scoreMesh.position.set(-70, 0, 200);
     this.scene.add(scoreMesh);
     scoreMat.map = new THREE.CanvasTexture(scoreCanvas);
@@ -103,8 +103,8 @@ export class Renderer3d {
   }
 
   start() {
-    var previousFrameTimestamp = 0;
-    var animate = (timeStamp: number) => {
+    let previousFrameTimestamp = 0;
+    const animate = (timeStamp: number) => {
       requestAnimationFrame(animate);
       this._renderFrame(timeStamp - previousFrameTimestamp);
       previousFrameTimestamp = timeStamp;
@@ -162,8 +162,8 @@ export class Renderer3d {
         // remove
         this.scene.remove(mesh);
         (mesh as THREE.Mesh).geometry.dispose();
-        // TODO improhe typing
-        (mesh as any)?.material?.dispose();
+        // TODO improve typing
+        ((mesh as THREE.Mesh)?.material as THREE.Material)?.dispose();
       }
     }
 

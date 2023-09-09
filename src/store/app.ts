@@ -1,20 +1,20 @@
-import { combineReducers } from "redux";
-import { SCORE_ADD, ScoreAddAction, GAME_OVER, GameOverAction } from "./types";
+import { SCORE_ADD, ScoreAddAction, GAME_OVER } from "./types";
 import { Game } from "../../typing/game";
 import { boardReducer } from "./board/boardReducers";
 import { currentFigureReducer } from "./currentFigure/currentFigureReducers";
 import { nextFigureReducer } from "./nextFigure/nextFigureReducers";
+import { Action } from "redux";
 
-function scoreReducer(state = 0, action: ScoreAddAction): number {
+function scoreReducer(state = 0, action: Action): number {
   switch (action.type) {
     case SCORE_ADD:
-      return state + action.scoreGained;
+      return state + (action as ScoreAddAction).scoreGained;
     default:
       return state;
   }
 }
 
-function gameOverReducer(state = false, action: any): boolean {
+function gameOverReducer(state = false, action: Action): boolean {
   switch (action.type) {
     case GAME_OVER:
       return true;
@@ -23,7 +23,7 @@ function gameOverReducer(state = false, action: any): boolean {
   }
 }
 
-export function app(state: Game = {} as Game, action: any) {
+export function app(state: Game = {} as Game, action: Action) {
   return {
     score: scoreReducer(state.score, action),
     currentFigure: currentFigureReducer(state, action),

@@ -5,14 +5,14 @@ import { Figure } from "../../../typing/figure";
 import { Game } from "../../../typing/game";
 import { getNewShape } from "../../logic";
 import { NEXT_FIGURE_OFFSET } from "../helpers";
-
+import { Action } from "redux";
 
 export function nextFigureReducer(
   state: Game = {} as Game,
-  action: any
+  action: Action
 ): Figure {
   switch (action.type) {
-    case FIGURE_GENERATE_NEXT:
+    case FIGURE_GENERATE_NEXT:{
       const maxExistingBlockId = state.nextFigure && state.nextFigure.blocks 
         ? Math.max(...state.nextFigure.blocks.map(b => b.id))
         : 0;
@@ -21,6 +21,7 @@ export function nextFigureReducer(
         b.x = b.x - state.board.width / 2 - NEXT_FIGURE_OFFSET;
       });
       return newShape;
+    }
     default:
       return state.nextFigure;
   }

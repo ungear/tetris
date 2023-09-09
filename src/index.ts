@@ -3,7 +3,7 @@ import { Game } from "../typing/game";
 import { UserAction, getUserActionByKey } from "./userAction";
 import { interval, fromEvent } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { getYcoordsOfFullRows, getNewShape } from "./logic";
+import { getYcoordsOfFullRows } from "./logic";
 import { Renderer3d } from "./renderer3d/renderer3d";
 import { createStore } from "redux";
 import { app } from "./store/app";
@@ -35,7 +35,7 @@ store.dispatch(currentFigureActions.figureLaunchNew());
 store.dispatch(nextFigureActions.figureGenerateNext());
 
 const falling$ = interval(FALLING_INTERVAL_MS);
-const fallingSubscription = falling$.subscribe(_ => {
+const fallingSubscription = falling$.subscribe(() => {
   const { currentFigure, board } = store.getState();
   if (
     isFigureLandedOnFragment(currentFigure, board) ||

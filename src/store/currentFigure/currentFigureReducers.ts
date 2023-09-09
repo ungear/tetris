@@ -16,10 +16,11 @@ import {
 } from "../helpers";
 import { rotateFigure } from "../../figure";
 import { cloneDeep } from "lodash";
+import { Action } from "redux";
 
 export function currentFigureReducer(
   state: Game = {} as Game,
-  action: any
+  action: Action
 ): Figure {
   const figure = cloneDeep(state.currentFigure);
   switch (action.type) {
