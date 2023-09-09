@@ -75,9 +75,9 @@ const Shapes: { [key: string]: Figure } = {
 };
 
 export function getRandomShapeDraft(): Figure {
-  let shapesNunber = Object.keys(Shapes).length;
-  let rakdomShapeIndex = Math.floor(Math.random() * shapesNunber);
-  let randomShapeKey = Object.keys(Shapes)[rakdomShapeIndex];
+  const shapesNunber = Object.keys(Shapes).length;
+  const rakdomShapeIndex = Math.floor(Math.random() * shapesNunber);
+  const randomShapeKey = Object.keys(Shapes)[rakdomShapeIndex];
   return cloneDeep(Shapes[randomShapeKey]);
 }
 
@@ -87,16 +87,16 @@ export function rotateFigure(figure: Figure): Figure {
   // y' = x sin θ + y cos θ
 
   if (figure.form === FigureForm.Square) return figure;
-  let centerBlock = figure.blocks[figure.centralBlockIndex]; //getFigureCentralBlock(figure);
-  let angleRad = (90 * Math.PI) / 180;
+  const centerBlock = figure.blocks[figure.centralBlockIndex]; //getFigureCentralBlock(figure);
+  const angleRad = (90 * Math.PI) / 180;
   figure.blocks
     .filter(b => b != centerBlock)
     .forEach(b => {
-      let vectorX = b.x - centerBlock.x;
-      let vectorY = b.y - centerBlock.y;
-      let vectorNewX =
+      const vectorX = b.x - centerBlock.x;
+      const vectorY = b.y - centerBlock.y;
+      const vectorNewX =
         vectorX * Math.cos(angleRad) - vectorY * Math.sin(angleRad);
-      let vectorNewY =
+      const vectorNewY =
         vectorX * Math.sin(angleRad) + vectorY * Math.cos(angleRad);
       b.x = Math.round(vectorNewX) + centerBlock.x;
       b.y = Math.round(vectorNewY) + centerBlock.y;

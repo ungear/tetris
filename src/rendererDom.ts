@@ -22,7 +22,7 @@ export class RendererDom {
     this.gameOver.innerText = "Game Over";
     this.target.appendChild(this.gameOver);
 
-    let { board } = this.store.getState();
+    const { board } = this.store.getState();
     for (let rowIndex = 0; rowIndex < board.height; rowIndex++) {
       for (let colIndex = 0; colIndex < board.width; colIndex++) {
         var cellEl = document.createElement("div");
@@ -64,10 +64,10 @@ export class RendererDom {
 }
 
 function getCanvasBlockByEl(el: HTMLElement, state: Game): Block {
-  let boardBlock = state.board.fragments.find(
+  const boardBlock = state.board.fragments.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
-  let shapeBlock = state.currentFigure.blocks.find(
+  const shapeBlock = state.currentFigure.blocks.find(
     b => b.x.toString() === el.dataset.x && b.y.toString() === el.dataset.y
   );
   return boardBlock || shapeBlock;

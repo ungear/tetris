@@ -36,7 +36,7 @@ function handleFullRows(
   state: Board,
   action: BoardHandleFullRowsAction
 ): Board {
-  let board = cloneDeep(state);
+  const board = cloneDeep(state);
 
   // delete blocks in specified rows
   action.rowsYcoords.forEach(y => destroyRow(board, y));

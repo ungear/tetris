@@ -20,7 +20,7 @@ const FALLING_INTERVAL_MS = 500;
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 15;
 
-var board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
+const board: Board = { width: BOARD_WIDTH, height: BOARD_HEIGHT, fragments: [] };
 
 const initialState: Game = {
   score: 0,
@@ -36,7 +36,7 @@ store.dispatch(nextFigureActions.figureGenerateNext());
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(_ => {
-  let { currentFigure, board } = store.getState();
+  const { currentFigure, board } = store.getState();
   if (
     isFigureLandedOnFragment(currentFigure, board) ||
     isFigureLandedOnBottom(currentFigure, board)
@@ -45,7 +45,7 @@ const fallingSubscription = falling$.subscribe(_ => {
     store.dispatch(boardActions.boardAddFragments(currentFigure.blocks));
 
     //calculate row to destroy
-    let fullRowsCoords = getYcoordsOfFullRows(store.getState().board);
+    const fullRowsCoords = getYcoordsOfFullRows(store.getState().board);
     if (fullRowsCoords.length) {
       store.dispatch(boardActions.boardHandleFullRows(fullRowsCoords));
 
@@ -53,7 +53,7 @@ const fallingSubscription = falling$.subscribe(_ => {
     }
 
     //check defeat
-    let gameIsOver = store.getState().board.fragments.some(b => b.y <= 0);
+    const gameIsOver = store.getState().board.fragments.some(b => b.y <= 0);
     if (gameIsOver) {
       store.dispatch(actions.gameOver());
       fallingSubscription.unsubscribe();
@@ -89,7 +89,7 @@ keyboard$
     }
   });
 
-var renderer = new Renderer3d(store);
+const renderer = new Renderer3d(store);
 renderer.start();
 // var renderer = new RendererDom();
 // renderer.initialize(store);

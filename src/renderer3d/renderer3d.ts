@@ -122,7 +122,7 @@ export class Renderer3d {
   }
 
   private _renderFrame(frameTimeDeltaMs: number) {
-    let { currentFigure, nextFigure, board, score } = this.store.getState();
+    const { currentFigure, nextFigure, board, score } = this.store.getState();
 
     const blockMeshes = this.scene.children
       .filter(x => x instanceof THREE.Mesh &&  x.name === "blockBody");
@@ -196,7 +196,7 @@ export class Renderer3d {
     const stepMs = 50;
     const fullDiration = 2 * stepMs;
     const angleMaxDeviationDeg = 10;
-    let shakingDuraionMs = this.shakingProgressPrecents / 100 * fullDiration + frameTimeDeltaMs;
+    const shakingDuraionMs = this.shakingProgressPrecents / 100 * fullDiration + frameTimeDeltaMs;
     let cameraAngleDeg;
     if (shakingDuraionMs < fullDiration) {
       cameraAngleDeg = angleMaxDeviationDeg * Math.sin(shakingDuraionMs * Math.PI / stepMs);
@@ -206,12 +206,12 @@ export class Renderer3d {
       this.isShaking = false;
       this.shakingProgressPrecents = null;
     }
-    let cameraAngleRad = Helpers.degToRad(cameraAngleDeg)
+    const cameraAngleRad = Helpers.degToRad(cameraAngleDeg)
     this.camera.rotation.z = cameraAngleRad;
   }
 
   private _updateScoreTexture() {
-    let { score } = this.store.getState();
+    const { score } = this.store.getState();
     this.scoreCanvasContext.clearRect(
       0,
       0,

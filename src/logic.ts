@@ -3,11 +3,11 @@ import { Board } from "../typing/board";
 import { getRandomShapeDraft } from "./figure";
 
 function getRandomBlockColor(): number {
-  let redPart = Math.random() > 0.5 ? 1 : 0;
-  let greenPart = Math.random() > 0.5 ? 1 : 0;
-  let bluePart = Math.random() > 0.5 ? 1 : 0;
-  let base = 0x88;
-  let generatedColor =
+  const redPart = Math.random() > 0.5 ? 1 : 0;
+  const greenPart = Math.random() > 0.5 ? 1 : 0;
+  const bluePart = Math.random() > 0.5 ? 1 : 0;
+  const base = 0x88;
+  const generatedColor =
     base * redPart * 0x10000 + base * greenPart * 0x100 + base * bluePart;
   return generatedColor === 0 || generatedColor === 0x888888 || generatedColor === 0x000088
     ? getRandomBlockColor()
@@ -15,7 +15,7 @@ function getRandomBlockColor(): number {
 }
 
 export function getNewShape(boardWidth: number, blockIdSeed: number): Figure {
-  let shapeDraft = getRandomShapeDraft();
+  const shapeDraft = getRandomShapeDraft();
   shapeDraft.blocks.forEach(b => {
     blockIdSeed++;
     b.id = blockIdSeed;

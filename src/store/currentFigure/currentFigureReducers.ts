@@ -21,7 +21,7 @@ export function currentFigureReducer(
   state: Game = {} as Game,
   action: any
 ): Figure {
-  let figure = cloneDeep(state.currentFigure);
+  const figure = cloneDeep(state.currentFigure);
   switch (action.type) {
     case FIGURE_MOVE_DOWN:
       return moveDown(figure, state.board);
@@ -42,12 +42,12 @@ export function currentFigureReducer(
 }
 
 function moveLeft(figure: Figure, board: Board): Figure {
-  let isShapeNearLeftBorder = figure.blocks.filter(b => b.x === 0).length > 0;
-  let willShapeIntersectFragments =
+  const isShapeNearLeftBorder = figure.blocks.filter(b => b.x === 0).length > 0;
+  const willShapeIntersectFragments =
     figure.blocks.filter(
       b => !!getBoardFragmentByCoords({ board, x: b.x - 1, y: b.y })
     ).length > 0;
-  let canBeMoved = !isShapeNearLeftBorder && !willShapeIntersectFragments;
+  const canBeMoved = !isShapeNearLeftBorder && !willShapeIntersectFragments;
   if (canBeMoved) {
     return {
       ...figure,
@@ -57,13 +57,13 @@ function moveLeft(figure: Figure, board: Board): Figure {
 }
 
 function moveRight(figure: Figure, board: Board): Figure {
-  let isShapeNearRightBorder =
+  const isShapeNearRightBorder =
     figure.blocks.filter(b => b.x === board.width - 1).length > 0;
-  let willShapeIntersectFragments =
+    const willShapeIntersectFragments =
     figure.blocks.filter(
       b => !!getBoardFragmentByCoords({ board, x: b.x + 1, y: b.y })
     ).length > 0;
-  let canBeMoved = !isShapeNearRightBorder && !willShapeIntersectFragments;
+  const canBeMoved = !isShapeNearRightBorder && !willShapeIntersectFragments;
   if (canBeMoved) {
     return {
       ...figure,
@@ -73,9 +73,9 @@ function moveRight(figure: Figure, board: Board): Figure {
 }
 
 function moveDown(figure: Figure, board: Board): Figure {
-  let isAboveFragment = isFigureLandedOnFragment(figure, board);
-  let isAboveBottom = isFigureLandedOnBottom(figure, board);
-  let canBeMoved = !isAboveFragment && !isAboveBottom;
+  const isAboveFragment = isFigureLandedOnFragment(figure, board);
+  const isAboveBottom = isFigureLandedOnBottom(figure, board);
+  const canBeMoved = !isAboveFragment && !isAboveBottom;
   if (canBeMoved) {
     return {
       ...figure,
@@ -85,17 +85,17 @@ function moveDown(figure: Figure, board: Board): Figure {
 }
 
 function rotate(originalFigure: Figure, board: Board): Figure {
-  let rotatedFigure = cloneDeep(originalFigure);
+  const rotatedFigure = cloneDeep(originalFigure);
   rotateFigure(rotatedFigure);
-  let isIntersectFragments = rotatedFigure.blocks.some(
+  const isIntersectFragments = rotatedFigure.blocks.some(
     b => !!getBoardFragmentByCoords({ board, x: b.x, y: b.y })
   );
 
-  let isBeyondLeftBorder = rotatedFigure.blocks.some(b => b.x < 0);
-  let isBeyondRightBorder = rotatedFigure.blocks.some(
+  const isBeyondLeftBorder = rotatedFigure.blocks.some(b => b.x < 0);
+  const isBeyondRightBorder = rotatedFigure.blocks.some(
     b => b.x > board.width - 1
   );
-  let canBeRotated =
+  const canBeRotated =
     !isIntersectFragments && !isBeyondLeftBorder && !isBeyondRightBorder;
 
   return canBeRotated ? rotatedFigure : originalFigure;
