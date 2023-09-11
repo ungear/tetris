@@ -1,10 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { Board } from '../../typing/board'
 import { Block } from '../../typing/block'
-import { NEXT_FIGURE_OFFSET, destroyRow, getBoardFragmentByCoords, isFigureLandedOnBottom, isFigureLandedOnFragment } from './helpers'
-import { rotateFigure } from '../figure'
-import { cloneDeep } from 'lodash'
+import { NEXT_FIGURE_OFFSET, destroyRow } from './helpers'
 import { getNewShape } from '../logic'
+import { moveDown, moveLeft, moveRight, rotate } from './boardHandlers'
 
 const initialState: Board = {
   width: 0,
@@ -84,59 +83,3 @@ export const {
 } = boardSlice.actions
 export default boardSlice.reducer
 
-function moveLeft(board: Board): void {
-  const figure = board.currentFigure;
-  const isShapeNearLeftBorder = figure.blocks.filter(b => b.x === 0).length > 0;
-  const willShapeIntersectFragments =
-    figure.blocks.filter(
-      b => !!getBoardFragmentByCoords({ board, x: b.x - 1, y: b.y })
-    ).length > 0;
-  const canBeMoved = !isShapeNearLeftBorder && !willShapeIntersectFragments;
-  if (canBeMoved) {
-    figure.blocks.forEach(b => ({ ...b, x: --b.x }))
-  }
-}
-
-function moveRight(board: Board): void {
-  const figure = board.currentFigure;
-  const isShapeNearRightBorder =
-    figure.blocks.filter(b => b.x === board.width - 1).length > 0;
-    const willShapeIntersectFragments =
-    figure.blocks.filter(
-      b => !!getBoardFragmentByCoords({ board, x: b.x + 1, y: b.y })
-    ).length > 0;
-  const canBeMoved = !isShapeNearRightBorder && !willShapeIntersectFragments;
-  if (canBeMoved) {
-    figure.blocks.forEach(b => ({ ...b, x: ++b.x  }))
-  }
-}
-
-function moveDown(board: Board): void {
-  const figure = board.currentFigure;
-  const isAboveFragment = isFigureLandedOnFragment(figure, board);
-  const isAboveBottom = isFigureLandedOnBottom(figure, board);
-  const canBeMoved = !isAboveFragment && !isAboveBottom;
-  if (canBeMoved) {
-    figure.blocks.forEach(b => ({ ...b, y: ++b.y }))
-  }
-}
-
-function rotate(board: Board): void {
-  const originalFigure = board.currentFigure;
-  const rotatedFigure = cloneDeep(originalFigure);
-  rotateFigure(rotatedFigure);
-  const isIntersectFragments = rotatedFigure.blocks.some(
-    b => !!getBoardFragmentByCoords({ board, x: b.x, y: b.y })
-  );
-
-  const isBeyondLeftBorder = rotatedFigure.blocks.some(b => b.x < 0);
-  const isBeyondRightBorder = rotatedFigure.blocks.some(
-    b => b.x > board.width - 1
-  );
-  const canBeRotated =
-    !isIntersectFragments && !isBeyondLeftBorder && !isBeyondRightBorder;
-
-  if(canBeRotated){
-    board.currentFigure = rotatedFigure;
-  }
-}
