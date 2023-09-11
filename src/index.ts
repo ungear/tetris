@@ -21,7 +21,7 @@ import {
   generateNextFigure, 
 } from "./store/boardSlice";
 
-import { addScore } from "./store/scoreSlice";
+import { addScoreForLines } from "./store/scoreSlice";
 import { setIsOverValue } from "./store/isOverSlice";
 
 const FALLING_INTERVAL_MS = 500;
@@ -49,7 +49,7 @@ const fallingSubscription = falling$.subscribe(() => {
     if (fullRowsCoords.length) {
       store.dispatch(handleFullRows({ rowsYcoords: fullRowsCoords }));
 
-      store.dispatch(addScore(fullRowsCoords.length));
+      store.dispatch(addScoreForLines(fullRowsCoords.length));
     }
 
     //check defeat
