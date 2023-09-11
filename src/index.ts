@@ -18,7 +18,7 @@ import {
   moveCurrentFigureRight,
   rotateCurrentFigure,
   launchNewFigure,
-  generateNewFigure, 
+  generateNextFigure, 
 } from "./store/boardSlice";
 
 import { addScore } from "./store/scoreSlice";
@@ -29,9 +29,9 @@ const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 15;
 
 store.dispatch(setBoardSize({ width: BOARD_WIDTH, height: BOARD_HEIGHT }))
-store.dispatch(generateNewFigure());
-store.dispatch(launchNewFigure(store.getState().board.nextFigure));
-store.dispatch(generateNewFigure());
+store.dispatch(generateNextFigure());
+store.dispatch(launchNewFigure());
+store.dispatch(generateNextFigure());
 
 const falling$ = interval(FALLING_INTERVAL_MS);
 const fallingSubscription = falling$.subscribe(() => {
@@ -58,8 +58,8 @@ const fallingSubscription = falling$.subscribe(() => {
       store.dispatch(setIsOverValue(true));
       fallingSubscription.unsubscribe();
     } else {
-      store.dispatch(launchNewFigure(store.getState().board.nextFigure));
-      store.dispatch(generateNewFigure());
+      store.dispatch(launchNewFigure());
+      store.dispatch(generateNextFigure());
     }
   } else {
     store.dispatch(moveCurrentFigureDown());

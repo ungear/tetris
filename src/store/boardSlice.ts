@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { Board } from '../../typing/board'
 import { Block } from '../../typing/block'
 import { NEXT_FIGURE_OFFSET, destroyRow, getBoardFragmentByCoords, isFigureLandedOnBottom, isFigureLandedOnFragment } from './helpers'
-import { Figure } from '../../typing/figure'
 import { rotateFigure } from '../figure'
 import { cloneDeep } from 'lodash'
 import { getNewShape } from '../logic'
@@ -52,15 +51,14 @@ export const boardSlice = createSlice({
       rotate(state);
     },
 
-    launchNewFigure: (state, action: PayloadAction<Figure>) => {
-      const figure = cloneDeep(action.payload);
-      figure.blocks.forEach(b => {
+    launchNewFigure: (state) => {
+      state.nextFigure.blocks.forEach(b => {
         b.x = b.x + state.width / 2 + NEXT_FIGURE_OFFSET;
       });
-      state.currentFigure = figure;
+      state.currentFigure = state.nextFigure;
     },
 
-    generateNewFigure: (state) => {
+    generateNextFigure: (state) => {
       const maxExistingBlockId = state.nextFigure && state.nextFigure.blocks 
         ? Math.max(...state.nextFigure.blocks.map(b => b.id))
         : 0;
@@ -82,7 +80,7 @@ export const {
   moveCurrentFigureRight,
   rotateCurrentFigure,
   launchNewFigure,
-  generateNewFigure,
+  generateNextFigure,
 } = boardSlice.actions
 export default boardSlice.reducer
 
