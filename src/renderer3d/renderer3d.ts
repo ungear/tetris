@@ -121,8 +121,8 @@ export class Renderer3d {
   }
 
   private _renderFrame(frameTimeDeltaMs: number) {
-    const { currentFigure, nextFigure, board, score } = this.store.getState();
-
+    const { board, score } = this.store.getState();
+    const {currentFigure, nextFigure} = board;
     const blockMeshes = this.scene.children
       .filter(x => x instanceof THREE.Mesh &&  x.name === "blockBody");
 

@@ -1,6 +1,4 @@
 import { Figure, FigureForm } from "../typing/figure";
-import { Board } from "../typing/board";
-import { Block } from "../typing/block";
 import { rotateFigure } from "../src/figure";
 import { cloneDeep } from "lodash";
 

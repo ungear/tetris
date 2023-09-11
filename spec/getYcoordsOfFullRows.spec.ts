@@ -7,7 +7,9 @@ describe("getYcoordsOfFullRows", () => {
     board = {
       width: 4,
       height: 5,
-      fragments: []
+      fragments: [],
+      currentFigure: null,
+      nextFigure: null,
     };
   });
   it("should return an empty array for an empty board", () => {
