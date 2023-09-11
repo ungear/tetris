@@ -5,6 +5,7 @@ import * as Helpers from "./helpers";
 import * as Config from "./config";
 import { DevPanel } from "./devPanel";
 import { calculateBlockCoords } from "./helpers";
+import { animationFrames, map, pairwise } from 'rxjs';
 
 const ScoreCanvas = {
   width: 128,
@@ -103,15 +104,13 @@ export class Renderer3d {
   }
 
   start() {
-    let previousFrameTimestamp = 0;
-    const animate = (timeStamp: number) => {
-      requestAnimationFrame(animate);
-      this._renderFrame(timeStamp - previousFrameTimestamp);
-      previousFrameTimestamp = timeStamp;
-    };
-
-    animate(previousFrameTimestamp);
-
+    animationFrames()
+      .pipe(
+        pairwise(),
+        map(([prev, current]) => current.elapsed - prev.elapsed)
+      )
+      .subscribe(delta_ms => this._renderFrame(delta_ms))
+      
     // press "s" to chake camera for testing purposes
     document.addEventListener("keydown", e => {
       if (e.key === "s") {
@@ -226,3 +225,4 @@ export class Renderer3d {
     );
   }
 }
+
