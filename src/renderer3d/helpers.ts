@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as THREE from "three";
 import { Block } from "../../typing/block";
 import * as Config from "./config";
@@ -45,27 +46,33 @@ export function getBox({
   boardHeightPx: number;
 }): THREE.Mesh[] {
   // create a texture loader.
-  // const textureLoader = new THREE.TextureLoader();
+  const textureLoader = new THREE.TextureLoader();
 
-  // // load a texture
-  // const texture = textureLoader.load(
-  //   '/uv-test-bw.png',
-  // );
+  // load a texture
+  const texture = textureLoader.load(
+    '/uv-test-bw.png',
+  );
   // texture.wrapS = THREE.RepeatWrapping;
   // texture.wrapT = THREE.RepeatWrapping;
   // //texture.repeat.set( 4, 4 );
 
   const boxMaterial = new THREE.MeshPhongMaterial({
     color: BOX_COLOR
-    //map: texture
+    // map: texture
   });
 
   const backG = new THREE.BoxGeometry(boardWidthPx, 1, boardHeightPx);
-  //const backTexture = new THREE.TextureLoader().load('/uv-test-bw.png');
-  const backTexture = new THREE.TextureLoader().load('/lava.jpg');
-  backTexture.wrapS = THREE.RepeatWrapping;
-  backTexture.wrapT = THREE.RepeatWrapping;
-  // backTexture.repeat.set( boardWidthPx/10, boardHeightPx/10 );
+  const backTexture = new THREE.TextureLoader().load('/uv_grid_opengl.jpg');
+  // const backTexture = new THREE.TextureLoader().load('/uv-test-bw.png');
+  //const backTexture = new THREE.TextureLoader().load('/lava.jpg');
+  // backTexture.wrapS = THREE.RepeatWrapping;
+  // backTexture.wrapT = THREE.RepeatWrapping;
+  const ration = 1024/20;
+  // backTexture.repeat.set( boardWidthPx/ration, boardHeightPx/ration );
+  backTexture.repeat.x = 1;
+  backTexture.repeat.y = 1;
+  //backTexture.rotation = degToRad(-180);
+
   const backMaterial = new THREE.MeshStandardMaterial({
     map: backTexture
     //color: BOX_COLOR
@@ -82,7 +89,22 @@ export function getBox({
   right.position.set(boardWidthPx, Config.Block.Size / 2, boardHeightPx / 2);
 
   const bottomG = new THREE.BoxGeometry(boardWidthPx, Config.Block.Size, 1);
-  const bottom = new THREE.Mesh(bottomG, boxMaterial);
+  
+  
+  const bottomTexture = new THREE.TextureLoader().load('/uv_grid_opengl.jpg');
+  //const bottomTexture = new THREE.TextureLoader().load('/uv-test-bw.png');
+  //const backTexture = new THREE.TextureLoader().load('/lava.jpg');
+  bottomTexture.wrapS = THREE.RepeatWrapping;
+  bottomTexture.wrapT = THREE.RepeatWrapping;
+  bottomTexture.repeat.set( boardWidthPx/ration, Config.Block.Size/ration );
+  bottomTexture.rotation = degToRad(-180);
+  bottomTexture.offset = new THREE.Vector2( -0.15, 0 );
+  const bottomMaterial = new THREE.MeshStandardMaterial({
+    map: bottomTexture,
+    //color: BOX_COLOR
+  });
+
+  const bottom = new THREE.Mesh(bottomG, bottomMaterial);
   bottom.position.set(boardWidthPx / 2, Config.Block.Size / 2, boardHeightPx);
 
   const sides = [back, left, right, bottom];

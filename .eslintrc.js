@@ -10,6 +10,7 @@ module.exports = {
       "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/ban-ts-comment": "off"
     //   "@typescript-eslint/strict-boolean-expressions": [
     //       2,
     //       {
