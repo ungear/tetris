@@ -1,4 +1,4 @@
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import { Board } from "../../typing/board";
 import { getBoardFragmentByCoords, isFigureLandedOnBottom, isFigureLandedOnFragment } from "./helpers";
 import { rotateFigure } from "../figure";

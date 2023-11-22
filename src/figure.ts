@@ -1,5 +1,5 @@
 import { Figure, FigureForm } from "../typing/figure";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 
 const Shapes: { [key: string]: Figure } = {
   [FigureForm.Square]: {
