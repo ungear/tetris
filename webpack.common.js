@@ -34,6 +34,7 @@ module.exports = {
       patterns: [
         { from: path.resolve(__dirname, './src/textures/uv-test-bw.png'), to: path.resolve(__dirname, './dist/uv-test-bw.png') },
         { from: path.resolve(__dirname, './src/textures/uv_grid_opengl.jpg'), to: path.resolve(__dirname, './dist/uv_grid_opengl.jpg') },
+        { from: path.resolve(__dirname, './src/textures/lava.jpg'), to: path.resolve(__dirname, './dist/lava.jpg') },
       ],
     }),
   ]
